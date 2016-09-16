@@ -516,8 +516,29 @@ this.manageWindow = function(width, height) {
 };
 
 
+this.openSingleFile = function(fileLocation) {
+
+  //TODO::search for the subtitle file and load if present
+  pagal.addToPlayList(fileLocation);
+  player.addPlaylist("file:///" + fileLocation);
+  player.play();
+  
+};
+
+this.addToPlayList = function(file) {
+  var node = pagal.makeNode(file,1);
+  $("#ContentWrapper").css("display","flex").append(node);
+}
+
+
 
 this.init = function() {
+
+  gui.Screen.Init();
+	pagal.loadConfig();
+	pagal.moduleInit();
+	pagal.pluginInit();
+	playerApi.init();
 
 	if (args.length > 0) {
 		switch ( args.length ) {
@@ -526,9 +547,9 @@ this.init = function() {
 				try {
 					argCountType = fs.lstatSync(args[0]);
 					if (argCountType.isDirectory()) {
-					console.log("Working dir" + args[0]);
+					  console.log("Working dir" + args[0]);
 					} else if (argCountType.isFile()) {
-					console.log("File");
+					  pagal.openSingleFile(args[0]);
 					}
 				} catch(err) {
 					console.log(err);
@@ -541,12 +562,8 @@ this.init = function() {
 		}
 	}
 
-	gui.Screen.Init();
-	pagal.loadConfig();
-	pagal.moduleInit();
-	pagal.pluginInit();
-	playerApi.init();
-	pagal.readDir("E:\\pagal\\Back up\\Animated flims");
+	
+	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
 	//pagal.readDir("C:\\Users\\lenovo\\Downloads\\Compressed\\recup_dir.1");
 	pagal.search();
  
@@ -589,7 +606,7 @@ pagal.init();
 console.timeEnd("init");
 win.on("loaded",function() {
   win.show();
-  win.showDevTools();
+  //win.showDevTools();
 });
 	
 	

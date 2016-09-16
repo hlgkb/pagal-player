@@ -1,0 +1,394 @@
+*{
+		padding: 0px;
+		margin: 0px;
+		font-family: 'Open Sans';
+        user-select: none;
+        -webkit-user-select: none;
+	}
+	#log{
+		width:98%;
+		background:#fff;
+		overflow:auto;
+		padding-left:15px;
+		padding-bottom:5px;
+		padding-top:10px;
+		margin-bottom: 10px
+	}
+	#log li{
+		list-style-type: none;
+		background-color: #eee;
+		width: 98%;
+		height:18px;
+		font-size: 16px;
+		font-weight: 400;
+		padding: 5px;
+		text-align: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+	#log li:nth-child(odd){
+		background: #eee;
+	}
+	#log li:nth-child(even){
+		background: #ccc
+	}
+	.main-body{
+
+		background: url(../img/icon.png) center center no-repeat #1f1f1f;
+		height: calc(100% - 65px);
+		width: 100%;
+        /*border-top: 1px solid #ccc;*/
+	}
+	.toolbar{
+		height: 65px;
+		width: 100%;
+		position: relative;
+		bottom: 10px;
+	}
+#PlayerContainer {
+    display: table;
+    position: fixed;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 65px;
+    z-index: 1000;
+    width: 100%;
+    bottom: 0;
+    background-image: linear-gradient(to bottom,#fff,#fefefe);
+    border-top: 1px solid #f0f0f0;
+    -moz-box-shadow: rgba(0,0,0,.3) 0 0 5px 2px;
+    -webkit-box-shadow: rgba(0,0,0,.3) 0 0 5px 2px;
+    box-shadow: rgba(0,0,0,.3) 0 0 5px 2px
+}
+
+#PlayerContainer .info .info-text .track-info {
+    font-size: 20px;
+    color: #000
+}
+
+#PlayerContainer .info .info-text .track-info .next {
+    margin-right: 6px
+}
+
+
+
+#PlayerContainer .info .info-text .track-info .action i {
+    cursor: pointer;
+    opacity: .25
+}
+
+#PlayerContainer .info .info-text .track-info .action i:hover {
+    opacity: .55
+}
+
+#PlayerContainer .info .info-text .track-info .action .pause {
+    display: none
+}
+
+#PlayerContainer .info .info-text .track-info .action.active i {
+    opacity: .7
+}
+
+#PlayerContainer .info .info-text .track-info .artist {
+    opacity: .5;
+    font-weight: 400;
+    font-family: "Open Sans",Arial;
+    text-overflow: ellipsis
+}
+
+#PlayerContainer .info .info-text .track-info .title {
+    font-weight: 700;
+    font-family: "Open Sans",Arial;
+    text-overflow: ellipsis
+}
+
+#PlayerContainer .info .info-text .video-info {
+    display: none;
+    font-size: 12px;
+    color: #000;
+    opacity: .3
+}
+
+#PlayerContainer .info .controls .current-time,#PlayerContainer .info .controls .duration,#PlayerContainer .info .controls .progress-bg-container {
+    display: table-cell;
+    vertical-align: middle
+}
+
+#PlayerContainer .info .controls .current-time,#PlayerContainer .info .controls .duration {
+    width: 30px;
+    font-size: 11px;
+    color: #000
+}
+
+#PlayerContainer .info .controls .duration {
+    text-align: right
+}
+
+#PlayerContainer .info .controls .progress-bg-container {
+    display: table-cell;
+    vertical-align: middle
+}
+
+#PlayerContainer .info .controls .progress-bg-container .mouse-time {
+    position: absolute;
+    font-size: 11px;
+    color: #000;
+    margin-top: 5px;
+    margin-left: 0
+}
+
+#PlayerContainer .info .controls .progress-bg-container .loading-progress,#PlayerContainer .info .controls .progress-bg-container .progress-bg,#PlayerContainer .info .controls .progress-bg-container .progress-current {
+    border-radius: 3px
+}
+
+#PlayerContainer .info .controls .progress-bg-container .progress-bg {
+    background: #E0E0E0;
+    cursor: pointer;
+    position: relative
+}
+
+#PlayerContainer .info .controls .progress-bg-container .progress-bg .loading-progress {
+    height: 6px;
+    background: linear-gradient(to bottom,#e4e4e4 0,#a6a6a6 100%);
+    width: 0
+}
+
+#PlayerContainer .info .controls .volume-icon {
+    color: #000;
+    display: table-cell;
+    vertical-align: middle;
+    width: 20px;
+    padding-left: 18px;
+    filter: alpha(Opacity=40);
+    opacity: .4;
+    cursor: pointer
+}
+
+#PlayerContainer .info .controls .volume-bg-container {
+    display: table-cell;
+    vertical-align: middle;
+    width: 80px
+}
+
+#PlayerContainer .info .controls .volume-bg-container .volume-bg,#PlayerContainer .info .controls .volume-bg-container .volume-current {
+    border-radius: 3px
+}
+
+#PlayerContainer .info .controls .volume-bg-container .volume-bg {
+    background: #E0E0E0;
+    cursor: pointer
+}
+
+#PlayerContainer .info .controls .volume-bg-container .volume-bg .volume-current {
+    filter: alpha(Opacity=75);
+    opacity: .75;
+    height: 6px;
+    background: linear-gradient(to bottom,#eb2728 0,#a41b1c 100%);
+    width: 100%
+}
+
+#PlayerContainer .cover {
+position: relative;
+background: 0/cover #F0F0F0;
+width: 80px;
+height: 80px;
+}
+#PlayerContainer .cover, #PlayerContainer .info {
+display: table-cell;
+vertical-align: top;
+}
+#PlayerContainer .info {
+	display: table-cell;
+	vertical-align: top;
+	padding: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+}
+#PlayerContainer .info .info-text {
+	height: 22px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	bottom:5px;
+	padding-right: 10px;
+}
+#PlayerContainer .info .controls {
+margin-bottom: 10px;
+display: table;
+width: 100%;
+margin-top:5px;
+}
+#PlayerContainer .info .info-text .track-info {
+font-size: 20px;
+color: #000;
+}
+
+#PlayerContainer .info .info-text .track-info .action {
+width: 18px;
+float: left;
+margin-right: 10px;
+}
+#PlayerContainer .info .info-text .track-info .action i {
+cursor: pointer;
+opacity: .50;
+}
+#PlayerContainer .info .info-text .track-info .currentHolder {
+width: calc(100% - 325px);
+overflow: hidden;
+height: 22px;
+float: left;
+text-overflow: ellipsis;
+}
+#PlayerContainer .info .info-text .track-info .title, b.title {
+    font-weight:600;
+    font-family: "Open Sans",Arial;
+    text-overflow: ellipsis;
+    font-size:20px;
+    padding-left:5px;
+    position: relative;
+    top: -6px;
+}
+.FloatedRight {
+float: right!important;
+}
+#PlayerContainer .info .controls .current-time, #PlayerContainer .info .controls .duration {
+width: 50px;
+font-size: 11px;
+color: #000;
+}
+#PlayerContainer .info .controls .current-time, #PlayerContainer .info .controls .duration, #PlayerContainer .info .controls .progress-bg-container {
+display: table-cell;
+vertical-align: middle;
+}
+#PlayerContainer .info .controls .duration {
+text-align: right!important;
+width:50px;
+margin-left:5px;
+}
+#PlayerContainer .info .controls .progress-bg-container .mouse-time {
+position: absolute;
+font-size: 11px;
+color: #fff;
+margin-top: 0px;
+margin-left: 0;
+top:-26px;
+padding: 2px 3px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+box-shadow: 1px 1px 2px #000;
+display:none;
+background-color: #1f1f1f;
+}
+#PlayerContainer .info .controls .progress-bg-container .mouse-time:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    z-index: 5;
+    top: 19px;
+    left: 13px;
+    margin-right: -11px;
+    content: " ";
+    border-left-width: 0;
+    border-top-color: #1f1f1f;
+    border-width: 7px;
+}
+#PlayerContainer .info .controls .progress-bg-container .mouse-time:before {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    z-index: 5;
+    top: 20px;
+    left: 12px;
+    margin-right: -4px;
+    content: " ";
+    border-top-width: 0;
+    border-top-color: #cccccc;
+    border-width: 8px;
+}
+#PlayerContainer .info .controls .progress-bg-container .progress-bg {
+background: #E0E0E0;
+cursor: pointer;
+position: relative;
+}
+#PlayerContainer .info .controls .progress-bg-container .loading-progress, #PlayerContainer .info .controls .progress-bg-container .progress-bg, #PlayerContainer .info .controls .progress-bg-container .progress-current, #PlayerContainer .info  .volume-bg-container, #PlayerContainer .info  .volume-bg-container .volume-bg, #PlayerContainer .info .volume-bg-container .volume-bg .volume-current{
+border-radius: 3px;
+}
+#PlayerContainer .info .controls .progress-bg-container .progress-bg .progress-current {
+height: 8px;
+background: linear-gradient(to bottom,#214be2 0,#2e2175 100%);
+width: 0;
+position: absolute;
+}
+#PlayerContainer .info .controls .progress-bg-container .progress-bg .loading-progress {
+height: 8px;
+background: linear-gradient(to bottom,#e4e4e4 0,#a6a6a6 100%);
+width: 0;
+}
+#PlayerContainer .info  .volume-icon {
+color: #000;
+display: table-cell;
+vertical-align: middle;
+width: 20px;
+opacity: .50;
+cursor: pointer;
+}
+#PlayerContainer .info  .title {text-overflow: ellipsis;}
+#PlayerContainer .info  .volume-icon:hover {
+opacity: .55;
+}
+#PlayerContainer .info  .volume-bg-container {
+display: table-cell;
+vertical-align: middle;
+width: 80px;
+height: 20px;
+margin-left: 5px;
+margin-top: 8px;
+}
+#PlayerContainer .info .volume-bg-container .volume-bg {
+background: #E0E0E0;
+cursor: pointer;
+}
+#PlayerContainer .info  .volume-bg-container .volume-bg .volume-current {
+opacity: 1;
+height: 6px;
+background: linear-gradient(to bottom,#eb2728 0,#a41b1c 100%);
+width: 100%;
+}
+#PlayerContainer .info  .volume-bg-container .volume-bg .volume-current:hover,#PlayerContainer .info .info-text .track-info .action i:hover {
+opacity: 0.9;
+}
+#PlayerContainer .info .info-text .track-info .action.active i{
+opacity: 1;
+}
+body {
+    user-select: none
+}
+
+
+::-webkit-scrollbar {
+    width: 7px
+}
+
+::-webkit-scrollbar-track {
+    background-color: #fff
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cfcdd0;
+    border-radius: 5em
+}
+
+::-webkit-scrollbar-button {
+    height: 0
+}

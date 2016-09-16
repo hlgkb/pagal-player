@@ -1,0 +1,30 @@
+{
+  "name": "pagal-player",
+  "version": "0.0.1",
+  "description": "A new media player for the world.",
+  "main": "index.html",
+  "window": {
+    "title": "Pagal Player",
+    "show": true,
+    "toolbar": true,
+    "frame": true,
+    "position": "center",
+    "width": 1080,
+    "height": 640,
+    "icon": "lib/img/icon.png",
+    "min_width": 400,
+    "min_height": 50
+  },
+  "dependencies": {
+    "peerflix": "^0.35.1",
+    "video-name-parser": "^1.3.0",
+    "wcjs-player": "^6.0.0",
+    "wcjs-prebuilt": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "chromium-args": "--d3d9 --disable-d3d11 --gpu-no-context-lost --ignore-gpu-blacklist",
+  "author": "pagal",
+  "license": "ISC"
+}

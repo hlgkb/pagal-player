@@ -1,0 +1,238 @@
+<link href="lib/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="lib/css/opensans.css">
+<link href="lib/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="lib/css/app.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#ContentWrapper, #dragOrDropFile{
+    background: #f9f9f9;
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    height: calc(100% - 45px);
+    background:#fff;
+    border-top:1px solid #f1e7e7;
+    border-left:6px solid #f1e7e7;
+    border-bottom: 0px;
+    border-right: 0px;
+    padding-bottom: 20px;
+}
+
+#ContentWrapper{
+	display: none;
+}
+
+#ContentWrapper .track-container {
+    float: left;
+    margin-bottom: 3px;
+    padding: 5px;
+    width: 110px;
+    height: 140px;
+    overflow: hidden;
+    margin-right: 3px;
+    transition: width .5s,height .5s
+}
+
+#ContentWrapper .track-container:hover {
+    cursor: pointer;
+    background: rgba(0,0,0,.1);
+    border-radius: 3px
+}
+
+#ContentWrapper .track-container.playing {
+    cursor: pointer;
+    background: rgba(0,0,0,.8);
+    border-radius: 3px
+}
+
+#ContentWrapper .track-container.cur .cover {
+    display: none
+}
+
+#ContentWrapper .track-container .cover {
+    background-image: url(lib/img/icon.png);
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 2px
+}
+
+#ContentWrapper .track-container .info {
+    font-family: "Open Sans",sans-serif;
+    text-align: center;
+    padding: 4px;
+    margin-left: 3px
+}
+
+#ContentWrapper .track-container .info .title {
+    height: 20px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #919191;
+    overflow: hidden!important;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+#ContentWrapper .track-container .info .artist {
+    height: 14px;
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 5px;
+    color: #999;
+    overflow: hidden!important;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+.clear {
+    clear: both
+}
+.search-bar{
+	width:220px;height:25px;border-radius:40px;
+}
+.search-holder{
+	margin-bottom: 10px;
+}
+.header-bar{
+	height: 45px;background:#fffafa;border-left:6px solid #f1e7e7;padding-bottom:10px;padding-top: 10px;padding-right: 10px;
+}
+.main-content{
+	height:100%;width: calc(100% - 220px);background: #fffffd;position: relative;/* right: 0; */margin-left: 220px;/*border-left: 1px solid #f1e7e7;border-top: 0px;/**/
+}
+aside.sidebar{
+	 width: 220px;
+	    background: #fffafa;
+	    height: 100%;
+	    float: left;
+}
+.wrapper{
+	display: none;
+}
+.display-block{
+	display: block;
+}
+.display-none{
+	display: none;
+}
+.wcp-status { display: none !important }
+.wcp-toolbar{
+	display: none !important;
+}
+.playerSmall{
+	position:absolute;
+	width:220px;
+	height:112px;
+	bottom:65px;
+	z-index:500;
+	background:#fff;
+}
+.playerSmall .wcp-wrapper{
+	/*background:#fff;*/
+}
+#player{
+	/*display:none;*/
+}
+</style>
+
+<body>
+
+<div class="main-body">
+	<div class="wrapper">
+		<aside class="sidebar">asjasdj as;dj; d;asjd; asd;jas; dja;sjd a;sdj;as da;sjd; asd;jas </aside>
+		<div class="main-content">
+				<div  class="header-bar">
+					<div class="form-group FloatedRight search-holder">
+						<input class="form-control search-bar" type="text" placeholder="Search">
+					</div>
+				</div>
+				<div id="ContentWrapper"></div>
+				<div id="dragOrDropFile">
+					<div style="margin:100px auto;width:300px;">
+						<div style="width:150px;height:150px;border:5px dashed #ccc;border-radius:5px;padding:35px;margin-left:78px;">
+							<i class="fa fa-5x fa-download"></i>
+						</div>
+						<div style="margin-top:8px; font-weight:bold;margin-left:60px;">
+							Playlist is currently empty.
+						</div>
+						<div style="font-weight:bold;">
+							Drop a file here or select a media source from left.
+						</div>
+					</div>
+				</div>
+
+		</div>
+	</div>
+	<div id="player"></div>
+</div>
+<footer id="PlayerContainer" data-volume="1">
+	<div class="info">
+		<div class="controls">
+			<div class="current-time">0:00</div>
+			<div class="progress-bg-container">
+				<div class="mouse-time" style="z-index:5;border:1px solid #ccc;margin-bottom:5px;">
+					<div class="arrowm"></div>
+					<span></span>
+				</div>
+				<div class="progress-bg">
+					<div class="progress-current"></div>
+					<div class="loading-progress"></div>
+				</div>
+			</div>
+			<div class="duration">0:00</div>
+		</div>
+		<div class="info-text">
+			<span class="track-info">
+				<span class="action" style="margin-right:15px;margin-left:5px">
+					<i class="pause fa fa-pause" data-l10n-id="hint_pause" title></i>
+					<i class="play fa fa-play" data-l10n-id="hint_play" title></i>
+				</span>
+				<span class="action">
+					<i class="backward fa fa-backward" data-l10n-id="hint_previous_song" title></i>
+				</span>
+				<span class="action">
+					<i class="stop fa fa-stop" data-l10n-id="hint_pause" title></i>
+				</span>
+				<span class="action" style="margin-right:15px;">
+					<i class="forward fa fa-forward" data-l10n-id="hint_next_song" title></i>
+				</span>
+				<span class="action">
+					<i class="playlist fa fa-th-list" data-l10n-id="hint_repeat" title></i>
+				</span>
+				<span class="action">
+					<i class="repeat fa fa-repeat" data-l10n-id="hint_repeat" title></i>
+				</span>
+				<span class="action" style="margin-right:10px">
+					<i class="random fa fa-random" data-l10n-id="hint_shuffle" title></i>
+				</span>
+				<span class="currentHolder">
+					<span class="artist"></span> <span class="title"></span>
+				</span>
+				<span class="FloatedRight MarginedLeft6 volume-bg-container">
+					<div class="volume-bg">
+						<div class="volume-current"></div>
+					</div>
+				</span>
+				<span class="volume-icon FloatedRight">
+					<i class="fa fa-volume-up"></i>
+				</span>
+
+			</span>
+			<span class="video-info"></span>
+		</div>
+
+	</div>
+</footer>
+
+	
+	
+</body>
+
+
+<script type="text/javascript" src="lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="modules/player.js"></script>
+<script type="text/javascript" src="modules/app.js"></script>
+
+<script type="text/javascript">
+	
+</script>

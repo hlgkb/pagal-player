@@ -15,7 +15,8 @@ var gui = require('nw.gui'),
 	mode = 0,
 	player = null,
 	menues = {},
-	winx = {}; 
+	winx = {},
+  played = [];
 
 	
 
@@ -359,10 +360,16 @@ this.showWrapper = function(){
 
 
 
-this.insertMenu = function(menu, opts) {
-     var item = new gui.MenuItem(opts);
-     menues[menu].submenu.append(item);
-   
+this.insertMenu = function(menu, opts, position ) {
+  var item = null;
+  if(typeof position === 'undefined') {
+    item = new gui.MenuItem(opts);
+    menues[menu].submenu.append(item);
+    return 0;
+  }
+  item = opts;
+  menues[menu].submenu.insert(item,position);
+  return 1;
 };
 
 
@@ -520,16 +527,68 @@ this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
   pagal.addToPlayList(fileLocation);
+  pagal.addToRecentList(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
   player.play();
   
 };
+
+this.addToRecentList = function(file) {
+  
+  try{
+    played.push(file);
+    localStorage.setItem("recent", JSON.stringify(played));
+  } catch(e) {
+    console.log(e.message);
+  }
+
+   hawa = new gui.MenuItem({
+     label: file,
+    click: function () {
+      alert(file);
+    }
+   });
+   pagal.insertMenu("Recent", hawa, 0);   
+}
 
 this.addToPlayList = function(file) {
   var node = pagal.makeNode(file,1);
   $("#ContentWrapper").css("display","flex").append(node);
 }
 
+this.manageMenu = function() {
+  menues.mediaMenu = new gui.MenuItem({
+    label: 'Media',
+    submenu: new gui.Menu()
+   });
+
+   menues.Recent = new gui.MenuItem({
+     "label": 'Recent',
+     submenu: new gui.Menu()
+   });
+
+   pagal.loadRecentMenu();
+}
+
+this.loadRecentMenu = function() {
+  try{
+    if(JSON.parse(localStorage.getItem("recent"))) {
+      played = JSON.parse(localStorage.getItem("recent"));
+      hawa = played.reverse();
+      for(x in hawa) {
+        pagal.insertMenu("Recent", {
+          label: hawa[x],
+          click: function () {
+            console.log(hawa[x]);
+          }
+        });
+      }
+    }
+  } catch(e) {
+    console.log(e.message);
+  };  
+  
+};
 
 
 this.init = function() {
@@ -538,6 +597,7 @@ this.init = function() {
 	pagal.loadConfig();
 	pagal.moduleInit();
 	pagal.pluginInit();
+  pagal.manageMenu();
 	playerApi.init();
 
 	if (args.length > 0) {
@@ -569,49 +629,41 @@ this.init = function() {
  
 
 
-  var controls = elements.FooterControls;
-    controls.find(".track-info .playlist").click(function(){
+    var controls = elements.FooterControls;
+    controls.find(".track-info .playlist").click(function () {
       pagal.showWrapper();
     });
 
-  menues.helpMenu = new gui.MenuItem({
-    label: 'Help',
-    submenu: new gui.Menu()
-   });
-
-   var primaryMenuBar = new gui.Menu({ type: 'menubar' });
-
-
-   pagal.insertMenu("helpMenu", {
-    label: '  Check for updates',
-    click: function () {
-      alert("Hey dear");
-    }
-   });
-
-  
-
-
-   primaryMenuBar.append(menues.helpMenu);
-   win.menu = primaryMenuBar;
+    pagal.insertMenu("Recent",{
+      type:"separator"
+    });
+    pagal.insertMenu("Recent", {
+      label: "Clear List",
+      click: function () {
+        console.log("Clearing...");
+      }
+    });
+  var primaryMenuBar = new gui.Menu({ type: 'menubar' });
+  pagal.menues.mediaMenu.submenu.append(menues.Recent);
+  primaryMenuBar.append(menues.mediaMenu);
+  win.menu = primaryMenuBar;
 
 
 
 };
 
 
-console.time("init");
-window.pagal = this;
-pagal.init();	
-console.timeEnd("init");
-win.on("loaded",function() {
-  win.show();
-  //win.showDevTools();
-});
+  console.time("init");
+  window.pagal = this;
+  pagal.init();	
+  console.timeEnd("init");
+  win.on("loaded",function() {
+    win.show();
+    win.showDevTools();
+  });
 	
 	
 
   
 })(window);
-
   

@@ -392,3 +392,6 @@ body {
 ::-webkit-scrollbar-button {
     height: 0
 }
+.wcp-wrapper{
+    background: url(../img/icon.png) center center no-repeat #000;
+}

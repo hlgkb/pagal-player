@@ -5,6 +5,8 @@ var gui = require('nw.gui'),
 	wjs = require("wcjs-player"),
 	wcjs_ = require('wcjs-prebuilt'),
 	nameParser = require("video-name-parser"),
+  pkg = require("./package.json"),
+  appname = pkg.window.title,
 	win = gui.Window.get(),
 	args = window.gui.App.argv,
 	plugins = {},
@@ -16,7 +18,9 @@ var gui = require('nw.gui'),
 	player = null,
 	menues = {},
 	winx = {},
-  played = [];
+  played = [],
+  primaryMenuBar = new gui.Menu({ type: 'menubar' });
+  
 
 	
 
@@ -30,32 +34,32 @@ var gui = require('nw.gui'),
   elements.dropFiles = $("#dragOrDropFile");
 
 
-  this.readDir = function (location){ 
-  var files__ = [];
-  var finder = require('findit')(location);
-  console.time(path.basename(location));
-  pagal.log("Location: "+location);
-  
+this.readDir = function (location){ 
+    var files__ = [];
+    var finder = require('findit')(location);
+    console.time(path.basename(location));
+    pagal.log("Location: "+location);
+    
 
-  finder.on('directory', function (dir, stat, stop) {
-    var base = path.basename(dir);
-    //pagal.log("Directory Name: "+ dir);
-  });
-  finder.on('file', function (file, stat) {
-    if(pagal.checkExtension(file, 'mp4,webm,mkv')){
-      var base = path.basename(file);
-      files__.push(file);
-    }      
-  });
-  finder.on('error',function (err){
-    console.log(err);
-    next();
-  });
-  finder.on('end',function (){
-    console.timeEnd(path.basename(location))
-    pagal.loadFiles(files__);
-    loadedFiles = files__;
-  });
+    finder.on('directory', function (dir, stat, stop) {
+      var base = path.basename(dir);
+      //pagal.log("Directory Name: "+ dir);
+    });
+    finder.on('file', function (file, stat) {
+      if(pagal.checkExtension(file, 'mp4,webm,mkv')){
+        var base = path.basename(file);
+        files__.push(file);
+      }      
+    });
+    finder.on('error',function (err){
+      console.log(err);
+      next();
+    });
+    finder.on('end',function (){
+      console.timeEnd(path.basename(location))
+      pagal.loadFiles(files__);
+      loadedFiles = files__;
+    });
 };
 
 this.loadFiles = function(filesH){
@@ -70,7 +74,14 @@ this.loadFiles = function(filesH){
     });
     console.log("Initating search module");
     pagal.node_Init();
-    pagal.initPlaylist(filesH);    
+    pagal.initPlaylist(filesH);
+    pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+    player.play();
+    
+    //iaa = player.currentItem() + 1;
+    // /console.log(iaa);
+    //$('[data-id="'+iaa+'"]').addClass("playing");
+    pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
 };
 
 this.makeNode = function(data, id) {
@@ -168,12 +179,10 @@ this.pluginInit = function() {
 
     });
 
-  };
+};
 
-  /*
-   * Inserts a verified plugin into the plugins object.
-   */
-  this.insertPlugin = function( plugin ) {
+  
+this.insertPlugin = function(plugin) {
 
     var uid;
 
@@ -228,9 +237,9 @@ this.pluginInit = function() {
 
     });
 
-  };
+};
 
-  this.isPluginActive = function( plugin ) {
+this.isPluginActive = function(plugin) {
 
     if ( config.plugins.hasOwnProperty(plugin) ) {
       if ( config.plugins[plugin].hasOwnProperty("active") ) {
@@ -244,9 +253,9 @@ this.pluginInit = function() {
       return false;
     }
 
-  };
+};
 
-  this.bootPluginByName = function( plugin ) {
+this.bootPluginByName = function(plugin) {
 
     var passObject;
 
@@ -264,9 +273,9 @@ this.pluginInit = function() {
       plugins[plugin].entryPoint.init(passObject);
     }
 
-  };
+};
 
-  this.moduleReInitByName = function(name) {
+this.moduleReInitByName = function(name) {
 
     var passObject;
 
@@ -280,12 +289,12 @@ this.pluginInit = function() {
 
     modules[name].init(passObject);
 
-  };
+};
 
-  this.moduleInit = function() {
+this.moduleInit = function() {
 
     var passObject, key;
-    //modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
+    modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
 
     passObject = {
       gui: gui,
@@ -299,7 +308,7 @@ this.pluginInit = function() {
       modules[key].init(passObject);
     }
 
-  };
+};
 
 this.search = function(){
   var search = elements.search,
@@ -319,17 +328,17 @@ this.setMode = function(){
     win.on("resize",function(){
       if(win.height <= 480 && mode == 1){
         win.height = 480;
-        win.resize = false;
+        win.setResizable(false);
       }
       if(win.width <= 555 && mode == 1){
         win.width = 555;
-        win.resize = false;
+        win.setResizable(false);
 
       }
     });
   }
   else{
-    win.resize = true;
+    win.setResizable(true);
   }  
 };
 
@@ -337,28 +346,34 @@ this.setSize = function(){
   if(mode == 1){
     if(win.height <= 480 && mode == 1){
         win.height = 480;
-        win.resize = false;
+        win.setResizable(false);
       }
       if(win.width <= 555 && mode == 1){
         win.width = 555;
-        win.resize = false;
+        win.setResizable(false);
       }
   }
   else{
-    win.resize = true;
+    win.setResizable(true);
   }
 };
 
+this.setProgessBar = function(value){
+  if(value >= 0 && value <= 1){
+    pagal.win.setProgressBar(value);
+    return 1;
+  }
+  return 0;
+};
 
 this.showWrapper = function(){
   pagal.setMode();
   pagal.setSize();
   elements.player.toggleClass("playerSmall");
   elements.wrapper.toggleClass("display-block");
+  //player.refreshSize(100).refreshSize(500).refreshSize(1000);
   return 0;
 }
-
-
 
 this.insertMenu = function(menu, opts, position ) {
   var item = null;
@@ -372,7 +387,6 @@ this.insertMenu = function(menu, opts, position ) {
   return 1;
 };
 
-
 this.parseTime = function(t,total) {
     if (typeof total === 'undefined') total = t;
     var tempHour = ("0" + Math.floor(t / 3600000)).slice(-2);
@@ -381,7 +395,6 @@ this.parseTime = function(t,total) {
     if (total >= 3600000) return tempHour + ":" + tempMinute + ":" + tempSecond;
     else return tempMinute + ":" + tempSecond;
 };
-
 
 this.initPlaylist = function (file_list){
   if ( file_list.length > 0){
@@ -392,16 +405,28 @@ this.initPlaylist = function (file_list){
 };
 
 this.node_Init = function (){
-  $(".track-container").click(function (){
+
+/*TODO::
+**  A lot to be done in here.
+*/
+$(".track-container").click(function (){
     var id = $(this).attr("data-id");
+    //$(".track-container").removeClass("playing");
+    //$(this).addClass("playing");
+    currentItem = player.currentItem();
+    if(player.playing() == true && currentItem == id - 1) {
+        player.time(0);
+        player.refreshSize(200).refreshSize(500).refreshSize(1000);
+        return;
+    }
     pagal.showWrapper();
-    var asd = player.itemCount() - 1;
     elements.player.css("display","block");
     player.playItem(id - 1);
   });
 };
 
 this.manageWindow = function(width, height) {
+
   winx = {
 	onTop: false,
 	focused: true,
@@ -469,8 +494,6 @@ this.manageWindow = function(width, height) {
 					player.refreshSize(200).refreshSize(500).refreshSize(1000);
 				} else {
 
-		console.log("height is bigger");
-
 					/*if (win.gui.x == scr.bounds.x + ((scr.work_area.width - win.gui.width) /2) && win.gui.y == scr.bounds.y + ((scr.work_area.height - win.gui.height) /2)) {
 						// if perfectly centered, keep it centered
 			//console.log("centered");
@@ -516,8 +539,8 @@ this.manageWindow = function(width, height) {
 				return false;
 			}
 		}
-}
-
+  }
+  
   winx.resizeInBounds(width,height);
 
 };
@@ -528,6 +551,7 @@ this.openSingleFile = function(fileLocation) {
   //TODO::search for the subtitle file and load if present
   pagal.addToPlayList(fileLocation);
   pagal.addToRecentList(fileLocation);
+  loadedFiles.push(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
   player.play();
   
@@ -554,6 +578,7 @@ this.addToRecentList = function(file) {
 this.addToPlayList = function(file) {
   var node = pagal.makeNode(file,1);
   $("#ContentWrapper").css("display","flex").append(node);
+  pagal.node_Init();
 }
 
 this.manageMenu = function() {
@@ -565,10 +590,27 @@ this.manageMenu = function() {
    menues.Recent = new gui.MenuItem({
      "label": 'Recent',
      submenu: new gui.Menu()
-   });
-
+   });   
+   pagal.loadMediaMenu();
    pagal.loadRecentMenu();
 }
+
+this.loadMediaMenu = function() {
+  pagal.insertMenu("mediaMenu", {
+    label: "Open File",
+    click: function() {
+      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
+    },
+    icon: "lib/img/file.png"
+  });
+  pagal.insertMenu("mediaMenu", {
+    label: "Open Folder",
+    click: function() {
+      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
+    },
+    icon: "lib/img/folder.png"
+  });
+};
 
 this.loadRecentMenu = function() {
   try{
@@ -607,7 +649,8 @@ this.init = function() {
 				try {
 					argCountType = fs.lstatSync(args[0]);
 					if (argCountType.isDirectory()) {
-					  console.log("Working dir" + args[0]);
+            console.log("Reading Directory "+ args[0]);
+            pagal.readDir(args[0]);
 					} else if (argCountType.isFile()) {
 					  pagal.openSingleFile(args[0]);
 					}
@@ -618,6 +661,7 @@ this.init = function() {
 			case 2:
 				//Open file and directory.
 				console.log("Folder: "+ args[0] + " File: " + args[1]);
+        
 				break;
 		}
 	}
@@ -643,10 +687,18 @@ this.init = function() {
         console.log("Clearing...");
       }
     });
-  var primaryMenuBar = new gui.Menu({ type: 'menubar' });
-  pagal.menues.mediaMenu.submenu.append(menues.Recent);
-  primaryMenuBar.append(menues.mediaMenu);
-  win.menu = primaryMenuBar;
+
+
+    pagal.menues.mediaMenu.submenu.append(menues.Recent);
+    pagal.primaryMenuBar.append(menues.mediaMenu);
+    pagal.primaryMenuBar.append(menues.viewMenu);
+    pagal.primaryMenuBar.append(menues.playMenu);
+    pagal.primaryMenuBar.append(menues.videoMenu);
+    pagal.primaryMenuBar.append(menues.audioMenu);
+    pagal.primaryMenuBar.append(menues.aaujarMenu);
+    pagal.primaryMenuBar.append(menues.pagalMenu);
+    pagal.primaryMenuBar.append(menues.helpMenu);
+    win.menu = pagal.primaryMenuBar;
 
 
 
@@ -659,7 +711,7 @@ this.init = function() {
   console.timeEnd("init");
   win.on("loaded",function() {
     win.show();
-    win.showDevTools();
+    //win.showDevTools();
   });
 	
 	

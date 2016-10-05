@@ -1,7 +1,6 @@
 var gui = require('nw.gui'),
 	fs = require("fs"),
 	path = require("path"),
-	peerflix = require("peerflix"),
 	wjs = require("wcjs-player"),
 	wcjs_ = require('wcjs-prebuilt'),
 	nameParser = require("video-name-parser"),
@@ -20,13 +19,13 @@ var gui = require('nw.gui'),
 	winx = {},
   played = [],
   primaryMenuBar = new gui.Menu({ type: 'menubar' });
-  
 
-	
+
+
 
 
 (function(window) {
-  
+
   elements.search = $(".search-bar");
   elements.FooterControls = $("#PlayerContainer");
   elements.wrapper = $(".wrapper");
@@ -34,12 +33,12 @@ var gui = require('nw.gui'),
   elements.dropFiles = $("#dragOrDropFile");
 
 
-this.readDir = function (location){ 
+this.readDir = function (location){
     var files__ = [];
     var finder = require('findit')(location);
     console.time(path.basename(location));
     pagal.log("Location: "+location);
-    
+
 
     finder.on('directory', function (dir, stat, stop) {
       var base = path.basename(dir);
@@ -49,7 +48,7 @@ this.readDir = function (location){
       if(pagal.checkExtension(file, 'mp4,webm,mkv')){
         var base = path.basename(file);
         files__.push(file);
-      }      
+      }
     });
     finder.on('error',function (err){
       console.log(err);
@@ -77,7 +76,7 @@ this.loadFiles = function(filesH){
     pagal.initPlaylist(filesH);
     pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
     player.play();
-    
+
     //iaa = player.currentItem() + 1;
     // /console.log(iaa);
     //$('[data-id="'+iaa+'"]').addClass("playing");
@@ -91,7 +90,7 @@ this.makeNode = function(data, id) {
               +'<div class="title">'+path.basename(data)+'</div>'
               +'</div>'
               +'<div class="clear"></div>'
-              +'</div>';   
+              +'</div>';
 };
 
 this.log = function(message) {
@@ -181,7 +180,7 @@ this.pluginInit = function() {
 
 };
 
-  
+
 this.insertPlugin = function(plugin) {
 
     var uid;
@@ -339,7 +338,7 @@ this.setMode = function(){
   }
   else{
     win.setResizable(true);
-  }  
+  }
 };
 
 this.setSize = function(){
@@ -434,7 +433,7 @@ this.manageWindow = function(width, height) {
 	findScreen: function() {
 		backupScreen = -1;
 		gui.Screen.screens.some(function(screen,i) {
-			
+
 			// check if the window is horizontally inside the bounds of this screen
 			if (winx.gui.x >= screen.bounds.x && winx.gui.x + winx.gui.width <= screen.bounds.x + screen.work_area.width) {
 			// window is fully inside the screen
@@ -449,7 +448,7 @@ this.manageWindow = function(width, height) {
 				// should still search for a better match
 				backupScreen = i;
 			}
-			
+
 			} else if (winx.gui.x >= screen.bounds.x && winx.gui.x <= screen.bounds.x + screen.bounds.width && winx.gui.x + winx.gui.width >= screen.bounds.x + screen.bounds.width) {
 
 			// window is partially inside the right side of screen
@@ -465,18 +464,18 @@ this.manageWindow = function(width, height) {
 			}
 
 			if (winScreen > -1) return true;
-			
+
 		});
-		
+
 		if (winScreen > -1) return gui.Screen.screens[winScreen];
 		else if (backupScreen > -1) return gui.Screen.screens[backupScreen];
 		else return false;
 	},
 	resizeInBounds: function(newWidth,newHeight) {
-			
+
 		scr = winx.findScreen();
 		var win = winx;
-			
+
 			if (scr) {
 
 				if (newWidth >= scr.work_area.width) {
@@ -540,7 +539,7 @@ this.manageWindow = function(width, height) {
 			}
 		}
   }
-  
+
   winx.resizeInBounds(width,height);
 
 };
@@ -554,11 +553,11 @@ this.openSingleFile = function(fileLocation) {
   loadedFiles.push(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
   player.play();
-  
+
 };
 
 this.addToRecentList = function(file) {
-  
+
   try{
     played.push(file);
     localStorage.setItem("recent", JSON.stringify(played));
@@ -572,7 +571,7 @@ this.addToRecentList = function(file) {
       alert(file);
     }
    });
-   pagal.insertMenu("Recent", hawa, 0);   
+   pagal.insertMenu("Recent", hawa, 0);
 }
 
 this.addToPlayList = function(file) {
@@ -590,7 +589,7 @@ this.manageMenu = function() {
    menues.Recent = new gui.MenuItem({
      "label": 'Recent',
      submenu: new gui.Menu()
-   });   
+   });
    pagal.loadMediaMenu();
    pagal.loadRecentMenu();
 }
@@ -616,7 +615,7 @@ this.loadRecentMenu = function() {
   try{
     if(JSON.parse(localStorage.getItem("recent"))) {
       played = JSON.parse(localStorage.getItem("recent"));
-    }      
+    }
   } catch(e) {
     console.log(e.message);
     return 0;
@@ -632,7 +631,7 @@ this.loadRecentMenu = function() {
       }
     });
     menuCount++;
-  }  
+  }
 };
 
 
@@ -664,16 +663,16 @@ this.init = function() {
 			case 2:
 				//Open file and directory.
 				console.log("Folder: "+ args[0] + " File: " + args[1]);
-        
+
 				break;
 		}
 	}
 
-	
+
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
 	//pagal.readDir("C:\\Users\\lenovo\\Downloads\\Compressed\\recup_dir.1");
 	pagal.search();
- 
+
 
 
     var controls = elements.FooterControls;
@@ -710,15 +709,14 @@ this.init = function() {
 
   console.time("init");
   window.pagal = this;
-  pagal.init();	
+  pagal.init();
   console.timeEnd("init");
   win.on("loaded",function() {
     win.show();
     //win.showDevTools();
   });
-	
-	
 
-  
+
+
+
 })(window);
-  

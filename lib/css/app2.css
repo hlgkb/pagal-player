@@ -46,7 +46,7 @@
 }
 
 #ContentWrapper .track-container .cover {
-    background-image: url(lib/img/icon.png);
+    background-image: url(../img/icon.png);
     background-size: cover;
     width: 100px;
     height: 100px;

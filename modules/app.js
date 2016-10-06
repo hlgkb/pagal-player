@@ -31,6 +31,9 @@ var gui = require('nw.gui'),
   elements.wrapper = $(".wrapper");
   elements.player = $("#player");
   elements.dropFiles = $("#dragOrDropFile");
+  elements.openFile = $("#openFile");
+
+  acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 
 
 this.readDir = function (location){
@@ -45,7 +48,7 @@ this.readDir = function (location){
       //pagal.log("Directory Name: "+ dir);
     });
     finder.on('file', function (file, stat) {
-      if(pagal.checkExtension(file, 'mp4,webm,mkv')){
+      if(pagal.checkExtension(file, acceptableFile)){
         var base = path.basename(file);
         files__.push(file);
       }
@@ -373,7 +376,9 @@ this.showWrapper = function(){
   //player.refreshSize(100).refreshSize(500).refreshSize(1000);
   return 0;
 }
-
+this.openFileDialougeBox = function() {
+  elements.openFile.click();
+},
 this.insertMenu = function(menu, opts, position ) {
   var item = null;
   if(typeof position === 'undefined') {
@@ -548,13 +553,23 @@ this.manageWindow = function(width, height) {
 this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
+  //loadedFiles = null;
   pagal.addToPlayList(fileLocation);
   pagal.addToRecentList(fileLocation);
   loadedFiles.push(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
+  //pagal.createPlaylist(loadedFiles);
   player.play();
 
 };
+
+this.createPlaylist = function(files) {
+  if(files.length != 0) {
+    for(x in files) {
+      player.addPlaylist("file:///" + files[x]);
+    }
+  }
+}
 
 this.addToRecentList = function(file) {
 
@@ -598,7 +613,7 @@ this.loadMediaMenu = function() {
   pagal.insertMenu("mediaMenu", {
     label: "Open File",
     click: function() {
-      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
+      pagal.openFileDialougeBox();
     },
     icon: "lib/img/file.png"
   });
@@ -634,10 +649,24 @@ this.loadRecentMenu = function() {
   }
 };
 
+this.loadfile = function(fileLocation) {
+  if(pagal.checkExtension(fileLocation, acceptableFile)){
+    pagal.openSingleFile(fileLocation);
+  }
+}
+
+this.con_ = function() {
+  elements.openFile.change(function(){
+    if ($(this).val().indexOf(";") > -1) pagal.loadmultiple($(this).val().split(";"));
+	  else pagal.loadfile($(this).val());
+  });
+}
+
 
 this.init = function() {
 
   gui.Screen.Init();
+  pagal.con_();
 	pagal.loadConfig();
 	pagal.moduleInit();
 	pagal.pluginInit();

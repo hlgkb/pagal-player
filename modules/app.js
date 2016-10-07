@@ -742,9 +742,9 @@ this.init = function() {
 
   gui.Screen.Init();
   pagal.con_();  
-	pagal.loadConfig();
-  pagal.menuInit();
+	pagal.loadConfig();  
   pagal.moduleInit();
+  pagal.menuInit();
 	pagal.pluginInit();	
   pagal.manageMenu();
 	playerApi.init();

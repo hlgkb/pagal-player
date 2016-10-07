@@ -8,6 +8,7 @@ var playerApi = {
     	    wcjs: wcjs_
 	    });
         var currentItem = null;
+        player.onFirstPlay(playerApi.listeners.onFirstPlay);
         player.onPlaying(playerApi.listeners.isPlaying);
         player.onPaused(playerApi.listeners.handlePause);
         player.onOpening(playerApi.listeners.isOpening);
@@ -27,8 +28,26 @@ var playerApi = {
 
     listeners: {
 
+        onFirstPlay: function() {
+            if(elements.player.attr("class") == "webchimeras playerSmall") { 
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            }
+        },
         gotVideoSize: function() {
             pagal.manageWindow(player.width(), player.height() + 118);
+            if(player.audioCount() > 0) {
+                for(var i = 0; i < player.audioCount(); i++) {
+                    track = pagal.insertmenu("audiotrack", {
+                        label: player.audioDesc(i),
+                        click: function() {
+                            console.log("audio track");
+                        }
+                    });
+                    pagal.audiotrackMenu.push(track);
+                }
+                pagal.menues.audiotrack.enabled = true;
+
+            }
         },
 
         isPlaying: function() {

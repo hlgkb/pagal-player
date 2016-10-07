@@ -2,5 +2,6 @@
     "play/pause":   "space",
     "next":         "n",
     "perv":         "p",
-    "mute":         "m"
+    "mute":         "m",
+    "stop":         "s"
 }

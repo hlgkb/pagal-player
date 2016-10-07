@@ -5,6 +5,8 @@ var gui = require('nw.gui'),
 	wcjs_ = require('wcjs-prebuilt'),
 	nameParser = require("video-name-parser"),
   pkg = require("./package.json"),
+  hotkeys = require('hotkeys'),
+  dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
 	args = window.gui.App.argv,
@@ -18,7 +20,9 @@ var gui = require('nw.gui'),
 	menues = {},
 	winx = {},
   played = [],
-  primaryMenuBar = new gui.Menu({ type: 'menubar' });
+  primaryMenuBar = new gui.Menu({ type: 'menubar' }),
+  keysConfig = {},
+  keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/";
 
 
 
@@ -97,6 +101,13 @@ this.log = function(message) {
   $("#log").append("<li>"+message + "</li>");
 };
 
+this.doHotkey = function(e) {
+    if (elements.player.attr("class") != "webchimeras playerSmall" && !elements.search.is(':focus')) {
+        if (e) e.preventDefault();
+        return true;
+    } else return false;
+}
+
 this.checkExtension = function(str, ext) {
   extArray = ext.split(',');
   for(i=0; i < extArray.length; i++) {
@@ -129,6 +140,9 @@ this.loadConfig = function() {
     for ( key in configObject ) {
       config[key] = configObject[key];
     }
+
+    console.log("read config file");
+    console.log(config);
   }
 
 };
@@ -294,6 +308,7 @@ this.moduleInit = function() {
 
     var passObject, key;
     modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
+    modules["keybinding"] = require(process.cwd() + "/modules/keybinding/index.js");
 
     passObject = {
       gui: gui,
@@ -370,7 +385,7 @@ this.showWrapper = function(){
   pagal.setSize();
   elements.player.toggleClass("playerSmall");
   elements.wrapper.toggleClass("display-block");
-  //player.refreshSize(100).refreshSize(500).refreshSize(1000);
+  player.refreshSize(100).refreshSize(500).refreshSize(1000);
   return 0;
 }
 
@@ -639,8 +654,8 @@ this.init = function() {
 
   gui.Screen.Init();
 	pagal.loadConfig();
-	pagal.moduleInit();
-	pagal.pluginInit();
+  pagal.pluginInit();
+	pagal.moduleInit();	
   pagal.manageMenu();
 	playerApi.init();
 
@@ -670,7 +685,7 @@ this.init = function() {
 
 
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
-	//pagal.readDir("C:\\Users\\lenovo\\Downloads\\Compressed\\recup_dir.1");
+	pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
 	pagal.search();
 
 

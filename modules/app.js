@@ -16,9 +16,11 @@ var gui = require('nw.gui'),
 	mode = 0,
 	player = null,
 	menues = {},
+  submenues = {},
 	winx = {},
   played = [],
-  primaryMenuBar = new gui.Menu({ type: 'menubar' });
+  primaryMenuBar = new gui.Menu({ type: 'menubar' })
+  audiotrackMenu = [];
 
 
 
@@ -31,7 +33,9 @@ var gui = require('nw.gui'),
   elements.wrapper = $(".wrapper");
   elements.player = $("#player");
   elements.dropFiles = $("#dragOrDropFile");
-  elements.openFile = $("#openFile");
+  elements.openFile = $("#pagal-open-file");
+  elements.openDir = $("#pagal-select-directory");
+  elements.saveAs = $("#pagal-save-file");
 
   acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 
@@ -60,12 +64,15 @@ this.readDir = function (location){
     finder.on('end',function (){
       console.timeEnd(path.basename(location))
       pagal.loadFiles(files__);
-      loadedFiles = files__;
+      files__.forEach(function(data, i) {
+        loadedFiles.push(data);
+      });
     });
 };
 
 this.loadFiles = function(filesH){
-    var node, i = 1;
+    var node, i = loadedFiles.length + 1;
+    console.log(i);
     filesH.sort();
     $(filesH).each(function(key,data){
         node = pagal.makeNode(data, i);
@@ -296,7 +303,7 @@ this.moduleReInitByName = function(name) {
 this.moduleInit = function() {
 
     var passObject, key;
-    modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
+    modules["nativemenu"] = require(process.cwd() + "/rough/menu.js");
 
     passObject = {
       gui: gui,
@@ -371,24 +378,34 @@ this.setProgessBar = function(value){
 this.showWrapper = function(){
   pagal.setMode();
   pagal.setSize();
+  if(elements.player.attr("class") == "webchimeras playerSmall") { 
+    player.refreshSize(100);
+  }
   elements.player.toggleClass("playerSmall");
   elements.wrapper.toggleClass("display-block");
-  //player.refreshSize(100).refreshSize(500).refreshSize(1000);
+  
   return 0;
 }
 this.openFileDialougeBox = function() {
   elements.openFile.click();
-},
+};
+
 this.insertMenu = function(menu, opts, position ) {
   var item = null;
   if(typeof position === 'undefined') {
     item = new gui.MenuItem(opts);
     menues[menu].submenu.append(item);
-    return 0;
+    return item;
   }
   item = opts;
   menues[menu].submenu.insert(item,position);
-  return 1;
+  return item;
+};
+
+this.removeMenu = function(name, menu) {
+
+  menues[name].submenu.remove(menu);
+
 };
 
 this.parseTime = function(t,total) {
@@ -408,12 +425,9 @@ this.initPlaylist = function (file_list){
   }
 };
 
-this.node_Init = function (){
+this.node_Init = function () {
 
-/*TODO::
-**  A lot to be done in here.
-*/
-$(".track-container").click(function (){
+  $(".track-container").click(function (){
     var id = $(this).attr("data-id");
     //$(".track-container").removeClass("playing");
     //$(this).addClass("playing");
@@ -559,6 +573,10 @@ this.openSingleFile = function(fileLocation) {
   loadedFiles.push(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
   //pagal.createPlaylist(loadedFiles);
+  count = player.itemCount();
+  if(count > 0) {
+    player.currentItem(count - 1);
+  }  
   player.play();
 
 };
@@ -620,9 +638,9 @@ this.loadMediaMenu = function() {
   pagal.insertMenu("mediaMenu", {
     label: "Open Folder",
     click: function() {
-      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
+      pagal.openFolder();
     },
-    icon: "lib/img/folder.png"
+    //icon: "lib/img/folder.png"
   });
 };
 
@@ -655,20 +673,62 @@ this.loadfile = function(fileLocation) {
   }
 }
 
+this.loadmultiple = function(files) {
+  files_ = [];
+  files.forEach(function(data, i) {
+    if(pagal.checkExtension(data, acceptableFile)){
+      files_.push(data);
+    }
+  });
+  pagal.loadedFiles = files_;
+  pagal.loadFiles(files_);
+
+
+}
+
+this.openFolder = function() {
+  elements.openDir.click();
+};
+
 this.con_ = function() {
-  elements.openFile.change(function(){
+  elements.openFile.change(function() {
     if ($(this).val().indexOf(";") > -1) pagal.loadmultiple($(this).val().split(";"));
 	  else pagal.loadfile($(this).val());
   });
+
+  elements.openDir.change(function() {
+    try{
+      pagal.readDir($(this).val());
+    } catch(err) {
+      console.log(err.message);
+    }
+  });
 }
+
+this.menuInit = function() {
+
+  menues.audiotrack = pagal.insertmenu("audioMenu", {
+      label: "Audio Track",
+      submenu: new pagal.gui.Menu(),
+      enabled: false
+  }, 0);
+
+  pagal.insertmenu("audioMenu", {
+    type:"separator"
+  }, 1);
+
+
+
+},
 
 
 this.init = function() {
 
   gui.Screen.Init();
-  pagal.con_();
+  pagal.con_();  
 	pagal.loadConfig();
 	pagal.moduleInit();
+  pagal.menuInit();
 	pagal.pluginInit();
   pagal.manageMenu();
 	playerApi.init();

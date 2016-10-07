@@ -5,8 +5,6 @@ var gui = require('nw.gui'),
 	wcjs_ = require('wcjs-prebuilt'),
 	nameParser = require("video-name-parser"),
   pkg = require("./package.json"),
-  hotkeys = require('hotkeys'),
-  dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
 	args = window.gui.App.argv,
@@ -18,13 +16,9 @@ var gui = require('nw.gui'),
 	mode = 0,
 	player = null,
 	menues = {},
-  submenues = {},
 	winx = {},
   played = [],
-  primaryMenuBar = new gui.Menu({ type: 'menubar' }),
-  audiotrackMenu = [],
-  keysConfig = {},
-  keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/";
+  primaryMenuBar = new gui.Menu({ type: 'menubar' });
 
 
 
@@ -37,11 +31,6 @@ var gui = require('nw.gui'),
   elements.wrapper = $(".wrapper");
   elements.player = $("#player");
   elements.dropFiles = $("#dragOrDropFile");
-  elements.openFile = $("#pagal-open-file");
-  elements.openDir = $("#pagal-select-directory");
-  elements.saveAs = $("#pagal-save-file");
-
-  acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 
 
 this.readDir = function (location){
@@ -56,7 +45,7 @@ this.readDir = function (location){
       //pagal.log("Directory Name: "+ dir);
     });
     finder.on('file', function (file, stat) {
-      if(pagal.checkExtension(file, acceptableFile)){
+      if(pagal.checkExtension(file, 'mp4,webm,mkv')){
         var base = path.basename(file);
         files__.push(file);
       }
@@ -68,15 +57,12 @@ this.readDir = function (location){
     finder.on('end',function (){
       console.timeEnd(path.basename(location))
       pagal.loadFiles(files__);
-      files__.forEach(function(data, i) {
-        loadedFiles.push(data);
-      });
+      loadedFiles = files__;
     });
 };
 
 this.loadFiles = function(filesH){
-    var node, i = loadedFiles.length + 1;
-    console.log(i);
+    var node, i = 1;
     filesH.sort();
     $(filesH).each(function(key,data){
         node = pagal.makeNode(data, i);
@@ -111,13 +97,6 @@ this.log = function(message) {
   $("#log").append("<li>"+message + "</li>");
 };
 
-this.doHotkey = function(e) {
-    if (elements.player.attr("class") != "webchimeras playerSmall" && !elements.search.is(':focus')) {
-        if (e) e.preventDefault();
-        return true;
-    } else return false;
-}
-
 this.checkExtension = function(str, ext) {
   extArray = ext.split(',');
   for(i=0; i < extArray.length; i++) {
@@ -150,9 +129,6 @@ this.loadConfig = function() {
     for ( key in configObject ) {
       config[key] = configObject[key];
     }
-
-    console.log("read config file");
-    console.log(config);
   }
 
 };
@@ -317,9 +293,7 @@ this.moduleReInitByName = function(name) {
 this.moduleInit = function() {
 
     var passObject, key;
-    modules["nativemenu"] = require(process.cwd() + "/rough/menu.js");
-    //modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
-    modules["keybinding"] = require(process.cwd() + "/modules/keybinding/index.js");
+    modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
 
     passObject = {
       gui: gui,
@@ -394,34 +368,22 @@ this.setProgessBar = function(value){
 this.showWrapper = function(){
   pagal.setMode();
   pagal.setSize();
-  if(elements.player.attr("class") == "webchimeras playerSmall") { 
-    player.refreshSize(100);
-  }
   elements.player.toggleClass("playerSmall");
   elements.wrapper.toggleClass("display-block");
-  player.refreshSize(100).refreshSize(500).refreshSize(1000);
+  //player.refreshSize(100).refreshSize(500).refreshSize(1000);
   return 0;
 }
-this.openFileDialougeBox = function() {
-  elements.openFile.click();
-};
 
 this.insertMenu = function(menu, opts, position ) {
   var item = null;
   if(typeof position === 'undefined') {
     item = new gui.MenuItem(opts);
     menues[menu].submenu.append(item);
-    return item;
+    return 0;
   }
   item = opts;
   menues[menu].submenu.insert(item,position);
-  return item;
-};
-
-this.removeMenu = function(name, menu) {
-
-  menues[name].submenu.remove(menu);
-
+  return 1;
 };
 
 this.parseTime = function(t,total) {
@@ -441,9 +403,12 @@ this.initPlaylist = function (file_list){
   }
 };
 
-this.node_Init = function () {
+this.node_Init = function (){
 
-  $(".track-container").click(function (){
+/*TODO::
+**  A lot to be done in here.
+*/
+$(".track-container").click(function (){
     var id = $(this).attr("data-id");
     //$(".track-container").removeClass("playing");
     //$(this).addClass("playing");
@@ -583,27 +548,13 @@ this.manageWindow = function(width, height) {
 this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
-  //loadedFiles = null;
   pagal.addToPlayList(fileLocation);
   pagal.addToRecentList(fileLocation);
   loadedFiles.push(fileLocation);
   player.addPlaylist("file:///" + fileLocation);
-  //pagal.createPlaylist(loadedFiles);
-  count = player.itemCount();
-  if(count > 0) {
-    player.currentItem(count - 1);
-  }  
   player.play();
 
 };
-
-this.createPlaylist = function(files) {
-  if(files.length != 0) {
-    for(x in files) {
-      player.addPlaylist("file:///" + files[x]);
-    }
-  }
-}
 
 this.addToRecentList = function(file) {
 
@@ -647,16 +598,16 @@ this.loadMediaMenu = function() {
   pagal.insertMenu("mediaMenu", {
     label: "Open File",
     click: function() {
-      pagal.openFileDialougeBox();
+      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
     },
     icon: "lib/img/file.png"
   });
   pagal.insertMenu("mediaMenu", {
     label: "Open Folder",
     click: function() {
-      pagal.openFolder();
+      console.log("bibash ta hawa ho ka nappadera k gardai xas");;
     },
-    //icon: "lib/img/folder.png"
+    icon: "lib/img/folder.png"
   });
 };
 
@@ -683,69 +634,13 @@ this.loadRecentMenu = function() {
   }
 };
 
-this.loadfile = function(fileLocation) {
-  if(pagal.checkExtension(fileLocation, acceptableFile)){
-    pagal.openSingleFile(fileLocation);
-  }
-}
-
-this.loadmultiple = function(files) {
-  files_ = [];
-  files.forEach(function(data, i) {
-    if(pagal.checkExtension(data, acceptableFile)){
-      files_.push(data);
-    }
-  });
-  pagal.loadedFiles = files_;
-  pagal.loadFiles(files_);
-
-
-}
-
-this.openFolder = function() {
-  elements.openDir.click();
-};
-
-this.con_ = function() {
-  elements.openFile.change(function() {
-    if ($(this).val().indexOf(";") > -1) pagal.loadmultiple($(this).val().split(";"));
-	  else pagal.loadfile($(this).val());
-  });
-
-  elements.openDir.change(function() {
-    try{
-      pagal.readDir($(this).val());
-    } catch(err) {
-      console.log(err.message);
-    }
-  });
-}
-
-this.menuInit = function() {
-
-  menues.audiotrack = pagal.insertmenu("audioMenu", {
-      label: "Audio Track",
-      submenu: new pagal.gui.Menu(),
-      enabled: false
-  }, 0);
-
-  pagal.insertmenu("audioMenu", {
-    type:"separator"
-  }, 1);
-
-
-
-},
-
 
 this.init = function() {
 
   gui.Screen.Init();
-  pagal.con_();  
 	pagal.loadConfig();
-  pagal.menuInit();
-  pagal.moduleInit();
-	pagal.pluginInit();	
+	pagal.moduleInit();
+	pagal.pluginInit();
   pagal.manageMenu();
 	playerApi.init();
 
@@ -775,7 +670,7 @@ this.init = function() {
 
 
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
-	pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
+	//pagal.readDir("C:\\Users\\lenovo\\Downloads\\Compressed\\recup_dir.1");
 	pagal.search();
 
 

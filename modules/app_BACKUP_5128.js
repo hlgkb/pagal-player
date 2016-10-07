@@ -22,7 +22,7 @@ var gui = require('nw.gui'),
 	winx = {},
   played = [],
   primaryMenuBar = new gui.Menu({ type: 'menubar' }),
-  audiotrackMenu = [],
+  audiotrackMenu = []
   keysConfig = {},
   keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/";
 

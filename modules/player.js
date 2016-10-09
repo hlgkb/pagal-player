@@ -1,7 +1,7 @@
 var playerApi = {
 
-    
 
+   
     init: function () {
         var player = new wjs("#player").addPlayer({
     	    autoplay: false,
@@ -16,6 +16,7 @@ var playerApi = {
         player.onTime(function (ms) {
             playerApi.listeners.updateUi(ms);            
 		});
+        player.onVolume(playerApi.listeners.handleVolume);
         player.onEnded(playerApi.listeners.handleEnded);
         player.onStopped(playerApi.listeners.handleEnded);
         player.onState(playerApi.listeners.changedState);
@@ -33,21 +34,14 @@ var playerApi = {
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
             }
         },
+        handleVolume: function(volume){
+            pagal.elements.FooterControls.find('.volume-bg .volume-current').animate({
+                width: volume + "%"
+            })
+        },
         gotVideoSize: function() {
             pagal.manageWindow(player.width(), player.height() + 118);
-            if(player.audioCount() > 0) {
-                for(var i = 0; i < player.audioCount(); i++) {
-                    track = pagal.insertmenu("audiotrack", {
-                        label: player.audioDesc(i),
-                        click: function() {
-                            console.log("audio track");
-                        }
-                    });
-                    pagal.audiotrackMenu.push(track);
-                }
-                pagal.menues.audiotrack.enabled = true;
-
-            }
+            pagal.audioTrackmenuStuff();
         },
 
         isPlaying: function() {
@@ -110,7 +104,9 @@ var playerApi = {
         },
         handleEnded: function() {
             playerApi.resetUi();
-            pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            if(player.currentItem() + 1 == player.itemCount()) {
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            }            
         },
         handleStopped: function() {
         
@@ -139,7 +135,8 @@ var playerApi = {
     controls: function() {
         pagal.elements.FooterControls.find(".track-info .action .play").click(function(){
             if(player.itemCount() != 0) {
-                player.play();
+                player.notify("<i class=\"fa fa-play fa-5x\"></i>", true);
+                player.play();                
             }
         });
         pagal.elements.FooterControls.find(".track-info .action .pause").click(function(){
@@ -156,6 +153,7 @@ var playerApi = {
             if(player.itemCount() == 1) {
                 player.time(0);
             } else if(player.itemCount() > 1) {
+                player.notify("Pervious");
                 player.prev();
             }
         });
@@ -163,6 +161,7 @@ var playerApi = {
             if(player.itemCount() == 1) {
                 player.time(0);
             } else if(player.itemCount() > 1) {
+                player.notify("Next");
                 player.next();
             }
         });
@@ -175,11 +174,12 @@ var playerApi = {
         pagal.elements.FooterControls.find('.volume-icon').on('click', function(e) {
             if (player.mute() == true) {
                 player.mute(false);
+                player.notify("<i class=\"fa fa fa-volume-up fa-5x\"></i>", true);
                 $(this).find("i").removeClass("fa-volume-off").addClass("fa fa-volume-up");
             } else {
                 player.mute(true);
-                $(this).find("i").removeClass("fa-volume-up").addClass("fa fa-volume-off");
-                
+                player.notify("<i class=\"fa fa fa-volume-off fa-5x\"></i>", true);
+                $(this).find("i").removeClass("fa-volume-up").addClass("fa fa-volume-off");                
             }
         });
     },

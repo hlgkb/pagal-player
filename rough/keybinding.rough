@@ -1,14 +1,14 @@
-play/pause
-next
-pervious
-stop
-mute
+play/pause              done
+next                    done
+pervious                done
+stop                    done
+mute                    done
 volume-down
 volume-up
 jjump
-    short
-    medium
-    long
+    short               done
+    medium              done
+    long                done
 
 
 repeat

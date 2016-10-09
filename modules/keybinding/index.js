@@ -13,7 +13,7 @@ exports.init = function(core) {
 
     pagal.dispatcher.getKeymap();
     keybinding.loadKeyConfig();
-    keybinding.doBinging(keyConfig);
+    keybinding.doBinding(keyConfig);
 
 }
 
@@ -46,7 +46,7 @@ exports.loadKeyConfig = function() {
 
 };
 
-exports.doBinging = function(keyConfig) {
+exports.doBinding = function(keyConfig) {
 
   pagal.dispatcher.on(keyConfig["play/pause"],function(e) {
     if(pagal.doHotkey(e)) {
@@ -70,6 +70,115 @@ exports.doBinging = function(keyConfig) {
   }).on(keyConfig["mute"], function(e) {
     if(pagal.doHotkey(e)) {
       pagal.elements.FooterControls.find('.volume-icon').click();
+    }
+  }).on(keyConfig["veryShortSkip"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime + pagal.pagalConfig.skip.veryShort * 1000) >= pagal.player.length())  {
+          pagal.player.time(pagal.player.length());
+          return;
+        }
+        pagal.player.time(currentTime + pagal.pagalConfig.skip.veryShort * 1000);
+      }
+    }
+  }).on(keyConfig["veryShortBack"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime - pagal.pagalConfig.skip.veryShort * 1000) <= 0)  {
+          pagal.player.time(0);
+          return;
+        }
+        pagal.player.time(currentTime - pagal.pagalConfig.skip.veryShort * 1000);
+      }
+    }
+  }).on(keyConfig["shortSkip"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime + pagal.pagalConfig.skip.short * 1000) >= pagal.player.length())  {
+          pagal.player.time(pagal.player.length());
+          return;
+        }
+        pagal.player.time(currentTime + pagal.pagalConfig.skip.short * 1000);
+      }
+    }
+  }).on(keyConfig["shortBack"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime - pagal.pagalConfig.skip.short * 1000) <= 0)  {
+          pagal.player.time(0);
+          return;
+        }
+        pagal.player.time(currentTime - pagal.pagalConfig.skip.short * 1000);
+      }
+    }
+  }).on(keyConfig["middleSkip"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime + pagal.pagalConfig.skip.middle * 1000) >= pagal.player.length())  {
+          pagal.player.time(pagal.player.length());
+          return;
+        }
+        pagal.player.time(currentTime + pagal.pagalConfig.skip.middle * 1000);
+      }
+    }
+  }).on(keyConfig["middleBack"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime - pagal.pagalConfig.skip.middle * 1000) <= 0)  {
+          pagal.player.time(0);
+          return;
+        }
+        pagal.player.time(currentTime - pagal.pagalConfig.skip.middle * 1000);
+      }
+    }
+  }).on(keyConfig["longSkip"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime + pagal.pagalConfig.skip.long * 1000) >= pagal.player.length())  {
+          pagal.player.time(pagal.player.length());
+          return;
+        }
+        pagal.player.time(currentTime + pagal.pagalConfig.skip.long * 1000);
+      }
+    }
+  }).on(keyConfig["longBack"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        currentTime = pagal.player.time();
+        if((currentTime - pagal.pagalConfig.skip.long * 1000) <= 0)  {
+          pagal.player.time(0);
+          return;
+        }
+        pagal.player.time(currentTime - pagal.pagalConfig.skip.long * 1000);
+      }
+    }
+  }).on(keyConfig["volumeUp"], function(e) {
+    volume = 0 + 5;
+    if(pagal.player.volume() >= 0 && pagal.player.volume() < 100) {
+      if((pagal.player.volume() + 5) >= 100) {
+        pagal.player.volume(100);
+        console.log("volume set to 100");
+        return;
+      }
+      pagal.player.volume(pagal.player.volume() + 5);
+    }
+  }).on(keyConfig["volumeDown"], function(e) {
+    
+    if(pagal.player.volume() > 10 && pagal.player.volume() <= 100) {
+      if(pagal.player.volume() - pagal.pagalConfig.volume <= 10) {
+        pagal.player.volume(10);
+        console.log("volume set to 10");
+        return;
+      }
+      pagal.player.volume(pagal.player.volume() - pagal.pagalConfig.volume);
+      console.log("volume down: " + pagal.player.volume());
     }
   })
 

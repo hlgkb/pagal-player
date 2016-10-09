@@ -5,7 +5,7 @@
   "main": "index.html",
   "window": {
     "title": "Pagal Player",
-    "show": true,
+    "show": false,
     "toolbar": false,
     "frame": true,
     "position": "center",

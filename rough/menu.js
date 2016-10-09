@@ -73,14 +73,12 @@ exports.init = function(core) {
 /**
  * Video Menu Sub Menu
  */
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
+  pagal.menues.videotrack = this.insertMenuItem("videoMenu",{
       label: "Video Track",
       submenu: new pagalCore.gui.Menu(),
-      enabled: false,
-      click: function() {
-
-      }
-  }));
+      enabled: false
+  });
+  
   menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));

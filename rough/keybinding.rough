@@ -1,27 +1,28 @@
-play/pause              done
-next                    done
-pervious                done
-stop                    done
-mute                    done
-volume-down
-volume-up
-jjump
-    short               done
-    medium              done
-    long                done
-
-
-repeat
-loop
-random
-fullscreen
-escape fullscreen
-
-
-
-audio track
-video track
-crop
-zoom
-aspect ratio
-
+{
+    "play/pause":                   "space",        done
+    "next":                         "n",            done
+    "perv":                         "p",            done
+    "mute":                         "m",            done
+    "stop":                         "s",            done
+    "fullscreen":                   "f",            
+    "exitFullscreen":               "esc",          
+    "veryShortSkip":                "shift + right",    done
+    "veryShortBack":                "shift + left",     done
+    "shortSkip":                    "alt + right",      done
+    "shortBack":                    "alt + left",       done
+    "middleSkip":                   "ctrl + right",     done
+    "middleBack":                   "ctrl + left",      done
+    "longSkip":                     "ctrl + alt + right",   done
+    "longBack":                     "ctrl + alt + left",    done
+    "volumeUp":                     "ctrl + up",            done
+    "volumeDown":                   "ctrl + down",          done
+    "toggleSubtitle":               "shift + v",            
+    "cycleSubtitle":                "v",                    
+    "cycleVideoCrop":               "c",                    done
+    "cycleVideoAspect":             "a",                    done
+    "cycleZoom":                    "z",                    done
+    "unZoom":                       "shift + z",            done
+    "cycleAudioTrack":              "b",
+    "audioDelayUp":                 "k",
+    "audioDelayDown":               "j"
+}

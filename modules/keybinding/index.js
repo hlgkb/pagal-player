@@ -164,7 +164,6 @@ exports.doBinding = function(keyConfig) {
     if(pagal.player.volume() >= 0 && pagal.player.volume() < 100) {
       if((pagal.player.volume() + 5) >= 100) {
         pagal.player.volume(100);
-        console.log("volume set to 100");
         return;
       }
       pagal.player.volume(pagal.player.volume() + 5);
@@ -174,11 +173,9 @@ exports.doBinding = function(keyConfig) {
     if(pagal.player.volume() > 10 && pagal.player.volume() <= 100) {
       if(pagal.player.volume() - pagal.pagalConfig.volume <= 10) {
         pagal.player.volume(10);
-        console.log("volume set to 10");
         return;
       }
       pagal.player.volume(pagal.player.volume() - pagal.pagalConfig.volume);
-      console.log("volume down: " + pagal.player.volume());
     }
   }).on(keyConfig["cycleVideoAspect"], function(e) {
     if(pagal.doHotkey(e)) {
@@ -216,9 +213,40 @@ exports.doBinding = function(keyConfig) {
         pagal.setCrop(currentId);
         pagal.player.notify("Crop: " + pagal.pagalConfig.crop[currentId]);
     }
+  }).on(keyConfig["cycleZoom"], function(e) {
+    if(pagal.doHotkey(e)) {
+        pagal.menues.zoom.submenu.items.forEach(function(el,il) {
+          if(el.checked == true) {
+            currentChecked = el;
+            currentId = il;
+          }
+        });
+
+        total = pagal.menues.zoom.submenu.items.length - 1;
+        if(currentId + 1  > total) {
+          currentId = 0;
+        } else {
+          currentId++;
+        }
+        pagal.setZoom(currentId);
+        pagal.player.notify("Zoom: " + pagal.pagalConfig.zoomText[currentId]);
+    }
+  }).on(keyConfig["unZoom"], function(e) {
+    if(pagal.doHotkey(e)) {
+      pa_ = false;
+        pagal.menues.zoom.submenu.items.forEach(function(el,il) {
+          if(el.checked ==  true && il != 2) {
+            pa_ = true;
+          }
+        });
+        if(pa_ == true) {
+          pagal.setZoom(2);
+          pagal.player.notify("Zoom: Default");
+        }
+    }
   })
 
-
+  
 }
 
 

@@ -41,15 +41,17 @@ var playerApi = {
         },
         gotVideoSize: function() {
             pagal.manageWindow(player.width(), player.height() + 118);
-            pagal.audioTrackmenuStuff();
+            //pagal.audioTrackmenuStuff();
+            pagal.menuStuff.enableMenues();
         },
 
         isPlaying: function() {
         
             if(player.subCount() > 1) {
-                if(player.subDesc(1).language != "Disable") {
-                    player.subTrack(1);
-                }
+                //if(player.subDesc(1).language != "Disable") {
+                //    player.subTrack(1);
+                //}
+                player.subTrack(player.subCount() - 1);
             }
             pagal.elements.FooterControls.find('.info .track-info .action i.play').hide();
 		    pagal.elements.FooterControls.find('.info .track-info .action i.pause').show();
@@ -135,7 +137,7 @@ var playerApi = {
     controls: function() {
         pagal.elements.FooterControls.find(".track-info .action .play").click(function(){
             if(player.itemCount() != 0) {
-                player.notify("<i class=\"fa fa-play fa-5x\"></i>", true);
+                player.notify("<i class=\"fa fa-play fa-3x\"></i>", true);
                 player.play();                
             }
         });
@@ -174,11 +176,11 @@ var playerApi = {
         pagal.elements.FooterControls.find('.volume-icon').on('click', function(e) {
             if (player.mute() == true) {
                 player.mute(false);
-                player.notify("<i class=\"fa fa fa-volume-up fa-5x\"></i>", true);
+                player.notify("<i class=\"fa fa fa-volume-up fa-3x\"></i>", true);
                 $(this).find("i").removeClass("fa-volume-off").addClass("fa fa-volume-up");
             } else {
                 player.mute(true);
-                player.notify("<i class=\"fa fa fa-volume-off fa-5x\"></i>", true);
+                player.notify("<i class=\"fa fa fa-volume-off fa-3x\"></i>", true);
                 $(this).find("i").removeClass("fa-volume-up").addClass("fa fa-volume-off");                
             }
         });

@@ -24,5 +24,10 @@
     "unZoom":                       "shift + z",
     "cycleAudioTrack":              "b",
     "audioDelayUp":                 "k",
-    "audioDelayDown":               "j"
+    "audioDelayDown":               "j",
+
+
+    "openFile":                     "ctrl + o",
+    "openFolder":                   "ctrl + f",
+    "quit":                         "ctrl + q"
 }

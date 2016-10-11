@@ -54,7 +54,15 @@ exports.doBinding = function(keyConfig) {
         pagal.player.togglePause();
       }
     }
-  }).on(keyConfig["next"], function(e) {
+  }).on(keyConfig["openFile"], function(e) {
+    pagal.openFileDialougeBox();
+  }).on(keyConfig["openFolder"], function(e) {
+    pagal.openFolder();
+  }).on(keyConfig["quit"], function(e) {
+    pagal.exitApp(1500);
+  })
+  
+  .on(keyConfig["next"], function(e) {
     if(pagal.doHotkey(e)) {
       pagal.elements.FooterControls.find(".track-info .action .forward").click();
     }
@@ -246,7 +254,7 @@ exports.doBinding = function(keyConfig) {
     }
   })
 
-  
+
 }
 
 

@@ -10,6 +10,9 @@ exports.init = function(core) {
     menus = pagal.menues;
     submenu = pagal.submenues;
 
+    pagal.insertmenu = menu__.insertMenuItem;
+    pagal.deletemenu = menu__.removeMenuItem;
+    pagal.menuStuff = menu__;
 
     menus.viewMenu = new pagalCore.gui.MenuItem({
         label: 'View',
@@ -53,21 +56,21 @@ exports.init = function(core) {
     label: "Decrease Volume",
     tooltip: "Decrease Volume",
     click: function() {
-
+      pagal.keymap().trigger(pagal.keysConfig["volumeDown"]);
     }
   }));
   menus.audioMenu.submenu.append(new pagalCore.gui.MenuItem({
     label: "Increase Volume",
     tooltip: "Increase Volume",
     click: function() {
-
+      pagal.keymap().trigger(pagal.keysConfig["volumeUp"]);
     }
   }));
   menus.audioMenu.submenu.append(new pagalCore.gui.MenuItem({
     label: "Mute",
     tooltip: "Mute",
     click: function() {
-
+      pagal.keymap().trigger(pagal.keysConfig["mute"]);
     }
   }));
 /**
@@ -89,51 +92,48 @@ exports.init = function(core) {
 
     }
   }));
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
+  pagal.menues.onTop = pagal.insertmenu("videoMenu", {
     label: "Always on top",
     type: "checkbox",
     click: function() {
-
+        pagal.setOnTop();
     }
-  }));
+  });
+
   menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
-      label: "Aspect Ratio",
-      submenu: new pagalCore.gui.Menu(),
-      enabled: false,
-      click: function() {
 
-      }
-  }));
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
+
+
+  pagal.menues.aspectRatio = pagal.insertmenu("videoMenu", {
+        label: "Aspect Ratio",
+        submenu: new pagalCore.gui.Menu(),
+        enabled: false
+  });
+
+  pagal.menues.crop = pagal.insertmenu("videoMenu", {
       label: "Crop",
       submenu: new pagalCore.gui.Menu(),
-      enabled: false,
-      click: function() {
-
-      }
-  }));
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
+      enabled: false
+  });
+  
+  pagal.menues.zoom = pagal.insertmenu("videoMenu", {
       label: "Zoom",
       submenu: new pagalCore.gui.Menu(),
-      enabled: false,
-      click: function() {
+      enabled: false
+  });
 
-      }
-  }));
   menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
-  menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
+
+  pagal.menues.deinterlace = pagal.insertmenu("videoMenu", {
       label: "Deinterlace",
       submenu: new pagalCore.gui.Menu(),
-      enabled: false,
-      click: function() {
+      enabled: false
+  });
 
-      }
-  }));
   menus.videoMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
@@ -282,10 +282,70 @@ exports.init = function(core) {
 
 
 
+    pagal.pagalConfig.aspectRatio.forEach(function(el,i) {
+        mnOpts = {
+          label: el,
+          type: 'checkbox',
+          click: function() { 
+            pagal.setAspectRatio(i);
+          }
+        };
+        if (i == 0) mnOpts.checked = true;
+        //saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+        menu = pagal.insertmenu("aspectRatio", mnOpts);
+    });
 
-    pagal.insertmenu = menu__.insertMenuItem;
-    pagal.deletemenu = menu__.removeMenuItem;
+    pagal.pagalConfig.crop.forEach(function(el,i) {
+			mnOpts = {
+				label: el,
+				type: 'checkbox',
+				click: function() { 
+          pagal.setCrop(i);
+         }
+			};
+			if (i == 0) mnOpts.checked = true;
+			//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+      menu = pagal.insertmenu("crop", mnOpts);
+		});
+
+    pagal.pagalConfig.zoom.forEach(function(el,i) {
+			mnOpts = {
+				label: pagal.pagalConfig.zoomText[i],
+				type: 'checkbox',
+				click: function() { 
+          pagal.setZoom(i);
+         }
+			};
+			if (i == 2) mnOpts.checked = true;
+			//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+      menu = pagal.insertmenu("zoom", mnOpts);
+		});
+
+    pagal.pagalConfig.deinterlace.forEach(function(el,i) {
+			mnOpts = {
+				label: el,
+				type: 'checkbox',
+				click: function() { 
+          pagal.setDeinterlace(i);
+         }
+			};
+			if (i == 0) mnOpts.checked = true;
+			//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+      menu = pagal.insertmenu("deinterlace", mnOpts);
+		});
+
+
+
+    
 };
+
+
+exports.enableMenues = function() {
+  pagal.menues.aspectRatio.enabled = true;
+  pagal.menues.crop.enabled = true;
+  pagal.menues.zoom.enabled = true;
+  pagal.menues.deinterlace.enabled = true;
+}
 
 exports.insertMenuItem = function(menu, opts, position ) {
 

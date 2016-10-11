@@ -24,7 +24,24 @@ var gui = require('nw.gui'),
   primaryMenuBar = new gui.Menu({ type: 'menubar' }),
   audiotrackMenu = [],
   keysConfig = {},
-  keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/";
+  keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/",
+  alwaysOnTop = false,
+  pagalConfig = {
+    skip: {
+      "veryShort":  3,
+      "short":      10,
+      "middle":     60,
+      "long":       300    
+    },
+    volume: 5,
+    audioChan: { "error": -1, "stereo": 1, "reverseStereo": 2, "left": 3, "right": 4, "dolby": 5 },
+    audioChanInt: { "-1": "error", "1": "stereo", "2": "reverseStereo", "3": "left", "4": "right", "5": "dolby" },
+    aspectRatio: ["Default", "1:1", "4:3", "16:9", "16:10", "2.21:1", "2.35:1", "2.39:1", "5:4"],
+    crop: ["Default", "16:10", "16:9", "1.85:1", "2.21:1", "2.35:1", "2.39:1", "5:3", "4:3", "5:4", "1:1"],
+    zoom: [0.25, 0.5, 1, 2],
+    zoomText: ["1:4 Quater", "1:2 Half", "1:1 Orginal", "2:1 Double"],
+    deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x']
+  };
 
 
 
@@ -42,6 +59,23 @@ var gui = require('nw.gui'),
   elements.saveAs = $("#pagal-save-file");
 
   acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
+
+  this.setOnTop = function() {
+    if(pagal.alwaysOnTop == false) {
+      pagal.menues.onTop.checked = true;
+      pagal.win.setAlwaysOnTop(true);
+      pagal.alwaysOnTop = true;
+      return;
+    }
+    pagal.menues.onTop.checked = false;
+    pagal.win.setAlwaysOnTop(false);
+    pagal.alwaysOnTop == false;
+  }
+
+  this.keymap = function() {
+    return pagal.dispatcher;
+  }
+
 
 
 this.readDir = function (location){
@@ -579,7 +613,6 @@ this.manageWindow = function(width, height) {
 
 };
 
-
 this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
@@ -649,7 +682,7 @@ this.loadMediaMenu = function() {
     click: function() {
       pagal.openFileDialougeBox();
     },
-    icon: "lib/img/file.png"
+    //icon: "lib/img/file.png"
   });
   pagal.insertMenu("mediaMenu", {
     label: "Open Folder",
@@ -729,13 +762,65 @@ this.menuInit = function() {
       enabled: false
   }, 0);
 
+  
+
   pagal.insertmenu("audioMenu", {
     type:"separator"
   }, 1);
 
 
+  /**
+   * Video menu stuff
+   */
+  	
+
+
 
 },
+
+this.setAspectRatio = function(i) {
+  pagal.menues.aspectRatio.submenu.items.forEach(function(el,il) {
+    el.checked = false;
+    if(i == il) {
+      el.checked = true;
+    }
+  });
+
+  player.aspectRatio(pagal.pagalConfig.aspectRatio[i]);
+}
+
+this.setCrop = function(i) {
+  pagal.menues.crop.submenu.items.forEach(function(el,il) {
+    el.checked = false;
+    if(i == il) {
+      el.checked = true;
+    }
+  });
+
+  player.crop(pagal.pagalConfig.crop[i]);
+}
+
+this.setZoom = function(i) {
+  pagal.menues.zoom.submenu.items.forEach(function(el,il) {
+    el.checked = false;
+    if(i == il) {
+      el.checked = true;
+    }
+  });
+
+  player.zoom(pagal.pagalConfig.zoom[i]);
+}
+
+this.setDeinterlace = function(i) {
+  pagal.menues.deinterlace.submenu.items.forEach(function(el,il) {
+    el.checked = false;
+    if(i == il) {
+      el.checked = true;
+    }
+  });
+
+  player.zoom(pagal.pagalConfig.deinterlace[i]);
+}
 
 
 this.init = function() {
@@ -775,7 +860,7 @@ this.init = function() {
 
 
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
-	pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
+	//pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
 	pagal.search();
 
 

@@ -20,6 +20,8 @@
     "cycleSubtitle":                "v",
     "cycleVideoCrop":               "c",
     "cycleVideoAspect":             "a",
+    "cycleZoom":                    "z",
+    "unZoom":                       "shift + z",
     "cycleAudioTrack":              "b",
     "audioDelayUp":                 "k",
     "audioDelayDown":               "j"

@@ -93,6 +93,7 @@ var playerApi = {
             asd = pagal.loadedFiles[player.currentItem()];
             //nowPlayingTitle = nameParser(path.basename(asd)).name;
             pagal.elements.FooterControls.find(".currentHolder span.title").text(path.basename(asd));
+            pagal.elements.FooterControls.find(".currentHolder span.title").attr("title", path.basename(asd));
             pagal.win.title = path.basename(currentItem.title);
         },
         handleMediaChange: function() {
@@ -153,6 +154,7 @@ var playerApi = {
         });
         pagal.elements.FooterControls.find(".track-info .action .backward").click(function(){
             if(player.itemCount() == 1) {
+                player.notify("Pervious");
                 player.time(0);
             } else if(player.itemCount() > 1) {
                 player.notify("Pervious");
@@ -161,6 +163,7 @@ var playerApi = {
         });
         pagal.elements.FooterControls.find(".track-info .action .forward").click(function(){
             if(player.itemCount() == 1) {
+                player.notify("Next");
                 player.time(0);
             } else if(player.itemCount() > 1) {
                 player.notify("Next");

@@ -40,7 +40,10 @@ var playerApi = {
             })
         },
         gotVideoSize: function() {
-            pagal.manageWindow(player.width(), player.height() + 118);
+            if(pagal.pagalConfig.maximized == false) {
+                pagal.manageWindow(player.width(), player.height() + 118);
+            }
+            
             //pagal.audioTrackmenuStuff();
             pagal.menuStuff.enableMenues();
         },

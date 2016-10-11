@@ -27,6 +27,7 @@ var gui = require('nw.gui'),
   keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/",
   alwaysOnTop = false,
   pagalConfig = {
+    maximized:  false, 
     skip: {
       "veryShort":  3,
       "short":      10,
@@ -613,6 +614,13 @@ this.manageWindow = function(width, height) {
 
 };
 
+
+this.exitApp =  function(countdown) {
+  setTimeout(function() {
+    pagal.win.close(true);
+  },countdown);
+}
+
 this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
@@ -891,7 +899,7 @@ this.init = function() {
     pagal.primaryMenuBar.append(menues.pagalMenu);
     pagal.primaryMenuBar.append(menues.helpMenu);
     win.menu = pagal.primaryMenuBar;
-
+    
 
 
 };

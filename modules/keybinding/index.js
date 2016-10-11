@@ -180,6 +180,42 @@ exports.doBinding = function(keyConfig) {
       pagal.player.volume(pagal.player.volume() - pagal.pagalConfig.volume);
       console.log("volume down: " + pagal.player.volume());
     }
+  }).on(keyConfig["cycleVideoAspect"], function(e) {
+    if(pagal.doHotkey(e)) {
+        pagal.menues.aspectRatio.submenu.items.forEach(function(el,il) {
+          if(el.checked == true) {
+            currentChecked = el;
+            currentId = il;
+          }
+        });
+
+        total = pagal.menues.aspectRatio.submenu.items.length - 1;
+        if(currentId + 1  > total) {
+          currentId = 0;
+        } else {
+          currentId++;
+        }
+        pagal.setAspectRatio(currentId);
+        pagal.player.notify("Aspect ratio: " + pagal.pagalConfig.aspectRatio[currentId]);
+    }
+  }).on(keyConfig["cycleVideoCrop"], function(e) {
+    if(pagal.doHotkey(e)) {
+        pagal.menues.crop.submenu.items.forEach(function(el,il) {
+          if(el.checked == true) {
+            currentChecked = el;
+            currentId = il;
+          }
+        });
+
+        total = pagal.menues.crop.submenu.items.length - 1;
+        if(currentId + 1  > total) {
+          currentId = 0;
+        } else {
+          currentId++;
+        }
+        pagal.setCrop(currentId);
+        pagal.player.notify("Crop: " + pagal.pagalConfig.crop[currentId]);
+    }
   })
 
 

@@ -786,7 +786,7 @@ this.setAspectRatio = function(i) {
     }
   });
 
-  player.aspectRatio(pagal.pagalConfig.aspectRatio[i]);
+  player.aspectRatio(pagal.pagalConfig.aspectRatio[i]);  
 }
 
 this.setCrop = function(i) {

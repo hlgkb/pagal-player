@@ -30,6 +30,11 @@
     "audioDelayUp":                 "k",
     "audioDelayDown":               "j",
 
+    "speedFaster":                  "+",
+    "speedSlower":                  "-",
+    "speedFineFast":                "]",
+    "speedFineSlow":                "[",
+    "speedNormal":                  "=",
 
     "openFile":                     "ctrl + o",
     "openFolder":                   "ctrl + f",

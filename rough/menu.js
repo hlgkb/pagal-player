@@ -276,7 +276,7 @@ exports.init = function(core) {
   menus.helpMenu.submenu.append( new core.gui.MenuItem({
     label: 'Toggle Developer Option',
     click: function () {
-      pagal.win.showDevTools();
+      pagal.keymap().trigger(pagal.keysConfig["openDevTools"]);
     }
   }));
 

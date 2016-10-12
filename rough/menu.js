@@ -146,38 +146,38 @@ exports.init = function(core) {
 /**
  * Play Menu Sub Menu
  */
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+  pagal.menues.playpause = pagal.insertmenu("playMenu", {
         label: "Play/Pause",
         enabled: false,
         click: function() {
-          console.log("toggle paused");
-          //player.togglePause();
+          pagal.keymap().trigger(pagal.keysConfig["play/pause"]);
         }
-  }));
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+  });
+  pagal.menues.stop = pagal.insertmenu("playMenu", {
         label: "Stop",
         enabled: false,
         click: function() {
-          console.log("Stop");
+          pagal.keymap().trigger(pagal.keysConfig["stop"]);
         }
-  }));
+  });
+  
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+  pagal.menues.next = pagal.insertmenu("playMenu", {
         label: "Next",
         enabled: false,
         click: function() {
-          console.log("Next Item");
+          pagal.keymap().trigger(pagal.keysConfig["next"]);
         }
-  }));
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+  });
+  pagal.menues.prv = pagal.insertmenu("playMenu", {
         label: "Pervious",
         enabled: false,
         click: function() {
-          console.log("Pervious Item");
+          pagal.keymap().trigger(pagal.keysConfig["perv"]);
         }
-  }));
+  });
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
@@ -345,6 +345,12 @@ exports.enableMenues = function() {
   pagal.menues.crop.enabled = true;
   pagal.menues.zoom.enabled = true;
   pagal.menues.deinterlace.enabled = true;
+
+
+  pagal.menues.playpause.enabled = true;
+  pagal.menues.stop.enabled = true;
+  pagal.menues.next.enabled = true;
+  pagal.menues.prv.enabled = true;
 }
 
 exports.insertMenuItem = function(menu, opts, position ) {

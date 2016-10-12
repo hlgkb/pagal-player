@@ -1,4 +1,8 @@
 {
+    "openDevTools":                 "ctrl + alt + d",
+
+
+    
     "play/pause":                   "space",
     "next":                         "n",
     "perv":                         "p",

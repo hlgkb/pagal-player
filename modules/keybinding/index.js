@@ -48,11 +48,11 @@ exports.loadKeyConfig = function() {
 
 exports.doBinding = function(keyConfig) {
 
-  pagal.dispatcher.on(keyConfig["play/pause"],function(e) {
-    if(pagal.doHotkey(e)) {
-      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1){
-        pagal.player.togglePause();
-      }
+  pagal.dispatcher.on(keyConfig["openDevTools"], function(e) {
+    if(pagal.win.isDevToolsOpen() == true) {
+      pagal.win.closeDevTools();
+    } else {
+      pagal.win.showDevTools();
     }
   }).on(keyConfig["openFile"], function(e) {
     pagal.openFileDialougeBox();
@@ -62,7 +62,13 @@ exports.doBinding = function(keyConfig) {
     pagal.exitApp(1500);
   })
   
-  .on(keyConfig["next"], function(e) {
+  .on(keyConfig["play/pause"],function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1){
+        pagal.player.togglePause();
+      }
+    }
+  }).on(keyConfig["next"], function(e) {
     if(pagal.doHotkey(e)) {
       pagal.elements.FooterControls.find(".track-info .action .forward").click();
     }

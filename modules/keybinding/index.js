@@ -61,7 +61,7 @@ exports.doBinding = function(keyConfig) {
   }).on(keyConfig["quit"], function(e) {
     pagal.exitApp(1500);
   })
-  
+
   .on(keyConfig["play/pause"],function(e) {
     if(pagal.doHotkey(e)) {
       if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1){
@@ -206,8 +206,10 @@ exports.doBinding = function(keyConfig) {
         } else {
           currentId++;
         }
-        pagal.setAspectRatio(currentId);
-        pagal.player.notify("Aspect ratio: " + pagal.pagalConfig.aspectRatio[currentId]);
+        if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+          pagal.setAspectRatio(currentId);
+          pagal.player.notify("Aspect ratio: " + pagal.pagalConfig.aspectRatio[currentId]);
+        }
     }
   }).on(keyConfig["cycleVideoCrop"], function(e) {
     if(pagal.doHotkey(e)) {
@@ -224,8 +226,10 @@ exports.doBinding = function(keyConfig) {
         } else {
           currentId++;
         }
-        pagal.setCrop(currentId);
-        pagal.player.notify("Crop: " + pagal.pagalConfig.crop[currentId]);
+        if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+          pagal.setCrop(currentId);
+          pagal.player.notify("Crop: " + pagal.pagalConfig.crop[currentId]);
+        }
     }
   }).on(keyConfig["cycleZoom"], function(e) {
     if(pagal.doHotkey(e)) {
@@ -242,8 +246,10 @@ exports.doBinding = function(keyConfig) {
         } else {
           currentId++;
         }
-        pagal.setZoom(currentId);
-        pagal.player.notify("Zoom: " + pagal.pagalConfig.zoomText[currentId]);
+        if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+          pagal.setZoom(currentId);
+          pagal.player.notify("Zoom: " + pagal.pagalConfig.zoomText[currentId]);
+        }
     }
   }).on(keyConfig["unZoom"], function(e) {
     if(pagal.doHotkey(e)) {
@@ -253,7 +259,7 @@ exports.doBinding = function(keyConfig) {
             pa_ = true;
           }
         });
-        if(pa_ == true) {
+        if(pa_ == true && (pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1)) {
           pagal.setZoom(2);
           pagal.player.notify("Zoom: Default");
         }

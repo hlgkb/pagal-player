@@ -133,7 +133,42 @@ aside.sidebar{
 }
 
 aside.sidebar .content{
-    padding: 5px;
     height:calc(100% - 112px);
     width: 100%;
+    overflow: auto;
+    overflow-x: hidden; 
+    margin-bottom: 10px;
 }
+
+ul.mediaFiles li{
+  list-style: none;
+  overflow: hidden!important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  width: 100%;
+  padding: 8px;
+  background: #F2E3E3;
+  border-bottom: 1px solid #F5C8C8;
+  font-family: "Open Sans";
+  font-weight: lighter;
+}
+
+ul.submenu{
+    
+    background: #F2E3E3;
+    border-top: 1px solid #F5C8C8;
+    margin-top: 10px; 
+
+}
+
+ul.mediaFiles li.current {
+    background: #eef;
+}
+
+ul.submenu > li{
+    line-height: 18px;
+}
+
+
+

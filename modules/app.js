@@ -43,7 +43,8 @@ var gui = require('nw.gui'),
     zoomText: ["1:4 Quater", "1:2 Half", "1:1 Orginal", "2:1 Double"],
     deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x']
   },
-  openedDir = null;
+  openedDir = null,
+  openedDirBase = "";
 
 
 
@@ -59,6 +60,7 @@ var gui = require('nw.gui'),
   elements.openFile = $("#pagal-open-file");
   elements.openDir = $("#pagal-select-directory");
   elements.saveAs = $("#pagal-save-file");
+  elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
 
   acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 
@@ -148,7 +150,7 @@ this.log = function(message) {
 };
 
 this.doHotkey = function(e) {
-    if (elements.player.attr("class") != "webchimeras playerSmall" && !elements.search.is(':focus')) {
+    if (!elements.search.is(':focus')) {
         if (e) e.preventDefault();
         return true;
     } else return false;
@@ -356,6 +358,7 @@ this.moduleInit = function() {
     modules["nativemenu"] = require(process.cwd() + "/rough/menu.js");
     //modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
     modules["keybinding"] = require(process.cwd() + "/modules/keybinding/index.js");
+    //modules["treeView"] = require(process.cwd() + "/modules/treeview/index.js");
 
     passObject = {
       gui: gui,
@@ -622,10 +625,30 @@ this.exitApp =  function(countdown) {
   },countdown);
 }
 
+this.handleTreeView = function(fileLocation) {
+
+  (function(pathsToFile) {
+    ha = path.dirname(pathsToFile);
+    ha = ha.split("\\");
+    pagal.openedDirBase = ha.pop();
+    x = "";
+    for(c = 0; c < ha.length; c++) {
+      if(c != ha.length - 1)  x += ha[c] + "\\";
+      else x += ha[c];
+    }
+    pagal.openedDir = x;
+    console.log(x);
+
+  })(fileLocation);
+
+  //this.moduleReInitByName("treeView");
+}
+
 this.openSingleFile = function(fileLocation) {
 
   //TODO::search for the subtitle file and load if present
   //loadedFiles = null;
+  pagal.handleTreeView(fileLocation);
   pagal.addToPlayList(fileLocation);
   pagal.addToRecentList(fileLocation);
   loadedFiles.push(fileLocation);
@@ -854,7 +877,7 @@ this.init = function() {
             console.log("Reading Directory "+ args[0]);
             pagal.readDir(args[0]);
 					} else if (argCountType.isFile()) {
-					  pagal.openSingleFile(args[0]);
+            if(pagal.checkExtension(file, acceptableFile)) pagal.openSingleFile(args[0]);
 					}
 				} catch(err) {
 					console.log(err);

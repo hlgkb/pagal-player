@@ -42,7 +42,8 @@ var gui = require('nw.gui'),
     zoom: [0.25, 0.5, 1, 2],
     zoomText: ["1:4 Quater", "1:2 Half", "1:1 Orginal", "2:1 Double"],
     deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x']
-  };
+  },
+  openedDir = null;
 
 
 
@@ -755,7 +756,8 @@ this.con_ = function() {
 
   elements.openDir.change(function() {
     try{
-      pagal.readDir($(this).val());
+      pagal.openedDir = $(this).val();
+      pagal.readDir(pagal.openedDir);
     } catch(err) {
       console.log(err.message);
     }

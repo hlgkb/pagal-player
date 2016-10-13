@@ -55,6 +55,8 @@ var playerApi = {
                 //    player.subTrack(1);
                 //}
                 player.subTrack(player.subCount() - 1);
+                pagal.currentSub = player.subTrack();
+                pagal.mainSub = pagal.currentSub;
             }
             pagal.elements.FooterControls.find('.info .track-info .action i.play').hide();
 		    pagal.elements.FooterControls.find('.info .track-info .action i.pause').show();

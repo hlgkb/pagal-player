@@ -62,6 +62,86 @@ exports.doBinding = function(keyConfig) {
     pagal.exitApp(1500);
   })
 
+  .on(keyConfig["cycleSubtitle"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        if(pagal.currentSub < pagal.player.subCount() - 1) pagal.currentSub++;
+        else if(pagal.currentSub == pagal.player.subCount() - 1) {
+            console.log("in if " +pagal.currentSub);
+            pagal.currentSub = 0;
+        }
+        console.log(pagal.currentSub);
+        pagal.player.subTrack(pagal.currentSub);        
+        pagal.player.notify("Subtitle" + ": " + pagal.player.subDesc(pagal.currentSub).language);
+      }
+    }
+  }).on(keyConfig["toggleSubtitle"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        if(pagal.player.subTrack() == 0) pagal.currentSub = pagal.mainSub;
+        else {
+          pagal.mainSub = pagal.currentSub;
+          pagal.currentSub = 0;
+        }
+        pagal.player.subTrack(pagal.currentSub);        
+        pagal.player.notify("Subtitle" + ": " + pagal.player.subDesc(pagal.currentSub).language);
+      }
+    }
+  })
+
+  .on(keyConfig["speedFaster"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        curRate = pagal.player.rate();
+        newRate = curRate + pagal.pagalConfig.speedValue[0];
+        pagal.player.rate(newRate);
+        delete curRate;
+        delete newRate; 
+        pagal.player.notify("Speed" + ": " + parseFloat(Math.round(pagal.player.rate() * 100) / 100).toFixed(2) + "x");
+      }
+    }
+  }).on(keyConfig["speedSlower"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        curRate = pagal.player.rate();
+        newRate = curRate - pagal.pagalConfig.speedValue[4];
+        pagal.player.rate(newRate);
+        delete curRate;
+        delete newRate; 
+        pagal.player.notify("Speed" + ": " + parseFloat(Math.round(pagal.player.rate() * 100) / 100).toFixed(2) + "x");
+      }
+    }
+  }).on(keyConfig["speedFineFast"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        curRate = pagal.player.rate();
+        newRate = curRate + pagal.pagalConfig.speedValue[1];
+        pagal.player.rate(newRate);
+        delete curRate;
+        delete newRate; 
+        pagal.player.notify("Speed" + ": " + parseFloat(Math.round(pagal.player.rate() * 100) / 100).toFixed(2) + "x");
+      }
+    }
+  }).on(keyConfig["speedFineSlow"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        curRate = pagal.player.rate();
+        newRate = curRate - pagal.pagalConfig.speedValue[3];
+        pagal.player.rate(newRate);
+        delete curRate;
+        delete newRate; 
+        pagal.player.notify("Speed" + ": " + parseFloat(Math.round(pagal.player.rate() * 100) / 100).toFixed(2) + "x");
+      }
+    }
+  }).on(keyConfig["speedNormal"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1) {
+        pagal.player.rate(1.00);
+        pagal.player.notify("Speed" + ": " + parseFloat(Math.round(pagal.player.rate() * 100) / 100).toFixed(2) + "x");
+      }
+    }
+  })
+
   .on(keyConfig["play/pause"],function(e) {
     if(pagal.doHotkey(e)) {
       if(pagal.player.itemCount() > 0 && pagal.player.currentItem() != -1){

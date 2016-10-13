@@ -35,16 +35,21 @@ var gui = require('nw.gui'),
       "long":       300    
     },
     volume: 5,
-    audioChan: { "error": -1, "stereo": 1, "reverseStereo": 2, "left": 3, "right": 4, "dolby": 5 },
-    audioChanInt: { "-1": "error", "1": "stereo", "2": "reverseStereo", "3": "left", "4": "right", "5": "dolby" },
+    audioChanInt: [1, 2, 3, 4, 5 ],
+    audioChan: ["stereo", "reverseStereo", "left", "right", "dolby" ],
     aspectRatio: ["Default", "1:1", "4:3", "16:9", "16:10", "2.21:1", "2.35:1", "2.39:1", "5:4"],
     crop: ["Default", "16:10", "16:9", "1.85:1", "2.21:1", "2.35:1", "2.39:1", "5:3", "4:3", "5:4", "1:1"],
     zoom: [0.25, 0.5, 1, 2],
     zoomText: ["1:4 Quater", "1:2 Half", "1:1 Orginal", "2:1 Double"],
-    deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x']
+    deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x'],
+    speed: ["Faster", "Faster (fine)", "Normal Speed", "Slower (fine)", "Slower"],
+    speedValue: [1, 0.10, 0, 0.10, 1],
+    speedKeys: ["speedFaster", "speedFineFast", "speedNormal", "speedFineSlow", "speedSlower"]
   },
   openedDir = null,
-  openedDirBase = "";
+  openedDirBase = "",
+  currentSub = 0,
+  mainSub = 0;
 
 
 
@@ -799,7 +804,15 @@ this.menuInit = function() {
 
   pagal.insertmenu("audioMenu", {
     type:"separator"
-  }, 1);
+  }, 2);
+
+  pagal.insertmenu("audiotrack", {
+    label: "Disable",
+    type: "checkbox",
+    click: function() {
+
+    }
+  });
 
 
   /**
@@ -851,8 +864,32 @@ this.setDeinterlace = function(i) {
       el.checked = true;
     }
   });
-
-  player.zoom(pagal.pagalConfig.deinterlace[i]);
+  player.deinterlace(pagal.pagalConfig.deinterlace[i]);
+}
+this.setAudioChannel = function(i) {
+  a = "";
+  pagal.menues.audioChanel.submenu.items.forEach(function(el,il) {
+    el.checked = false;
+    if(i == il) {
+      el.checked = true;
+      a = el.label;
+    }
+  });
+  current = player.audioChanInt();
+  if(current == -1) {
+    console.error("Error!!! Audio Channel Error");
+  }
+  player.audioChanInt(i + 1);
+  current = player.audioChanInt();
+  if(current != i + 1) {
+    if(i == 4) {
+      console.warn("Dobly not available");
+      pagal.setAudioChannel(0);
+    }
+  }
+  player.notify("Audio Channel: " + a );
+  delete a;
+  console.log("Audio Channel Set to : " + player.audioChanInt());
 }
 
 

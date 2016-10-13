@@ -52,6 +52,11 @@ exports.init = function(core) {
 /**
  * Audio Menu Sub Menu
  */
+  pagal.menues.audioChanel = this.insertMenuItem("audioMenu",{
+    label: "Audio Chanel",
+    enabled: false,
+    submenu: new pagalCore.gui.Menu()
+  });
   menus.audioMenu.submenu.append(new pagalCore.gui.MenuItem({
     label: "Decrease Volume",
     tooltip: "Decrease Volume",
@@ -181,11 +186,12 @@ exports.init = function(core) {
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+
+  pagal.menues.speed = pagal.insertmenu("playMenu", {
         label: "Speed",
         enabled: false,
         submenu: new pagalCore.gui.Menu()
-  }));
+  });
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
@@ -193,14 +199,14 @@ exports.init = function(core) {
         label: "Jump Forward",
         enabled: false,
         click: function() {
-          console.log("5 second forward");
+          pagal.keymap().trigger(pagal.keysConfig["shortSkip"]);
         }
   }));
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
         label: "Jump Backward",
         enabled: false,
         click: function() {
-          console.log("5 second back");
+          pagal.keymap().trigger(pagal.keysConfig["shortBack"]);
         }
   }));
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
@@ -260,7 +266,7 @@ exports.init = function(core) {
 
 
 
-
+ 
 
 
 
@@ -334,6 +340,29 @@ exports.init = function(core) {
       menu = pagal.insertmenu("deinterlace", mnOpts);
 		});
 
+    pagal.pagalConfig.speed.forEach(function(el,i) {
+			mnOpts = {
+				label: el,
+				click: function() { 
+          pagal.keymap().trigger(pagal.keysConfig[pagal.pagalConfig.speedKeys[i]]);
+         }
+			};
+			//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+      menu = pagal.insertmenu("speed", mnOpts);
+		});
+    
+    pagal.pagalConfig.audioChan.forEach(function(el,i) {
+			mnOpts = {
+				label: el.charAt(0).toUpperCase() + el.slice(1),
+        type: 'checkbox',
+				click: function() { 
+          pagal.setAudioChannel(i);
+         }
+			};
+      if(i == 0) mnOpts.checked = true;
+			//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
+      menu = pagal.insertmenu("audioChanel", mnOpts);
+		});
 
 
     
@@ -351,6 +380,14 @@ exports.enableMenues = function() {
   pagal.menues.stop.enabled = true;
   pagal.menues.next.enabled = true;
   pagal.menues.prv.enabled = true;
+  pagal.menues.playMenu.submenu.items[6].enabled = true;
+  pagal.menues.playMenu.submenu.items[8].enabled = true;
+  pagal.menues.playMenu.submenu.items[9].enabled = true;
+  pagal.menues.playMenu.submenu.items[10].enabled = true;
+  pagal.menues.playMenu.submenu.items[14].enabled = true;
+
+  pagal.menues.audiotrack.enabled = true;
+  pagal.menues.audioChanel.enabled = true;
 }
 
 exports.insertMenuItem = function(menu, opts, position ) {

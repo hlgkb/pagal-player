@@ -892,6 +892,50 @@ this.setAudioChannel = function(i) {
   console.log("Audio Channel Set to : " + player.audioChanInt());
 }
 
+this.binarySearch = function(array, key, low, high) {
+  console.log("key = " + key);
+    mid = parseInt((low + high) / 2);
+    console.log("mid = " + mid);
+    if(key < array[mid]) {
+      high = mid - 1;
+      console.log("high = " + high);
+      search(array, key, low, high);
+    } else if(key > array[mid]) {
+      low = mid + 1;
+      console.log("low = " + low);
+      search(array, key, low, high);
+    } else if(key == array[mid]) {
+      console.log("returned mid = " + mid);
+      return mid;
+    } else {
+      console.log("false");
+      return false;
+    }
+}
+
+this.searchArray = function(data, key) {
+  for(x in data) {
+    if(data[x] == key) {
+      return x;
+    }
+  }
+  return false;
+}
+
+this.deleteDataFromArray = function(array, searched) {
+  key = pagal.searchArray(array, searched);
+  newarray = [];
+  if(key !== false) {
+    for(x in array) {
+      if(x == key) continue;
+      else newarray.push(array[x]);
+    }
+  }
+  array = newarray;
+  delete key;
+  delete newarray;
+  return array;  
+}
 
 this.init = function() {
 

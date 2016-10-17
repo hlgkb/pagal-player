@@ -699,60 +699,6 @@ this.addToPlayList = function(file) {
   pagal.node_Init();
 }
 
-this.manageMenu = function() {
-  menues.mediaMenu = new gui.MenuItem({
-    label: 'Media',
-    submenu: new gui.Menu()
-   });
-
-   menues.Recent = new gui.MenuItem({
-     "label": 'Recent',
-     submenu: new gui.Menu()
-   });
-   pagal.loadMediaMenu();
-   //pagal.loadRecentMenu();
-}
-
-this.loadMediaMenu = function() {
-  pagal.insertMenu("mediaMenu", {
-    label: "Open File",
-    click: function() {
-      pagal.openFileDialougeBox();
-    },
-    //icon: "lib/img/file.png"
-  });
-  pagal.insertMenu("mediaMenu", {
-    label: "Open Folder",
-    click: function() {
-      pagal.openFolder();
-    },
-    //icon: "lib/img/folder.png"
-  });
-};
-
-this.loadRecentMenu = function() {
-  try{
-    if(JSON.parse(localStorage.recent)) {
-      played = JSON.parse(localStorage.recent);
-    }
-  } catch(e) {
-    console.log(e.message);
-    return 0;
-  };
-  menuCount = 0;
-  hawa = played.reverse();
-  for (x in hawa) {
-    if (menuCount == 10) break;
-    pagal.insertMenu("Recent", {
-      label: hawa[x],
-      click: function () {
-        console.log(hawa[x]);
-      }
-    });
-    menuCount++;
-  }
-};
-
 this.loadfile = function(fileLocation) {
   if(pagal.checkExtension(fileLocation, acceptableFile)){
     pagal.openSingleFile(fileLocation);
@@ -791,38 +737,6 @@ this.con_ = function() {
     }
   });
 }
-
-this.menuInit = function() {
-
-  /*menues.audiotrack = pagal.insertmenu("audioMenu", {
-      label: "Audio Track",
-      submenu: new pagal.gui.Menu(),
-      enabled: false
-  }, 0);*/
-
-  
-
-  pagal.insertmenu("audioMenu", {
-    type:"separator"
-  }, 1);
-
-  /*pagal.insertmenu("audiotrack", {
-    label: "Disable",
-    type: "checkbox",
-    click: function() {
-
-    }
-  });*/
-
-
-  /**
-   * Video menu stuff
-   */
-  	
-
-
-
-},
 
 this.setAspectRatio = function(i) {
   pagal.menues.aspectRatio.submenu.items.forEach(function(el,il) {
@@ -943,9 +857,7 @@ this.init = function() {
   pagal.con_();  
 	pagal.loadConfig();  
   pagal.moduleInit();
-  pagal.menuInit();
-	pagal.pluginInit();	
-  pagal.manageMenu();
+	pagal.pluginInit();
 	playerApi.init();
 
 	if (args.length > 0) {

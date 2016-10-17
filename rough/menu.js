@@ -14,6 +14,11 @@ exports.init = function(core) {
     pagal.deletemenu = menu__.removeMenuItem;
     pagal.menuStuff = menu__;
 
+    menus.mediaMenu = new pagalCore.gui.MenuItem({
+      label: 'Media',
+      submenu: new pagalCore.gui.Menu()
+    });
+
     menus.viewMenu = new pagalCore.gui.MenuItem({
         label: 'View',
         submenu: new pagalCore.gui.Menu()
@@ -50,6 +55,41 @@ exports.init = function(core) {
     });
 
 /**
+ * Media menu's submenu'
+ */
+    pagal.insertMenu("mediaMenu", {
+      label: "Open File",
+      click: function () {
+        pagal.openFileDialougeBox();
+      }
+    });
+    pagal.insertMenu("mediaMenu", {
+      label: "Open Folder",
+      click: function () {
+        pagal.openFolder();
+      }
+    });
+    pagal.insertMenu("mediaMenu", {
+      type:"separator"
+    });
+    pagal.insertMenu("mediaMenu", {
+      label: "Save Playlist to File",
+      click: function () {
+        pagal.openFolder();
+      }
+    });
+    pagal.insertMenu("mediaMenu", {
+      type:"separator"
+    });
+    pagal.insertMenu("mediaMenu", {
+      label: "Exit",
+      click: function () {
+        pagal.openFolder();
+      }
+    });
+
+
+/**
  * Audio Menu Sub Menu
  */
   pagal.menues.audioChanel = this.insertMenuItem("audioMenu",{
@@ -57,6 +97,9 @@ exports.init = function(core) {
     enabled: false,
     submenu: new pagalCore.gui.Menu()
   });
+  pagal.insertmenu("audioMenu", {
+    type:"separator"
+  }, 1);
   menus.audioMenu.submenu.append(new pagalCore.gui.MenuItem({
     label: "Decrease Volume",
     tooltip: "Decrease Volume",
@@ -386,7 +429,7 @@ exports.enableMenues = function() {
   pagal.menues.playMenu.submenu.items[10].enabled = true;
   pagal.menues.playMenu.submenu.items[14].enabled = true;
 
-  pagal.menues.audiotrack.enabled = true;
+  //pagal.menues.audiotrack.enabled = true;
   pagal.menues.audioChanel.enabled = true;
 }
 

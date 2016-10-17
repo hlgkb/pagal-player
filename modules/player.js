@@ -51,13 +51,17 @@ var playerApi = {
 
         isPlaying: function() {
         
-            if(player.subCount() > 1) {
+            if(player.subCount() > 1 && pagal.pagalConfig.enableSubOnPlay == true) {
                 //if(player.subDesc(1).language != "Disable") {
                 //    player.subTrack(1);
                 //}
                 player.subTrack(player.subCount() - 1);
                 pagal.currentSub = player.subTrack();
                 pagal.mainSub = pagal.currentSub;
+            } else {
+                player.subTrack(0);
+                pagal.currentSub = 0;
+                pagal.mainSub = player.subCount() - 1;
             }
             pagal.elements.FooterControls.find('.info .track-info .action i.play').hide();
 		    pagal.elements.FooterControls.find('.info .track-info .action i.pause').show();
@@ -85,7 +89,7 @@ var playerApi = {
 	            return $('#PlayerContainer .mouse-time').hide();
             });
             pagal.elements.FooterControls.find('.progress-bg').click(function(e) {
-               if(player.playing() == true) {
+               if(["playing", "paused"].indexOf(player.state()) > -1) {
                     var percentage, selectedTime;
                     percentage = (e.pageX - $(this).offset().left) / $(this).width();
                     selectedTime = percentage * player.length();

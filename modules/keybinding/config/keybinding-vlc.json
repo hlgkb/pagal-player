@@ -29,6 +29,8 @@
     "cycleAudioTrack":              "b",
     "audioDelayUp":                 "k",
     "audioDelayDown":               "j",
+    "subtitleDelayUp":              "h",
+    "subtitleDelayDown":              "g",
 
     "speedFaster":                  "+",
     "speedSlower":                  "-",

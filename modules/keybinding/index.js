@@ -268,11 +268,11 @@ exports.doBinding = function(keyConfig) {
   }).on(keyConfig["volumeUp"], function(e) {
     volume = 0 + 5;
     if(pagal.player.volume() >= 0 && pagal.player.volume() < 100) {
-      if((pagal.player.volume() + 5) >= 100) {
+      if((pagal.player.volume() + pagal.pagalConfig.volume) >= 100) {
         pagal.player.volume(100);
         return;
       }
-      pagal.player.volume(pagal.player.volume() + 5);
+      pagal.player.volume(pagal.player.volume() + pagal.pagalConfig.volume);
     }
   }).on(keyConfig["volumeDown"], function(e) {
     
@@ -358,6 +358,74 @@ exports.doBinding = function(keyConfig) {
     }
   })
 
+  .on(keyConfig["cycleAudioTrack"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(["playing", "paused"].indexOf(pagal.player.state()) > -1) {
+        _current_ = pagal.player.audioTrack();
+        total = pagal.player.audioCount();
+        if((_current_ + 1)  == total) {
+          _current_ = 1;
+        } else if(_current_ == -1) {
+          _current_ = 1;
+        } else {
+          _current_ = _current_ + 1;
+        }
+        pagal.player.audioTrack(_current_);
+        pagal.player.notify("Audio Track: "+ pagal.player.audioDesc(_current_));
+        delete _current_, total;
+      }
+    }
+    
+  }).on(keyConfig["audioDelayUp"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(["playing", "paused"].indexOf(pagal.player.state()) > -1) {
+        _audioDelay_ = pagal.player.audioDelay();
+        _audioDelay_ += pagal.pagalConfig.audioDelay;
+        pagal.player.audioDelay(_audioDelay_);
+        pagal.player.notify("Audio Delay " + pagal.player.audioDelay() + "ms");
+        delete _audioDelay_;
+      }
+    }
+  }).on(keyConfig["audioDelayDown"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(["playing", "paused"].indexOf(pagal.player.state()) > -1) {
+        _audioDelay_ = pagal.player.audioDelay();
+        _audioDelay_ -= pagal.pagalConfig.audioDelay;
+        pagal.player.audioDelay(_audioDelay_);
+        pagal.player.notify("Audio Delay " + pagal.player.audioDelay() + "ms");
+        delete _audioDelay_;
+      }
+    }
+  }).on(keyConfig["subtitleDelayUp"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(["playing", "paused"].indexOf(pagal.player.state()) > -1) {
+        if(player.subTrack() != 0) {
+          subtitleDelay = pagal.player.subDelay();
+          subtitleDelay += pagal.pagalConfig.subtitleDelay;
+          pagal.player.subDelay(subtitleDelay);
+          pagal.player.notify("Subtitle Delay " + pagal.player.subDelay() + "ms")
+          delete subtitleDelay;
+        } else {
+          pagal.player.notify("No Active Subtitle");
+        }
+        
+      }
+    }
+  }).on(keyConfig["subtitleDelayDown"], function(e) {
+    if(pagal.doHotkey(e)) {
+      if(["playing", "paused"].indexOf(pagal.player.state()) > -1) {
+        if(player.subTrack() != 0) {
+          subtitleDelay = pagal.player.subDelay();
+          subtitleDelay -= pagal.pagalConfig.subtitleDelay;
+          pagal.player.subDelay(subtitleDelay);
+          pagal.player.notify("Subtitle Delay " + pagal.player.subDelay() + "ms")
+          delete subtitleDelay;
+        } else {
+          pagal.player.notify("No Active Subtitle");
+        }
+      }
+    }
+  })
 
 }
 

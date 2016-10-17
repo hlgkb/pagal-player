@@ -104,7 +104,7 @@ var playerApi = {
             //nowPlayingTitle = nameParser(path.basename(asd)).name;
             pagal.elements.FooterControls.find(".currentHolder span.title").text(path.basename(asd));
             pagal.elements.FooterControls.find(".currentHolder span.title").attr("title", path.basename(asd));
-            pagal.win.title = path.basename(currentItem.title);
+            pagal.win.title = path.basename(currentItem.title) + " - " + pagal.appname;
         },
         handleMediaChange: function() {
             iaa = player.currentItem() + 1;

@@ -4,7 +4,7 @@
   "description": "A new media player for the world.",
   "main": "index.html",
   "window": {
-    "title": "Pagal Player",
+    "title": "Pagal media player",
     "show": false,
     "toolbar": false,
     "frame": true,

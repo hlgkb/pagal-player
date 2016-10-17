@@ -73,9 +73,15 @@ exports.init = function(core) {
       type:"separator"
     });
     pagal.insertMenu("mediaMenu", {
+      label: "Open Playlist",
+      click: function () {
+        pagal.openPlaylist();
+      }
+    });
+    pagal.insertMenu("mediaMenu", {
       label: "Save Playlist to File",
       click: function () {
-        pagal.openFolder();
+        pagal.savePlaylist();
       }
     });
     pagal.insertMenu("mediaMenu", {
@@ -84,7 +90,8 @@ exports.init = function(core) {
     pagal.insertMenu("mediaMenu", {
       label: "Exit",
       click: function () {
-        pagal.openFolder();
+        pagal.win.hide();
+        pagal.keymap().trigger(pagal.keysConfig["quit"]);
       }
     });
 

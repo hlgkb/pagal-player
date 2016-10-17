@@ -38,6 +38,7 @@ var playerApi = {
             pagal.elements.FooterControls.find('.volume-bg .volume-current').animate({
                 width: volume + "%"
             })
+            player.notify("Volume: " + player.volume() + "%");
         },
         gotVideoSize: function() {
             if(pagal.pagalConfig.maximized == false) {

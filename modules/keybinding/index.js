@@ -174,6 +174,7 @@ exports.doBinding = function(keyConfig) {
           return;
         }
         pagal.player.time(currentTime + pagal.pagalConfig.skip.veryShort * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["veryShortBack"], function(e) {
@@ -182,9 +183,11 @@ exports.doBinding = function(keyConfig) {
         currentTime = pagal.player.time();
         if((currentTime - pagal.pagalConfig.skip.veryShort * 1000) <= 0)  {
           pagal.player.time(0);
+          pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
           return;
         }
         pagal.player.time(currentTime - pagal.pagalConfig.skip.veryShort * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["shortSkip"], function(e) {
@@ -196,6 +199,7 @@ exports.doBinding = function(keyConfig) {
           return;
         }
         pagal.player.time(currentTime + pagal.pagalConfig.skip.short * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["shortBack"], function(e) {
@@ -204,9 +208,11 @@ exports.doBinding = function(keyConfig) {
         currentTime = pagal.player.time();
         if((currentTime - pagal.pagalConfig.skip.short * 1000) <= 0)  {
           pagal.player.time(0);
+          pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
           return;
         }
         pagal.player.time(currentTime - pagal.pagalConfig.skip.short * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["middleSkip"], function(e) {
@@ -218,6 +224,7 @@ exports.doBinding = function(keyConfig) {
           return;
         }
         pagal.player.time(currentTime + pagal.pagalConfig.skip.middle * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["middleBack"], function(e) {
@@ -226,9 +233,11 @@ exports.doBinding = function(keyConfig) {
         currentTime = pagal.player.time();
         if((currentTime - pagal.pagalConfig.skip.middle * 1000) <= 0)  {
           pagal.player.time(0);
+          pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
           return;
         }
         pagal.player.time(currentTime - pagal.pagalConfig.skip.middle * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["longSkip"], function(e) {
@@ -240,6 +249,7 @@ exports.doBinding = function(keyConfig) {
           return;
         }
         pagal.player.time(currentTime + pagal.pagalConfig.skip.long * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["longBack"], function(e) {
@@ -248,9 +258,11 @@ exports.doBinding = function(keyConfig) {
         currentTime = pagal.player.time();
         if((currentTime - pagal.pagalConfig.skip.long * 1000) <= 0)  {
           pagal.player.time(0);
+          pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
           return;
         }
         pagal.player.time(currentTime - pagal.pagalConfig.skip.long * 1000);
+        pagal.player.notify(pagal.parseTime(pagal.player.time()) + " / " + pagal.parseTime(pagal.player.length()));
       }
     }
   }).on(keyConfig["volumeUp"], function(e) {

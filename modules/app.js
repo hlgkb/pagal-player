@@ -27,14 +27,7 @@ var gui = require('nw.gui'),
   keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/",
   alwaysOnTop = false,
   pagalConfig = {
-    maximized:  false, 
-    skip: {
-      "veryShort":  3,
-      "short":      10,
-      "middle":     60,
-      "long":       300    
-    },
-    volume: 5,
+    maximized:  false,
     audioChanInt: [1, 2, 3, 4, 5 ],
     audioChan: ["stereo", "reverseStereo", "left", "right", "dolby" ],
     aspectRatio: ["Default", "1:1", "4:3", "16:9", "16:10", "2.21:1", "2.35:1", "2.39:1", "5:4"],
@@ -46,6 +39,19 @@ var gui = require('nw.gui'),
     speedValue: [1, 0.10, 0, 0.10, 1],
     speedKeys: ["speedFaster", "speedFineFast", "speedNormal", "speedFineSlow", "speedSlower"]
   },
+  pagalDefault = {
+    enableSubOnPlay: true,
+    maximizeOnPlay: false,
+    skip: {
+      veryShort:  3,
+      short:      10,
+      middle:     60,
+      long:       300    
+    },
+    volume: 5,
+    audioDelay: 50,
+    subtitleDelay: 50
+  }
   openedDir = null,
   openedDirBase = "",
   currentSub = 0,
@@ -690,7 +696,7 @@ this.addToRecentList = function(file) {
       alert(file);
     }
    });
-   pagal.insertMenu("Recent", hawa, 0);
+   //pagal.insertMenu("Recent", hawa, 0);
 }
 
 this.addToPlayList = function(file) {
@@ -851,8 +857,20 @@ this.deleteDataFromArray = function(array, searched) {
   return array;  
 }
 
+this.savePlaylist = function() {
+
+}
+this.openPlaylist = function() {
+
+}
+
 this.init = function() {
 
+  if(typeof localStorage.settings === "undefined" || localStorage.settings == "\"\"") {
+    localStorage.settings = JSON.stringify(pagalDefault);
+  }
+
+  pagal.pagalConfig = $.extend(pagalConfig, JSON.parse(localStorage.settings));
   gui.Screen.Init();
   pagal.con_();  
 	pagal.loadConfig();  

@@ -710,7 +710,7 @@ this.manageMenu = function() {
      submenu: new gui.Menu()
    });
    pagal.loadMediaMenu();
-   pagal.loadRecentMenu();
+   //pagal.loadRecentMenu();
 }
 
 this.loadMediaMenu = function() {
@@ -732,8 +732,8 @@ this.loadMediaMenu = function() {
 
 this.loadRecentMenu = function() {
   try{
-    if(JSON.parse(localStorage.getItem("recent"))) {
-      played = JSON.parse(localStorage.getItem("recent"));
+    if(JSON.parse(localStorage.recent)) {
+      played = JSON.parse(localStorage.recent);
     }
   } catch(e) {
     console.log(e.message);
@@ -794,25 +794,25 @@ this.con_ = function() {
 
 this.menuInit = function() {
 
-  menues.audiotrack = pagal.insertmenu("audioMenu", {
+  /*menues.audiotrack = pagal.insertmenu("audioMenu", {
       label: "Audio Track",
       submenu: new pagal.gui.Menu(),
       enabled: false
-  }, 0);
+  }, 0);*/
 
   
 
   pagal.insertmenu("audioMenu", {
     type:"separator"
-  }, 2);
+  }, 1);
 
-  pagal.insertmenu("audiotrack", {
+  /*pagal.insertmenu("audiotrack", {
     label: "Disable",
     type: "checkbox",
     click: function() {
 
     }
-  });
+  });*/
 
 
   /**
@@ -984,18 +984,23 @@ this.init = function() {
       pagal.showWrapper();
     });
 
-    pagal.insertMenu("Recent",{
-      type:"separator"
-    });
-    pagal.insertMenu("Recent", {
-      label: "Clear List",
+    
+    /*pagal.insertMenu("Recent", {
+      label: "Clear",
       click: function () {
-        console.log("Clearing...");
+        a = [];
+        localStorage.recent = JSON.stringify(a);
+        delete a;
+        pagal.menues.Recent.submenu.items.forEach(function(el, i) {
+          if(el.label != "Clear") {
+            pagal.menues.Recent.submenu.remove(el);
+          }
+        })
       }
-    });
+    });*/
 
 
-    pagal.menues.mediaMenu.submenu.append(menues.Recent);
+    //pagal.menues.mediaMenu.submenu.append(menues.Recent);
     pagal.primaryMenuBar.append(menues.mediaMenu);
     pagal.primaryMenuBar.append(menues.viewMenu);
     pagal.primaryMenuBar.append(menues.playMenu);

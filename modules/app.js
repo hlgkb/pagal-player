@@ -700,7 +700,7 @@ this.addToRecentList = function(file) {
 }
 
 this.addToPlayList = function(file) {
-  var node = pagal.makeNode(file,1);
+  var node = pagal.makeNode(file,loadedFiles.length + 1);
   $("#ContentWrapper").css("display","flex").append(node);
   pagal.node_Init();
 }
@@ -901,7 +901,13 @@ this.init = function() {
 				break;
 		}
 	}
-
+  
+  gui.App.on("open",function(msg) {
+    if (msg.match(/\"/g).length > 2) {
+      pathToFile = msg.substr(msg.split('"', 3).join('"').length).split('"').join('');
+      pagal.openSingleFile(pathToFile);
+    }
+  });
 
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
 	//pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");

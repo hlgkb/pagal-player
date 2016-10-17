@@ -50,7 +50,28 @@
 
 
 
-
+this.loadRecentMenu = function() {
+  try{
+    if(JSON.parse(localStorage.recent)) {
+      played = JSON.parse(localStorage.recent);
+    }
+  } catch(e) {
+    console.log(e.message);
+    return 0;
+  };
+  menuCount = 0;
+  hawa = played.reverse();
+  for (x in hawa) {
+    if (menuCount == 10) break;
+    pagal.insertMenu("Recent", {
+      label: hawa[x],
+      click: function () {
+        console.log(hawa[x]);
+      }
+    });
+    menuCount++;
+  }
+};
 
 
   /*this.initPlayer = function (){

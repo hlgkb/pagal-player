@@ -912,16 +912,8 @@ this.init = function() {
 	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
 	//pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
 	pagal.search();
-
-
-
-    var controls = elements.FooterControls;
-    controls.find(".track-info .playlist").click(function () {
-      pagal.showWrapper();
-    });
-
-    
-    /*pagal.insertMenu("Recent", {
+  
+  /*pagal.insertMenu("Recent", {
       label: "Clear",
       click: function () {
         a = [];

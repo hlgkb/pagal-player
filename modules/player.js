@@ -146,6 +146,9 @@ var playerApi = {
         }
     },
     controls: function() {
+        pagal.elements.FooterControls.find(".track-info .playlist").click(function () {
+            pagal.showWrapper();
+        });
         pagal.elements.FooterControls.find(".track-info .action .play").click(function(){
             if(player.itemCount() != 0) {
                 player.notify("<i class=\"fa fa-play fa-3x\"></i>", true);

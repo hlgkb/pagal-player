@@ -909,28 +909,12 @@ this.init = function() {
     }
   });
 
-	//pagal.readDir("E:\\pagal\\Back up\\Animated flims");
-	//pagal.readDir("E:\\bhandar\\hdd\\mero files\\Friends Season 7");
 	pagal.search();
-  
-  /*pagal.insertMenu("Recent", {
-      label: "Clear",
-      click: function () {
-        a = [];
-        localStorage.recent = JSON.stringify(a);
-        delete a;
-        pagal.menues.Recent.submenu.items.forEach(function(el, i) {
-          if(el.label != "Clear") {
-            pagal.menues.Recent.submenu.remove(el);
-          }
-        })
-      }
-    });*/
 
 
     //pagal.menues.mediaMenu.submenu.append(menues.Recent);
     pagal.primaryMenuBar.append(menues.mediaMenu);
-    pagal.primaryMenuBar.append(menues.viewMenu);
+    //pagal.primaryMenuBar.append(menues.viewMenu);
     pagal.primaryMenuBar.append(menues.playMenu);
     pagal.primaryMenuBar.append(menues.videoMenu);
     pagal.primaryMenuBar.append(menues.audioMenu);
@@ -948,9 +932,9 @@ this.init = function() {
   window.pagal = this;
   pagal.init();
   console.timeEnd("init");
-  win.on("loaded",function() {
+  win.on("loaded",function() {    
     win.show();
-    //win.showDevTools();
+        
   });
 
 

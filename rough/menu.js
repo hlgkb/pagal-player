@@ -323,18 +323,27 @@ exports.init = function(core) {
 /**
  * Help Menu Sub Menu
  */
+  menus.helpMenu.submenu.append(new pagalCore.gui.MenuItem({
+    label: 'Show Hotkeys',
+    click: function () {
+      console.log("hotkeys");
+    }
+  }));
+  menus.helpMenu.submenu.append(new pagalCore.gui.MenuItem({
+    type:"separator"
+  }));
   menus.helpMenu.submenu.append( new core.gui.MenuItem({
     label: 'About',
     click: function () {
       console.log("About");
     }
   }));
-  menus.helpMenu.submenu.append( new core.gui.MenuItem({
+  /*menus.helpMenu.submenu.append( new core.gui.MenuItem({
     label: 'Toggle Developer Option',
     click: function () {
       pagal.keymap().trigger(pagal.keysConfig["openDevTools"]);
     }
-  }));
+  }));*/
 
 
 

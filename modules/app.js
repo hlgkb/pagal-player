@@ -99,15 +99,7 @@ var gui = require('nw.gui'),
     window.ondrop = function(e) { e.preventDefault(); return false };
     drop($('body')[0], function (files) {
       for(i = 0; i < files.length; i++) {        
-        /*if (fs.lstatSync(files[i].path).isDirectory()) {
-          folderDrop.push(files[i].path);
-        } else if(fs.lstatSync(files[i].path).isFile()) {
-          filesDrop.push(files[i].path);
-        } else {
-          console.log(files[i].path);
-        }*/
-          filesDrop.push(files[i].path);
-        
+        filesDrop.push(files[i].path);        
       }
       filesDrop.sort();
       for(i = 0; i < filesDrop.length; i++) {
@@ -118,7 +110,7 @@ var gui = require('nw.gui'),
             readDir(filesDrop[i]);
           }          
         } else if(fs.lstatSync(filesDrop[i]).isFile()) {
-          
+          pagal.openSingleFile(filesDrop[i]);
         } else {
           console.log(files[i].path);
         }

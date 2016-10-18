@@ -6,6 +6,7 @@ var gui = require('nw.gui'),
 	nameParser = require("video-name-parser"),
   pkg = require("./package.json"),
   hotkeys = require('hotkeys'),
+  drop = require("drag-and-drop-files"),
   dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
@@ -55,7 +56,8 @@ var gui = require('nw.gui'),
   openedDir = null,
   openedDirBase = "",
   currentSub = 0,
-  mainSub = 0;
+  mainSub = 0,
+  doneDrop = [];
 
 
 
@@ -91,9 +93,43 @@ var gui = require('nw.gui'),
     return pagal.dispatcher;
   }
 
+  this.handleDrop = function(e) {
+    var filesDrop = [];
+    window.ondragover = function(e) { e.preventDefault(); return false };
+    window.ondrop = function(e) { e.preventDefault(); return false };
+    drop($('body')[0], function (files) {
+      for(i = 0; i < files.length; i++) {        
+        /*if (fs.lstatSync(files[i].path).isDirectory()) {
+          folderDrop.push(files[i].path);
+        } else if(fs.lstatSync(files[i].path).isFile()) {
+          filesDrop.push(files[i].path);
+        } else {
+          console.log(files[i].path);
+        }*/
+          filesDrop.push(files[i].path);
+        
+      }
+      filesDrop.sort();
+      for(i = 0; i < filesDrop.length; i++) {
+        if (fs.lstatSync(filesDrop[i]).isDirectory()) {
+          if(i != 0){
+            readDir(filesDrop[i], true);            
+          } else {
+            readDir(filesDrop[i]);
+          }          
+        } else if(fs.lstatSync(filesDrop[i]).isFile()) {
+          
+        } else {
+          console.log(files[i].path);
+        }
+      }    
+      filesDrop = [];  
+    });
+  }
 
 
-this.readDir = function (location){
+
+this.readDir = function (location, flag){
     var files__ = [];
     var finder = require('findit')(location);
     console.time(path.basename(location));
@@ -116,16 +152,15 @@ this.readDir = function (location){
     });
     finder.on('end',function (){
       console.timeEnd(path.basename(location))
-      pagal.loadFiles(files__);
+      pagal.loadFiles(files__,flag);
       files__.forEach(function(data, i) {
         loadedFiles.push(data);
       });
     });
 };
 
-this.loadFiles = function(filesH){
+this.loadFiles = function(filesH, play){
     var node, i = loadedFiles.length + 1;
-    console.log(i);
     filesH.sort();
     $(filesH).each(function(key,data){
         node = pagal.makeNode(data, i);
@@ -134,16 +169,17 @@ this.loadFiles = function(filesH){
         node = null;
         i++;
     });
-    console.log("Initating search module");
+    //console.log("Initating search module");
     pagal.node_Init();
     pagal.initPlaylist(filesH);
     pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
     player.play();
+    
 
     //iaa = player.currentItem() + 1;
     // /console.log(iaa);
     //$('[data-id="'+iaa+'"]').addClass("playing");
-    pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+    //pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
 };
 
 this.makeNode = function(data, id) {
@@ -872,6 +908,7 @@ this.init = function() {
 
   pagal.pagalConfig = $.extend(pagalConfig, JSON.parse(localStorage.settings));
   gui.Screen.Init();
+  pagal.handleDrop(event);
   pagal.con_();  
 	pagal.loadConfig();  
   pagal.moduleInit();

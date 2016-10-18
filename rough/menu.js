@@ -75,7 +75,7 @@ exports.init = function(core) {
     pagal.insertMenu("mediaMenu", {
       label: "Open Playlist",
       click: function () {
-        pagal.openPlaylist();
+        pagal.elements.openPlaylist.click();
       }
     });
     pagal.insertMenu("mediaMenu", {

@@ -7,6 +7,7 @@ var gui = require('nw.gui'),
   pkg = require("./package.json"),
   hotkeys = require('hotkeys'),
   drop = require("drag-and-drop-files"),
+  xml2js = require('xml2js'),
   dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
@@ -73,9 +74,12 @@ var gui = require('nw.gui'),
   elements.openFile = $("#pagal-open-file");
   elements.openDir = $("#pagal-select-directory");
   elements.saveAs = $("#pagal-save-file");
+  elements.openPlaylist = $("#pagal-open-playlist-file");
   elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
 
   acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
+  acceptablePlaylist = "xspf, pagalist";
+  playlistType = {xspf:1, pagalist: 2};
 
   this.setOnTop = function() {
     if(pagal.alwaysOnTop == false) {
@@ -770,6 +774,16 @@ this.con_ = function() {
       console.log(err.message);
     }
   });
+
+  elements.openPlaylist.change(function() {
+    try{
+      palylistOpened = $(this).val();
+      pagal.openPlaylist(palylistOpened);
+      delete palylistOpened; 
+    } catch(e) {
+      console.log(e.message);
+    }
+  });
 }
 
 this.setAspectRatio = function(i) {
@@ -888,8 +902,54 @@ this.deleteDataFromArray = function(array, searched) {
 this.savePlaylist = function() {
 
 }
-this.openPlaylist = function() {
 
+this.openPlaylist = function(file) {
+  var parser = new xml2js.Parser(),
+      type = "",
+      holder = file;
+
+  type = holder.toLowerCase().split('.').pop();
+  delete holder;
+  console.time("reading");
+  fs.readFile(file, function(err, data) {
+    parser.parseString(data, function (err, result) {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      pagal.processPlaylist(type, result);
+      console.timeEnd("reading");
+    });
+  });
+}
+
+this.processPlaylist = function(type, datas) {
+  _Tracks_ = [];
+  if (playlistType[type] == 1) {
+    console.log("Its a vlc type playlist");
+    tracks = datas.playlist.trackList[0].track;
+    if (tracks.length > 0) {
+      tracks.forEach(function (el, i) {
+        _Tracks_.push(el.location[0]);
+      });
+    }
+  }
+  length = pagal.loadedFiles.length + 1;
+  _Tracks_.sort().forEach(function (el, i) {
+    node = makeNode(decodeURI(el), length);
+    elements.dropFiles.css("display", "none");
+    $("#ContentWrapper").css("display", "flex").append(node);
+    pagal.player.addPlaylist(el);
+    delete node;
+    length++;
+    loadedFiles.push(decodeURI(el));
+  });
+  pagal.node_Init();
+  if(elements.player.attr("class") == "webchimeras playerSmall") {
+    pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+  }
+  pagal.player.play();
+  delete _Tracks_, length, track;
 }
 
 this.init = function() {

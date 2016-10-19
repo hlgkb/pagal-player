@@ -8,6 +8,7 @@ var gui = require('nw.gui'),
   hotkeys = require('hotkeys'),
   drop = require("drag-and-drop-files"),
   xml2js = require('xml2js'),
+  xmlbuilder = require("xmlbuilder"),
   dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
@@ -784,6 +785,15 @@ this.con_ = function() {
       console.log(e.message);
     }
   });
+
+  elements.saveAs.change(function() {
+    try{
+      fie = $(this).val();
+      pagal.processSavingList(fie);
+    } catch(e) {
+      console.log(e.message);
+    }
+  })
 }
 
 this.setAspectRatio = function(i) {
@@ -900,7 +910,23 @@ this.deleteDataFromArray = function(array, searched) {
 }
 
 this.savePlaylist = function() {
+  var xmlOutput = xmlbuilder.create('pagalist')
+      .ele("trackList");
+  $(".track-container").each(function(i) {
+        xmlOutput.ele("media")
+          .ele("path", loadedFiles[i]);
+  });
+  xmlOutput = xmlOutput.end({ pretty: true});
+  pagal.xmlOutput = xmlOutput;
+  pagal.elements.saveAs.click(); 
+}
 
+this.processSavingList = function(fineName) {
+  fs.writeFile(fineName, pagal.xmlOutput, function(err) {
+    if(err) {
+      console.log(err);
+    }
+  })
 }
 
 this.openPlaylist = function(file) {
@@ -932,6 +958,15 @@ this.processPlaylist = function(type, datas) {
       tracks.forEach(function (el, i) {
         _Tracks_.push(el.location[0]);
       });
+    }
+  } else if(playlistType[type] == 2) {
+    console.log("aafnai playlist");
+    tracks = datas.pagalist.trackList[0].media
+    if (tracks.length > 0) {
+      tracks.forEach(function (el, i) {
+        _Tracks_.push("file:///"+el.path[0]);
+      });
+      console.log(_Tracks_);
     }
   }
   length = pagal.loadedFiles.length + 1;
@@ -984,17 +1019,20 @@ this.init = function() {
 				}
 				break;
 			case 2:
-				//Open file and directory.
-				console.log("Folder: "+ args[0] + " File: " + args[1]);
+        if(args[0] == "--playlist-file") {
+          pagal.openPlaylist(args[1]);
+        }
+				
 
 				break;
 		}
 	}
   
   gui.App.on("open",function(msg) {
+    console.log(msg);
     if (msg.match(/\"/g).length > 2) {
       pathToFile = msg.substr(msg.split('"', 3).join('"').length).split('"').join('');
-      pagal.openSingleFile(pathToFile);
+      if(pagal.checkExtension(pathToFile, acceptableFile)) pagal.openSingleFile(pathToFile);
     }
   });
 

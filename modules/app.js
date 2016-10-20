@@ -21,7 +21,6 @@ var gui = require('nw.gui'),
 	mode = 0,
 	player = null,
 	menues = {},
-  submenues = {},
 	winx = {},
   played = [],
   primaryMenuBar = new gui.Menu({ type: 'menubar' }),
@@ -54,7 +53,7 @@ var gui = require('nw.gui'),
     volume: 5,
     audioDelay: 50,
     subtitleDelay: 50
-  }
+  },
   openedDir = null,
   openedDirBase = "",
   currentSub = 0,
@@ -83,7 +82,7 @@ var gui = require('nw.gui'),
   playlistType = {xspf:1, pagalist: 2};
 
   this.setOnTop = function() {
-    if(pagal.alwaysOnTop == false) {
+    if(pagal.alwaysOnTop === false) {
       pagal.menues.onTop.checked = true;
       pagal.win.setAlwaysOnTop(true);
       pagal.alwaysOnTop = true;
@@ -91,25 +90,25 @@ var gui = require('nw.gui'),
     }
     pagal.menues.onTop.checked = false;
     pagal.win.setAlwaysOnTop(false);
-    pagal.alwaysOnTop == false;
-  }
+    pagal.alwaysOnTop = false;
+  };
 
   this.keymap = function() {
     return pagal.dispatcher;
-  }
+  };
 
   this.handleDrop = function(e) {
     var filesDrop = [];
-    window.ondragover = function(e) { e.preventDefault(); return false };
-    window.ondrop = function(e) { e.preventDefault(); return false };
+    window.ondragover = function(e) { e.preventDefault(); return false; };
+    window.ondrop = function(e) { e.preventDefault(); return false; };
     drop($('body')[0], function (files) {
-      for(i = 0; i < files.length; i++) {        
+      for(var i = 0; i < files.length; i++) {        
         filesDrop.push(files[i].path);        
       }
       filesDrop.sort();
       for(i = 0; i < filesDrop.length; i++) {
         if (fs.lstatSync(filesDrop[i]).isDirectory()) {
-          if(i != 0){
+          if(i !== 0){
             readDir(filesDrop[i], true);            
           } else {
             readDir(filesDrop[i]);
@@ -122,7 +121,7 @@ var gui = require('nw.gui'),
       }    
       filesDrop = [];  
     });
-  }
+  };
 
 
 
@@ -147,8 +146,8 @@ this.readDir = function (location, flag){
       console.log(err);
       next();
     });
-    finder.on('end',function (){
-      console.timeEnd(path.basename(location))
+    finder.on('end',function () {
+      console.timeEnd(path.basename(location));
       pagal.loadFiles(files__,flag);
       files__.forEach(function(data, i) {
         loadedFiles.push(data);
@@ -180,13 +179,7 @@ this.loadFiles = function(filesH, play){
 };
 
 this.makeNode = function(data, id) {
-  return '<div class="track-container grid__item" data-id="'+id+'" data-src="'+data+'">'
-              +'<div class="cover" title="'+path.basename(data)+'"></div>'
-              +'<div class="info">'
-              +'<div class="title">'+path.basename(data)+'</div>'
-              +'</div>'
-              +'<div class="clear"></div>'
-              +'</div>';
+  return '<div class="track-container grid__item" data-id="'+id+'" data-src="'+data+'">'+'<div class="cover" title="'+path.basename(data)+'"></div>'+'<div class="info">'+'<div class="title">'+path.basename(data)+'</div>'+'</div>'+'<div class="clear"></div>'+'</div>';
 };
 
 this.log = function(message) {
@@ -198,7 +191,7 @@ this.doHotkey = function(e) {
         if (e) e.preventDefault();
         return true;
     } else return false;
-}
+};
 
 this.checkExtension = function(str, ext) {
   extArray = ext.split(',');
@@ -399,9 +392,9 @@ this.moduleReInitByName = function(name) {
 this.moduleInit = function() {
 
     var passObject, key;
-    modules["nativemenu"] = require(process.cwd() + "/rough/menu.js");
+    modules.nativemenu = require(process.cwd() + "/rough/menu.js");
     //modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
-    modules["keybinding"] = require(process.cwd() + "/modules/keybinding/index.js");
+    modules.keybinding = require(process.cwd() + "/modules/keybinding/index.js");
     //modules["treeView"] = require(process.cwd() + "/modules/treeview/index.js");
 
     passObject = {
@@ -431,7 +424,7 @@ this.search = function(){
 };
 
 this.setMode = function(){
-  mode = (mode == 0) ? 1 : 0;
+  mode = (mode === 0) ? 1 : 0;
   if(mode == 1){
     win.on("resize",function(){
       if(win.height <= 480 && mode == 1){
@@ -484,7 +477,7 @@ this.showWrapper = function(){
   elements.wrapper.toggleClass("display-block");
   player.refreshSize(100).refreshSize(500).refreshSize(1000);
   return 0;
-}
+};
 this.openFileDialougeBox = function() {
   elements.openFile.click();
 };
@@ -518,7 +511,7 @@ this.parseTime = function(t,total) {
 
 this.initPlaylist = function (file_list){
   if ( file_list.length > 0){
-    for(x in file_list){
+    for(var x in file_list){
       player.addPlaylist("file:///" + file_list[x]);
     }
   }
@@ -531,7 +524,7 @@ this.node_Init = function () {
     //$(".track-container").removeClass("playing");
     //$(this).addClass("playing");
     currentItem = player.currentItem();
-    if(player.playing() == true && currentItem == id - 1) {
+    if(player.playing() === true && currentItem === id - 1) {
         player.time(0);
         player.refreshSize(200).refreshSize(500).refreshSize(1000);
         return;
@@ -656,7 +649,7 @@ this.manageWindow = function(width, height) {
 				return false;
 			}
 		}
-  }
+  };
 
   winx.resizeInBounds(width,height);
 
@@ -667,7 +660,7 @@ this.exitApp =  function(countdown) {
   setTimeout(function() {
     pagal.win.close(true);
   },countdown);
-}
+};
 
 this.handleTreeView = function(fileLocation) {
 
@@ -686,7 +679,7 @@ this.handleTreeView = function(fileLocation) {
   })(fileLocation);
 
   //this.moduleReInitByName("treeView");
-}
+};
 
 this.openSingleFile = function(fileLocation) {
 
@@ -707,12 +700,12 @@ this.openSingleFile = function(fileLocation) {
 };
 
 this.createPlaylist = function(files) {
-  if(files.length != 0) {
-    for(x in files) {
+  if(files.length !== 0) {
+    for(var x in files) {
       player.addPlaylist("file:///" + files[x]);
     }
   }
-}
+};
 
 this.addToRecentList = function(file) {
 
@@ -730,19 +723,19 @@ this.addToRecentList = function(file) {
     }
    });
    //pagal.insertMenu("Recent", hawa, 0);
-}
+};
 
 this.addToPlayList = function(file) {
   var node = pagal.makeNode(file,loadedFiles.length + 1);
   $("#ContentWrapper").css("display","flex").append(node);
   pagal.node_Init();
-}
+};
 
 this.loadfile = function(fileLocation) {
   if(pagal.checkExtension(fileLocation, acceptableFile)){
     pagal.openSingleFile(fileLocation);
   }
-}
+};
 
 this.loadmultiple = function(files) {
   files_ = [];
@@ -755,7 +748,7 @@ this.loadmultiple = function(files) {
   pagal.loadFiles(files_);
 
 
-}
+};
 
 this.openFolder = function() {
   elements.openDir.click();
@@ -780,7 +773,7 @@ this.con_ = function() {
     try{
       palylistOpened = $(this).val();
       pagal.openPlaylist(palylistOpened);
-      delete palylistOpened; 
+      palylistOpened = null; 
     } catch(e) {
       console.log(e.message);
     }
@@ -793,19 +786,19 @@ this.con_ = function() {
     } catch(e) {
       console.log(e.message);
     }
-  })
-}
+  });
+};
 
 this.setAspectRatio = function(i) {
   pagal.menues.aspectRatio.submenu.items.forEach(function(el,il) {
     el.checked = false;
-    if(i == il) {
+    if(i === il) {
       el.checked = true;
     }
   });
 
   player.aspectRatio(pagal.pagalConfig.aspectRatio[i]);  
-}
+};
 
 this.setCrop = function(i) {
   pagal.menues.crop.submenu.items.forEach(function(el,il) {
@@ -816,7 +809,7 @@ this.setCrop = function(i) {
   });
 
   player.crop(pagal.pagalConfig.crop[i]);
-}
+};
 
 this.setZoom = function(i) {
   pagal.menues.zoom.submenu.items.forEach(function(el,il) {
@@ -827,7 +820,7 @@ this.setZoom = function(i) {
   });
 
   player.zoom(pagal.pagalConfig.zoom[i]);
-}
+};
 
 this.setDeinterlace = function(i) {
   pagal.menues.deinterlace.submenu.items.forEach(function(el,il) {
@@ -837,7 +830,7 @@ this.setDeinterlace = function(i) {
     }
   });
   player.deinterlace(pagal.pagalConfig.deinterlace[i]);
-}
+};
 this.setAudioChannel = function(i) {
   a = "";
   pagal.menues.audioChanel.submenu.items.forEach(function(el,il) {
@@ -860,9 +853,9 @@ this.setAudioChannel = function(i) {
     }
   }
   player.notify("Audio Channel: " + a );
-  delete a;
+  a = null;
   console.log("Audio Channel Set to : " + player.audioChanInt());
-}
+};
 
 this.binarySearch = function(array, key, low, high) {
   console.log("key = " + key);
@@ -883,31 +876,31 @@ this.binarySearch = function(array, key, low, high) {
       console.log("false");
       return false;
     }
-}
+};
 
 this.searchArray = function(data, key) {
-  for(x in data) {
+  for(var x in data) {
     if(data[x] == key) {
       return x;
     }
   }
   return false;
-}
+};
 
 this.deleteDataFromArray = function(array, searched) {
   key = pagal.searchArray(array, searched);
   newarray = [];
   if(key !== false) {
-    for(x in array) {
+    for(var x in array) {
       if(x == key) continue;
       else newarray.push(array[x]);
     }
   }
   array = newarray;
-  delete key;
-  delete newarray;
-  return array;  
-}
+  key = null;
+  newarray = null;
+  array = null;  
+};
 
 this.savePlaylist = function() {
   var xmlOutput = xmlbuilder.create('pagalist')
@@ -919,15 +912,15 @@ this.savePlaylist = function() {
   xmlOutput = xmlOutput.end({ pretty: true});
   pagal.xmlOutput = xmlOutput;
   pagal.elements.saveAs.click(); 
-}
+};
 
 this.processSavingList = function(fineName) {
   fs.writeFile(fineName, pagal.xmlOutput, function(err) {
     if(err) {
       console.log(err);
     }
-  })
-}
+  });
+};
 
 this.openPlaylist = function(file) {
   var parser = new xml2js.Parser(),
@@ -935,7 +928,7 @@ this.openPlaylist = function(file) {
       holder = file;
 
   type = holder.toLowerCase().split('.').pop();
-  delete holder;
+  holder = null;
   console.time("reading");
   fs.readFile(file, function(err, data) {
     parser.parseString(data, function (err, result) {
@@ -947,7 +940,7 @@ this.openPlaylist = function(file) {
       console.timeEnd("reading");
     });
   });
-}
+};
 
 this.processPlaylist = function(type, datas) {
   _Tracks_ = [];
@@ -961,7 +954,7 @@ this.processPlaylist = function(type, datas) {
     }
   } else if(playlistType[type] == 2) {
     console.log("aafnai playlist");
-    tracks = datas.pagalist.trackList[0].media
+    tracks = datas.pagalist.trackList[0].media;
     if (tracks.length > 0) {
       tracks.forEach(function (el, i) {
         _Tracks_.push("file:///"+el.path[0]);
@@ -975,7 +968,7 @@ this.processPlaylist = function(type, datas) {
     elements.dropFiles.css("display", "none");
     $("#ContentWrapper").css("display", "flex").append(node);
     pagal.player.addPlaylist(el);
-    delete node;
+    node = null;
     length++;
     loadedFiles.push(decodeURI(el));
   });
@@ -984,8 +977,10 @@ this.processPlaylist = function(type, datas) {
     pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
   }
   pagal.player.play();
-  delete _Tracks_, length, track;
-}
+   _Tracks_ = null, 
+   length = null, 
+   track = null;
+};
 
 this.init = function() {
 

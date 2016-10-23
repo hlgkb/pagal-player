@@ -1,0 +1,96 @@
+.dialouge {
+    width: 600px;
+    height: 150px;
+    background: #fff;
+    /* position: absolute; */
+    margin-top: 10px;
+    border: #561010;
+    margin-left: 10px;
+    border: 1px solid #b7aeae;
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.75)
+}
+
+.dialouge .header{
+    height: 60px;
+    width: 100%;
+    background: #ccc;
+    border: 0;
+    border-bottom: 1px solid rgb(179, 174, 174);
+}
+
+.dialouge .header .top-section{
+    width: 450px;
+    height: 10px;
+    position: relative;
+    left: 75px;
+    border-bottom: 1px solid #eae4e4;
+    background: rgb(179, 174, 174);
+    z-index: 1;
+}
+
+.dialouge .header .top-section .arrow-left, .dialouge .header .top-section .arrow-right{
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 10px;
+    top: 0px;
+    margin-left: -11px;
+    border-top-width: 0;
+    border-bottom-color: #ccc;
+    z-index: 5;
+}
+
+.dialouge .header .top-section .arrow-left{
+    left: 1px;
+    border-bottom-color: #eae4e4;
+}
+
+.dialouge .header .top-section .arrow-right{
+    right: -10px;
+    border-bottom-color: #eae4e4;
+}
+
+.dialouge .header .top-section .arrow-left:after, .dialouge .header .top-section .arrow-right:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    z-index: 5;
+    top: -10px;
+    content: " ";
+    border-top-width: 0;
+    border-bottom-color: #ccc;
+    border-width: 10px;
+}
+
+.dialouge .header .top-section .arrow-left:after {
+    margin-left: -11px;
+}
+
+.dialouge .header .top-section .arrow-right:after {
+    margin-left: -9px;
+}
+
+.dialouge .header .top-section .close{
+    font-size: 18px;
+    right: -65px;
+    position: relative;
+}
+
+.dialouge .header .header-title {
+    padding-left: 25px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    color: #423a3a;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dialouge .body{
+    padding: 15px;
+}

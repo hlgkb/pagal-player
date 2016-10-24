@@ -16,3 +16,10 @@
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../fonts/OpenSans-Bold.ttf) format('truetype');
 }
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(../fonts/Montserrat-Regular.ttf) format('truetype');
+}

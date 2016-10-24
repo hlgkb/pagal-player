@@ -6,15 +6,18 @@
 }
 
 .dialouge {
+    top: 20px;
+    left: 100px;
     width: 600px;
     height: 150px;
     background: #fff;
-    /* position: absolute; */
+    position: absolute;
     margin-top: 10px;
     border: #561010;
     margin-left: 10px;
     border: 1px solid #b7aeae;
-    box-shadow:0 5px 10px rgba(0, 0, 0, 0.75)
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.75);
+    z-index: 1000;
 }
 
 .dialouge .header{
@@ -103,6 +106,7 @@
     background: #f7f7f7;
     height: calc(100% - 60px);
     font-family: 'Montserrat', sans-serif;
+    overflow-y: auto; 
 }
 
 .dialouge .body span{
@@ -115,6 +119,11 @@
     background-color: rgba(0,0,0,0.09);
     border-radius: 3px;
     font-family: 'Montserrat', sans-serif;
+}
+
+.dialouge .body .title{
+    font-family: 'Montserrat', 'Open Sans';
+    font-size: 16px; 
 }
 
 .dialouge .body .newLine{

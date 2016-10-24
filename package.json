@@ -6,7 +6,7 @@
   "window": {
     "title": "Pagal media player",
     "show": true,
-    "toolbar": true,
+    "toolbar": false,
     "frame": true,
     "position": "center",
     "width": 1080,

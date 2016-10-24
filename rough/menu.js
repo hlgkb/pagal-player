@@ -326,7 +326,7 @@ exports.init = function(core) {
   menus.helpMenu.submenu.append(new pagalCore.gui.MenuItem({
     label: 'Show Hotkeys',
     click: function () {
-      console.log("hotkeys");
+      pagal.dialougeBox("Hot Keys", pagal.hotKeyDia());
     }
   }));
   menus.helpMenu.submenu.append(new pagalCore.gui.MenuItem({
@@ -335,7 +335,29 @@ exports.init = function(core) {
   menus.helpMenu.submenu.append( new core.gui.MenuItem({
     label: 'About',
     click: function () {
-      console.log("About");
+      bodyData = '<h4 class="title">Pagal media player v0.1.0</h4>';
+      bodyData += 'Pagal Media Player is an experimental media player.';
+      bodyData += 'It\'s written in NodeJS, and wrapped in Nw.js as a runtime container for easy cross-platform integration. It uses WebChimera.js and Vlc Library.<br><br>';
+      bodyData += 'Follow and contribute to it at<br>';
+      bodyData += 'https://github.com/hlgkb/pagal-player <br>';
+      bodyData += '<br>Credits<br>';
+      bodyData += '@hlgkb - Main developer<br>';
+      bodyData += '<br>Modules used<div class"newLine"></div>';
+      bodyData += 'wcjs-player@v6.0.1<br>';
+      bodyData += 'wcjs-prebuilt@v3.0.0<br>';
+      bodyData += 'ultimate-parser@v0.0.3<br>';
+      bodyData += 'findit@v2.0.0<br>';
+      bodyData += 'drag-and-drop@v0.0.3<br>';
+      bodyData += 'hotkeys@v1.0.0<br>';
+      bodyData += 'jquery@v0.0.3<br>';
+      bodyData += 'needle@v0.0.3<br>';
+      bodyData += 'imdb-api@v2.2.0<br>';
+      bodyData += 'opensubtitles-api@v3.3.0<br>';
+      bodyData += 'xmlbuilder@4.2.1<br>';
+      bodyData += 'xml2js@0.4.17<br>';
+      
+
+      pagal.dialougeBox("About", bodyData);
     }
   }));
   /*menus.helpMenu.submenu.append( new core.gui.MenuItem({

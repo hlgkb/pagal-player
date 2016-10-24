@@ -27,6 +27,7 @@ var gui = require('nw.gui'),
   audiotrackMenu = [],
   keysConfig = {},
   keysConfigLocaiton = process.cwd() + "/modules/keybinding/config/",
+  keyDes = process.cwd() + "/modules/keybinding/config/hotkeys.json",
   alwaysOnTop = false,
   pagalConfig = {
     maximized:  false,
@@ -229,6 +230,9 @@ this.loadConfig = function() {
     console.log("read config file");
     console.log(config);
   }
+
+  pagal.hotkeyDes = {};
+  pagal.hotkeyDes = pagal.readHotkeysDes(pagal.keyDes);
 
 };
 
@@ -982,6 +986,61 @@ this.processPlaylist = function(type, datas) {
    track = null;
 };
 
+this.readHotkeysDes = function(file) {
+  var configJson, configObject, key, fileFound = true;
+  try {
+    configJson = fs.readFileSync(file, {
+      encoding: "utf-8"
+    });
+  } catch (err) {
+    console.log(err.message);
+    fileFound = false;
+  }
+
+  if ( fileFound === true ) {
+    try {
+      configObject = JSON.parse(configJson);
+    } catch (err) {
+      console.log("Invalid keybinding.json file.");
+    }
+    return configObject;
+  }
+};
+
+this.hotKeyDia = function() {
+  var a = '';
+  for(var x in pagal.hotkeyDes) {
+    if(pagal.keysConfig[x].indexOf('+') > 0) {
+      var u = pagal.keysConfig[x].split('+');
+      for(var uu in u ){
+        a += '<span class="code">' + u[uu] + '</span> ';
+        if(uu != u.length - 1) {
+          a += "  +  ";
+        }
+      }
+      a += ' : <span>'+ pagal.hotkeyDes[x]  +'</span>';
+    } else {
+      a += '<span class="code">' + pagal.keysConfig[x] + '</span> : <span>'+ pagal.hotkeyDes[x]  +'</span>';
+    }
+    
+    a += '<div class="newLine"></div>';    
+  }
+  return a;
+};
+
+this.dialougeBox = function(title, body) {
+  $('.dialouge').remove();
+  var diag = '<div class="dialouge" style="height:400px;"><div class="header"><div class="top-section">';
+      diag += '<div class="arrow-left"></div><div class="arrow-right"></div>';
+      diag += '<div class="close"><i class="fa fa-times"></i></div></div>';
+      diag += '<div class="header-title">'+title;
+      diag += '</div></div><div class="body">'+body+'</div></div>';
+  $('body').append(diag);  
+  $('.close').click(function() {
+    $('.dialouge').remove();
+  })
+};
+
 this.init = function() {
 
   if(typeof localStorage.settings === "undefined" || localStorage.settings == "\"\"") {
@@ -1056,7 +1115,7 @@ this.init = function() {
   console.timeEnd("init");
   win.on("loaded",function() {    
     win.show();
-        
+
   });
 
 

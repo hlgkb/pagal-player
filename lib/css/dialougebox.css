@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(../fonts/Montserrat-Regular.ttf) format('truetype');
+}
+
 .dialouge {
     width: 600px;
     height: 150px;
@@ -93,4 +100,23 @@
 
 .dialouge .body{
     padding: 15px;
+    background: #f7f7f7;
+    height: calc(100% - 60px);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dialouge .body span{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dialouge .body .code {
+    padding: 0.2em 0.5em;
+    margin: 0;
+    background-color: rgba(0,0,0,0.09);
+    border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dialouge .body .newLine{
+    height: 17px;
 }

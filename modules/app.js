@@ -9,6 +9,7 @@ var gui = require('nw.gui'),
   drop = require("drag-and-drop-files"),
   xml2js = require('xml2js'),
   xmlbuilder = require("xmlbuilder"),
+  praser = require('ultimate-parser'),
   dispatcher = new hotkeys.Dispatcher(),
   appname = pkg.window.title,
 	win = gui.Window.get(),
@@ -180,7 +181,8 @@ this.loadFiles = function(filesH, play){
 };
 
 this.makeNode = function(data, id) {
-  return '<div class="track-container grid__item" data-id="'+id+'" data-src="'+data+'">'+'<div class="cover" title="'+path.basename(data)+'"></div>'+'<div class="info">'+'<div class="title">'+path.basename(data)+'</div>'+'</div>'+'<div class="clear"></div>'+'</div>';
+  //return '<div class="track-container grid__item" data-id="'+id+'" data-src="'+data+'">'+'<div class="cover" title="'+path.basename(data)+'"></div>'+'<div class="info">'+'<div class="title">'+path.basename(data)+'</div>'+'</div>'+'<div class="clear"></div>'+'</div>';
+  
 };
 
 this.log = function(message) {

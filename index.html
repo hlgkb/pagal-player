@@ -7,7 +7,7 @@
 
 <body style="background:#eee">
 <div class="main-body">
-	<div class="wrapper">
+	<div class="wrapper display-block">
 		<aside class="sidebar">
 			<input type="file" id="pagal-open-file" multiple class="display-none" 
 				accept=".mkv,.avi,.mp4,.mpg,.mpeg,.webm,.flv,.ogg,.ogv,.mov,.wmv,.3gp,.3g2,.m4v,video/*,audio/*">
@@ -25,8 +25,30 @@
 						<input class="form-control search-bar" type="text" placeholder="Search">
 					</div>
 				</div>
-				<div id="ContentWrapper"></div>
-				<div id="dragOrDropFile">
+				<div id="ContentWrapper" style="display:flex">
+					<div class="movie-wrap">
+						<a class="movie-link" href="" style="width:180px; height:265px;">
+							<figure>
+								<img class="img-responsive" src="lib/img/cover.jpg" height="255" width="175">
+							</figure>
+						</a>
+						<div class="movie-bottom">
+							<a href="#" class="movie-title">Sausage Party</a>
+							<div class="movie-year" style="font-weight: 600">2016</div>
+							<div class="movie-season-ep" style="display:inline-block;margin-top: 5px">
+								<span class="movie-se code">Season 2</span>
+								<span class="movie-ep code">Episoide 1</span>
+							</div>
+							<div class="movie-tags">
+								<a class="code">720p</a>
+							</div>
+						</div>
+					</div>
+					
+
+
+				</div>
+				<div id="dragOrDropFile" class="display-none">
 					<div style="margin:100px auto;width:300px;">
 						<div style="width:150px;height:150px;border:5px dashed #ccc;border-radius:5px;padding:35px;margin-left:78px;">
 							<i class="fa fa-5x fa-download"></i>
@@ -42,7 +64,7 @@
 
 		</div>
 	</div>
-	<div id="player"></div>
+	<div id="player playerSmall"></div>
 </div>
 <footer id="PlayerContainer" data-volume="1">
 	<div class="info">

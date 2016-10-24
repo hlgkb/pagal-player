@@ -1,0 +1,44 @@
+{
+    "openDevTools":                 "Toggle Developers Tool",
+
+
+    
+    "play/pause":                   "Play ? Pause",
+    "next":                         "Next",
+    "perv":                         "Pervious",
+    "mute":                         "Mute",
+    "stop":                         "Stop",
+    "fullscreen":                   "Fullscreen",
+    "exitFullscreen":               "Exit Fullscreen",
+    "veryShortSkip":                "Very Short Forward Jump",
+    "veryShortBack":                "Very Short Backward Jump",
+    "shortSkip":                    "Short Forward Jump",
+    "shortBack":                    "Short Backward Jump",
+    "middleSkip":                   "Medium Forward Jump",
+    "middleBack":                   "Medium Backward Jump",
+    "longSkip":                     "Long Forward Jump",
+    "longBack":                     "Long Backward Jump",
+    "volumeUp":                     "Volume Up",
+    "volumeDown":                   "Volume Down",
+    "toggleSubtitle":               "Toggle Subtitle",
+    "cycleSubtitle":                "Cycle Subtitle Track",
+    "cycleVideoCrop":               "Cycle Video crop ",
+    "cycleVideoAspect":             "Cycle Aspect Ratio",
+    "cycleZoom":                    "Zoom",
+    "unZoom":                       "Unzoom",
+    "cycleAudioTrack":              "Cycle Audio Track",
+    "audioDelayUp":                 "Audio delay Up",
+    "audioDelayDown":               "Audio delay Down",
+    "subtitleDelayUp":              "Subtitle delay Up",
+    "subtitleDelayDown":            "Subtitle delay Down",
+
+    "speedFaster":                  "Faster",
+    "speedSlower":                  "Slower",
+    "speedFineFast":                "Faster (fine)",
+    "speedFineSlow":                "Slower (fine)",
+    "speedNormal":                  "Norma Speed",
+
+    "openFile":                     "Open Media",
+    "openFolder":                   "Open Folder",
+    "quit":                         "Quit"
+}

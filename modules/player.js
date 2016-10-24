@@ -108,8 +108,11 @@ var playerApi = {
         },
         handleMediaChange: function() {
             iaa = player.currentItem() + 1;
-            $('.track-container').removeClass("playing");
+            if(pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
+            $('.media-wrap').removeClass("playing"); 
             $('[data-id="'+iaa+'"]').addClass("playing");
+
+            
         },
         handlePause: function() {
             pagal.elements.FooterControls.find('.info .track-info .action i.play').show();

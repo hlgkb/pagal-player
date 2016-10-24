@@ -109,7 +109,7 @@ var playerApi = {
         handleMediaChange: function() {
             iaa = player.currentItem() + 1;
             if(pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
-            $('.media-wrap').removeClass("playing"); 
+            $('.movie-wrap').removeClass("playing"); 
             $('[data-id="'+iaa+'"]').addClass("playing");
 
             

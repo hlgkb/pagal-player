@@ -148,10 +148,12 @@ ul.mediaFiles li{
   line-height: 20px;
   width: 100%;
   padding: 8px;
-  background: #F2E3E3;
+  padding-left: 10px;
+  background: #FCF2F2;
   border-bottom: 1px solid #F5C8C8;
-  font-family: "Open Sans";
+  font-family: 'Montserrat', 'Open Sans';
   font-weight: lighter;
+  cursor: hand;
 }
 
 ul.submenu{
@@ -163,12 +165,14 @@ ul.submenu{
 }
 
 ul.mediaFiles li.current {
-    background: #eef;
+    background: #6F6F94;
+    color: #fff;
+    box-shadow: 5px 0px 2px 0px #3F3F76 inset;
 }
 
-ul.submenu > li{
-    line-height: 18px;
+ul.mediaFiles li:hover{
+    /*background: #6F6F94;*/
+    color: #fff;
 }
-
 
 

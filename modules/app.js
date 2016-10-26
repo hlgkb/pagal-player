@@ -61,6 +61,8 @@ var gui = require('nw.gui'),
 	currentSub = 0,
 	mainSub = 0,
 	doneDrop = [];
+	$ = require('jquery')
+	require('jquery-ui/sortable');
 
 
 
@@ -78,6 +80,7 @@ var gui = require('nw.gui'),
 	elements.saveAs = $("#pagal-save-file");
 	elements.openPlaylist = $("#pagal-open-playlist-file");
 	elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
+	elements.playlistContainer = $("#ContentWrapper");
 
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";
@@ -615,6 +618,7 @@ var gui = require('nw.gui'),
 			player.playItem(id - 1);
 		}
 		
+	pagal.sortAble();		
 
 	};
 
@@ -982,7 +986,7 @@ var gui = require('nw.gui'),
 		array = newarray;
 		key = null;
 		newarray = null;
-		array = null;
+		return array;
 	};
 
 	this.savePlaylist = function () {
@@ -1119,6 +1123,53 @@ var gui = require('nw.gui'),
 			$('.dialouge').remove();
 		})
 	};
+
+	this.sortAble = function() {
+		var placeholder = "sortable-placeholder";
+		var item = ".movie-wrap";
+		if (config.itemMode === 0) {
+			item = ".track-container";
+			placeholder = "sortable-placeholder-one";
+		}
+		$("#ContentWrapper").sortable({
+			placeholder: placeholder,
+          	delay: 250,
+			items: item,
+			start: function(event, ui) {
+				var start_pos = ui.item.index();
+				ui.item.data('start_pos', start_pos);
+			},
+			stop: function(e,ui) {
+              
+          },
+			update: function (event, ui) {
+				return (function(event, ui){
+					var start_pos = ui.item.data('start_pos');
+					var end_pos = ui.item.index();
+					pagal.player.advanceItem(start_pos, (end_pos - start_pos));
+					pagal.updatePlaylistUi(ui.item, start_pos, end_pos);
+				}(event, ui));
+			}
+		});
+	};
+
+	this.updatePlaylistUi = function(item, start, end) {
+		var items = '.movie-wrap'; 
+		if(config.itemMode === 0) items = ".track-container";
+		var movedItm = pagal.loadedFiles[start];
+		var ass_ = pagal.deleteDataFromArray(loadedFiles, movedItm);
+		var newLoaded = [];
+		for(var x in ass_) {
+			if( x == end) {
+				newLoaded.push(movedItm);
+			}
+			newLoaded.push(ass_[x]);
+		}
+		$(items).each(function() {
+			$(this).attr('data-id', $(this).index() + 1);
+		});
+		loadedFiles = newLoaded;
+	}
 
 	this.init = function () {
 

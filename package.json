@@ -1,6 +1,6 @@
 {
   "name": "pagal-player",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A new media player for the world.",
   "main": "app://pagal/index.html",
   "window": {

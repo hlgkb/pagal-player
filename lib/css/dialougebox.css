@@ -96,7 +96,7 @@
 
 .dialouge .body{
     padding: 15px;
-    background: #f7f7f7;
+    background: #fafafa;
     height: calc(100% - 60px);
     font-family: 'Montserrat', sans-serif;
     overflow-y: auto; 

@@ -270,3 +270,30 @@ figure img {
 .movie-wrap.playing .movie-link{
     border-color: #1d1d1d;
 }
+
+
+#ContentWrapper .sortable-placeholder{
+	border: 5px dashed #c0c0c0;
+    border-radius: 4px;
+	width: 190px;
+	margin-left: 1px;
+	height: 360px !important;
+	padding-left: 14px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #fff;
+}
+
+#ContentWrapper .sortable-placeholder-one {
+    border: 5px dashed #c0c0c0;
+    border-radius: 4px;
+	width: 115px;
+	margin-left: 1px;
+	height: 150px !important;
+	padding-left: 14px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #fff;
+}

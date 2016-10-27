@@ -269,11 +269,17 @@ exports.init = function(core) {
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));
-  menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+  pagal.menues.subtitle = pagal.insertmenu("playMenu", {
         label: "Subtitle",
         enabled: false,
         submenu: new pagalCore.gui.Menu()
-  }));
+  });
+  pagal.insertmenu("subtitle", {
+    label:"Add Subtitle",
+    click: function() {
+      pagal.elements.loadsubtitle.click();
+    }
+  })
   menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
     type:"separator"
   }));

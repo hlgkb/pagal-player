@@ -86,6 +86,7 @@ var gui = require('nw.gui'),
 	elements.openPlaylist = $("#pagal-open-playlist-file");
 	elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
 	elements.playlistContainer = $("#ContentWrapper");
+	elements.loadsubtitle = $("#pagal-load-sub-file");
 
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";

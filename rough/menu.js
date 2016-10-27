@@ -472,6 +472,7 @@ exports.enableMenues = function() {
   pagal.menues.playMenu.submenu.items[9].enabled = true;
   pagal.menues.playMenu.submenu.items[10].enabled = true;
   pagal.menues.playMenu.submenu.items[14].enabled = true;
+  pagal.menues.subtitle.enabled = true;
 
   //pagal.menues.audiotrack.enabled = true;
   pagal.menues.audioChanel.enabled = true;

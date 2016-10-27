@@ -87,6 +87,27 @@ var gui = require('nw.gui'),
 	acceptablePlaylist = "xspf, pagalist";
 	playlistType = { xspf: 1, pagalist: 2 };
 
+	this.coverInit = function() {
+		pagal.ensureExists(pagal.coverFolder, 0744, function(err) {
+			if(err) {
+				console.log("something went wrong!!!");
+			}
+		} );	
+	};
+
+	this.ensureExists = function (path, mask, cb) {
+		if (typeof mask == 'function') { // allow the `mask` parameter to be optional
+			cb = mask;
+			mask = 0777;
+		}
+		fs.mkdir(path, mask, function (err) {
+			if (err) {
+				if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
+				else cb(err); // something else went wrong
+			} else cb(null); // successfully created folder
+		});
+	};
+
 	this.setOnTop = function () {
 		if (pagal.alwaysOnTop === false) {
 			pagal.menues.onTop.checked = true;
@@ -1186,6 +1207,7 @@ var gui = require('nw.gui'),
 		pagal.moduleInit();
 		pagal.pluginInit();
 		playerApi.init();
+		pagal.coverInit();
 
 		if (args.length > 0) {
 			switch (args.length) {

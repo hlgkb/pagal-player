@@ -33,6 +33,11 @@ var playerApi = {
             if(elements.player.attr("class") == "webchimeras playerSmall") { 
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
             }
+            if(pagal.workerInit == false) {
+                console.log('loading worker');
+                pagal.findCover();
+                pagal.workerInit = true;
+            }
         },
         handleVolume: function(volume){
             pagal.elements.FooterControls.find('.volume-bg .volume-current').animate({

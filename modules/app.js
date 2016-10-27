@@ -10,6 +10,7 @@ var gui = require('nw.gui'),
 	xml2js = require('xml2js'),
 	xmlbuilder = require("xmlbuilder"),
 	parser = require('ultimate-parser'),
+	worker = require("workerjs"),
 	dispatcher = new hotkeys.Dispatcher(),
 	appname = pkg.window.title,
 	win = gui.Window.get(),
@@ -60,9 +61,13 @@ var gui = require('nw.gui'),
 	openedDirBase = "",
 	currentSub = 0,
 	mainSub = 0,
-	doneDrop = [];
-	$ = require('jquery')
+	doneDrop = [],
+	$ = require('jquery');
 	require('jquery-ui/sortable');
+	var coverFolder = gui.App.dataPath + "\\covers",
+		workerInit = false,
+		target = {};
+		target.id = 1;
 
 
 
@@ -85,6 +90,27 @@ var gui = require('nw.gui'),
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";
 	playlistType = { xspf: 1, pagalist: 2 };
+
+	this.coverInit = function() {
+		pagal.ensureExists(pagal.coverFolder, 0744, function(err) {
+			if(err) {
+				console.log("something went wrong!!!");
+			}
+		} );	
+	};
+
+	this.ensureExists = function (path, mask, cb) {
+		if (typeof mask == 'function') { // allow the `mask` parameter to be optional
+			cb = mask;
+			mask = 0777;
+		}
+		fs.mkdir(path, mask, function (err) {
+			if (err) {
+				if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
+				else cb(err); // something else went wrong
+			} else cb(null); // successfully created folder
+		});
+	};
 
 	this.setOnTop = function () {
 		if (pagal.alwaysOnTop === false) {
@@ -233,9 +259,47 @@ var gui = require('nw.gui'),
 			node += '</div>';
 		}
 
-		node += '</div></div>';
+		node += '</div></div>';		
 		return node;
+	};
 
+	this.findCover = function() {
+		var totalfiles = loadedFiles.length;
+		console.log("i am being called");
+		target.filename = path.basename(loadedFiles[target.id - 1]);
+		console.log(target.id)
+		target.callback = function(data) {
+			if(data) {
+				if(data.err){
+					console.log(data.err);
+				} else{
+					$('[data-id="'+data.id+'"]').find('img').attr("src", data.url);
+				}
+					
+				target.id++;				
+				if(target.id <= totalfiles) {
+					console.log("I am callback and calling it again");
+					coverFinder.postMessage(target);
+				} else {
+					console.log("I am the terminator");
+					coverFinder.terminate();
+					coverFinder = null;
+				}
+			}
+		};
+		
+		var coverFinder = new worker(process.cwd() + '/worker/cover/find.js', true);
+		coverFinder.onmessage = function (msg) {
+			if (msg.data) {
+				if (msg.data == 'null') {
+					target.callback('');
+				} else {
+					target.callback(msg.data);
+				}
+				//coverFinder.terminate();
+			}
+		};
+		coverFinder.postMessage(target);
 	};
 
 	this.log = function (message) {
@@ -472,7 +536,7 @@ var gui = require('nw.gui'),
 
 	this.search = function () {
 		var search = elements.search,
-			track = elements.track;
+		track = elements.track;
 		search.on("keyup", function () {
 			var g = $(this).val().toLowerCase();
 			if (pagal.config.itemMode === 0) {
@@ -618,7 +682,7 @@ var gui = require('nw.gui'),
 			player.playItem(id - 1);
 		}
 		
-	pagal.sortAble();		
+		pagal.sortAble();		
 
 	};
 
@@ -782,6 +846,10 @@ var gui = require('nw.gui'),
 		if (count > 0) {
 			player.currentItem(count - 1);
 		}
+		if(pagal.workerInit == true) {
+			console.log("starting");
+			pagal.findCover();
+		}
 		player.play();
 
 	};
@@ -832,7 +900,12 @@ var gui = require('nw.gui'),
 			}
 		});
 		pagal.loadFiles(files_);
-		pagal.loadedFiles = files_;
+		for(var x in files_)
+			pagal.loadedFiles.push(files_[x]);
+		if(pagal.workerInit == true) {
+			pagal.findCover();
+		}
+
 
 
 	};
@@ -1169,7 +1242,7 @@ var gui = require('nw.gui'),
 			$(this).attr('data-id', $(this).index() + 1);
 		});
 		loadedFiles = newLoaded;
-	}
+	};
 
 	this.init = function () {
 
@@ -1185,6 +1258,7 @@ var gui = require('nw.gui'),
 		pagal.moduleInit();
 		pagal.pluginInit();
 		playerApi.init();
+		pagal.coverInit();
 
 		if (args.length > 0) {
 			switch (args.length) {

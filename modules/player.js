@@ -60,7 +60,10 @@ var playerApi = {
                 //if(player.subDesc(1).language != "Disable") {
                 //    player.subTrack(1);
                 //}
-                player.subTrack(player.subCount() - 1);
+                if(pagal.menues.subtitle.submenu.items[2].checked != true) {
+                    player.subTrack(player.subCount() - 1);
+                }
+                
                 pagal.currentSub = player.subTrack();
                 pagal.mainSub = pagal.currentSub;
             } else {

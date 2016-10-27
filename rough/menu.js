@@ -373,7 +373,17 @@ exports.init = function(core) {
     }
   }));*/
 
-
+  pagal.pagalConfig.subtitle_.forEach(function(el, i) {
+    mnOpts = {
+          label: el,
+          type: 'checkbox',
+          click: function() { 
+            pagal.endisSub(i);
+          }
+        };
+        if (i == 0) mnOpts.checked = true;
+        menu = pagal.insertmenu("subtitle", mnOpts);
+  })
 
     pagal.pagalConfig.aspectRatio.forEach(function(el,i) {
         mnOpts = {

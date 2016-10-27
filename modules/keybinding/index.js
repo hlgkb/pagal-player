@@ -73,6 +73,13 @@ exports.doBinding = function(keyConfig) {
         console.log(pagal.currentSub);
         pagal.player.subTrack(pagal.currentSub);        
         pagal.player.notify("Subtitle" + ": " + pagal.player.subDesc(pagal.currentSub).language);
+        if(pagal.player.subTrack() == 0) {
+          pagal.menues.subtitle.submenu.items[1].checked = false;
+          pagal.menues.subtitle.submenu.items[2].checked = true;
+        } else {
+          pagal.menues.subtitle.submenu.items[2].checked = false;
+          pagal.menues.subtitle.submenu.items[1].checked = true;
+        }
       }
     }
   }).on(keyConfig["toggleSubtitle"], function(e) {
@@ -85,6 +92,13 @@ exports.doBinding = function(keyConfig) {
         }
         pagal.player.subTrack(pagal.currentSub);        
         pagal.player.notify("Subtitle" + ": " + pagal.player.subDesc(pagal.currentSub).language);
+        if(pagal.player.subTrack() == 0) {
+          pagal.menues.subtitle.submenu.items[1].checked = false;
+          pagal.menues.subtitle.submenu.items[2].checked = true;
+        } else {
+          pagal.menues.subtitle.submenu.items[2].checked = false;
+          pagal.menues.subtitle.submenu.items[1].checked = true;
+        }
       }
     }
   })

@@ -43,8 +43,7 @@ var gui = require('nw.gui'),
 		speed: ["Faster", "Faster (fine)", "Normal Speed", "Slower (fine)", "Slower"],
 		speedValue: [1, 0.10, 0, 0.10, 1],
 		speedKeys: ["speedFaster", "speedFineFast", "speedNormal", "speedFineSlow", "speedSlower"],
-		subtitle_: ["Enable" , "Disable"],
-		subtitle__: [1, 0]
+		subtitle_: ["Enable" , "Disable"]
 	},
 	pagalDefault = {
 		enableSubOnPlay: true,
@@ -108,11 +107,8 @@ var gui = require('nw.gui'),
 		});
 
 		if(i == 2) {
-			console.log("i == " + i);
 			player.subTrack(0);
-			console.log(player.subTrack());
 		} else if(i == 1) {
-			console.log("i === " + i);
 			player.subTrack(player.subCount() - 1);
 		}
 	}

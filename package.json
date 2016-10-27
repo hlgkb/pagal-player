@@ -25,6 +25,7 @@
   "dependencies": {
     "drag-and-drop-files": "0.0.1",
     "findit": "2.0.0",
+    "gulp-util": "3.0.7",
     "hotkeys": "1.0.0",
     "imdb-api": "2.2.0",
     "jquery-ui": "github:jaruba/jquery-ui",

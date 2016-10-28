@@ -18,7 +18,7 @@
   "wcjs-prebuilt": {
     "runtime": "nw",
     "runtimeVersion": "v0.12.3",
-    "version": "v3.0.0",
+    "version": "v0.2.3",
     "arch": "ia32"
   },
   "single-instance": true,

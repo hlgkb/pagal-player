@@ -648,41 +648,45 @@ var gui = require('nw.gui'),
 		}
 	};
 
+	this.asd__P = function (id) {
+		if (id == null) return;
+		var currentItem = player.currentItem();
+		if (player.playing() === true && currentItem === id - 1) {
+			player.time(0);
+			console.log("time : 0");
+			player.refreshSize(200).refreshSize(500).refreshSize(1000);
+			return;
+		}
+		pagal.showWrapper();
+		elements.player.css("display", "block");
+		player.playItem(id - 1);
+	};
+
 	this.node_Init = function () {
 		var id = null;
+		var $asf = $('.movie-wrap .movie-link');
 		if (pagal.config.itemMode === 0) {
 			$(".track-container").click(function () {
 				id = $(this).attr("data-id");		
-				asd(id);		
+				pagal.asd__P(id);
+				$asf = $(".track-container");		
 			});
 		} else {
 			$('.movie-wrap .movie-link').click(function() {				
 				id = $(this).parent().attr("data-id");
-				asd(id);
+				pagal.asd__P(id);
 			});
 
 			$('.movie-wrap .movie-title').click(function() {
 				console.log('hawa');
 				id = $(this).closest('.movie-wrap').attr("data-id");
-				console.log(id);
-				asd(id);
+				pagal.asd__P(id);
 			});
 
 		}
-		function asd(id) {
-			if (id == null) return;
-			var currentItem = player.currentItem();
-			if (player.playing() === true && currentItem === id - 1) {
-				player.time(0);
-				player.refreshSize(200).refreshSize(500).refreshSize(1000);
-				return;
-			}
-			pagal.showWrapper();
-			elements.player.css("display", "block");
-			player.playItem(id - 1);
-		}
 		
-		pagal.sortAble();		
+		pagal.sortAble();
+		menues.contextmenu =  pagal.menuStuff.createTrackMenu($asf);
 
 	};
 

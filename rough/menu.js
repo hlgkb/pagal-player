@@ -270,16 +270,18 @@ exports.init = function (core) {
 		type: "separator"
 	}));
 	pagal.menues.subtitle = pagal.insertmenu("playMenu", {
-        label: "Subtitle",
-        enabled: false,
-        submenu: new pagalCore.gui.Menu()
-  });
-  pagal.insertmenu("subtitle", {
-    label:"Add Subtitle",
-    click: function() {
-      pagal.elements.loadsubtitle.click();
-    }
-  })
+		label: "Subtitle",
+		enabled: false,
+		submenu: new pagalCore.gui.Menu()
+	});
+
+	pagal.insertmenu("subtitle", {
+		label: "Add Subtitle",
+		click: function () {
+			pagal.elements.loadsubtitle.click();
+		}
+	});
+
 	menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
 		type: "separator"
 	}));
@@ -384,17 +386,17 @@ exports.init = function (core) {
 	  }
 	}));*/
 
-pagal.pagalConfig.subtitle_.forEach(function(el, i) {
-    mnOpts = {
-          label: el,
-          type: 'checkbox',
-          click: function() { 
-            pagal.endisSub(i);
-          }
-        };
-        if (i == 0) mnOpts.checked = true;
-        menu = pagal.insertmenu("subtitle", mnOpts);
-  })
+	pagal.pagalConfig.subtitle_.forEach(function (el, i) {
+		mnOpts = {
+			label: el,
+			type: 'checkbox',
+			click: function () {
+				pagal.endisSub(i);
+			}
+		};
+		if (i == 0) mnOpts.checked = true;
+		menu = pagal.insertmenu("subtitle", mnOpts);
+	})
 
 	pagal.pagalConfig.aspectRatio.forEach(function (el, i) {
 		mnOpts = {
@@ -471,7 +473,7 @@ pagal.pagalConfig.subtitle_.forEach(function(el, i) {
 		//saveCtx._aspectRatioMenu.append(new gui.MenuItem(mnOpts));
 		menu = pagal.insertmenu("audioChanel", mnOpts);
 	});
-}
+};
 
 
 exports.enableMenues = function () {
@@ -490,7 +492,7 @@ exports.enableMenues = function () {
 	pagal.menues.playMenu.submenu.items[9].enabled = true;
 	pagal.menues.playMenu.submenu.items[10].enabled = true;
 	pagal.menues.playMenu.submenu.items[14].enabled = true;
-  pagal.menues.subtitle.enabled = true;
+	pagal.menues.subtitle.enabled = true;
 
 	//pagal.menues.audiotrack.enabled = true;
 	pagal.menues.audioChanel.enabled = true;
@@ -512,9 +514,7 @@ exports.insertMenuItem = function (menu, opts, position) {
 };
 
 exports.removeMenuItem = function (name, menu) {
-
 	menus[name].submenu.remove(menu);
-
 };
 
 exports.createTrackMenu = function (elements__) {
@@ -523,16 +523,15 @@ exports.createTrackMenu = function (elements__) {
 	contextMenu = new pagalCore.gui.Menu();
 	contextMenu.append(new pagalCore.gui.MenuItem({
 		label: 'Play',
-		click: function() {
-			console.log("whats wrong");
+		click: function () {
 			var id = null;
-			if(pagal.config.itemMode === 0) {
-				id = pagal.$(".track-container.contextMenu").attr("data-id");				
-			} else {				
-				id = pagal.$(".movie-wrap.contextMenu").attr("data-id");			
+			if (pagal.config.itemMode === 0) {
+				id = pagal.$(".track-container.contextMenu").attr("data-id");
+			} else {
+				id = pagal.$(".movie-wrap.contextMenu").attr("data-id");
 			}
 			console.log("id = " + id);
-			if(id)
+			if (id)
 				pagal.asd__P(id);
 		}
 	}));
@@ -556,12 +555,12 @@ exports.createTrackMenu = function (elements__) {
 			console.log(elements__);
 		}
 	}));
-	
+
 
 	elements__.on('contextmenu', function (e) {
 		e.preventDefault();
 		contextMenu.popup(e.pageX, e.pageY);
-		if(pagal.config.itemMode === 0) {
+		if (pagal.config.itemMode === 0) {
 			pagal.$(".track-container").removeClass("contextMenu");
 			pagal.$(this).addClass("contextMenu");
 		} else {

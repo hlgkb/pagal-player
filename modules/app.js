@@ -312,7 +312,9 @@ var gui = require('nw.gui'),
 				}
 			}
 		};
-		coverFinder.postMessage(target);
+		if(pagalConfig.searchCoverArt == true) {
+			coverFinder.postMessage(target);
+		}		
 	};
 
 	this.log = function (message) {

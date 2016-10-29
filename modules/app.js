@@ -275,7 +275,6 @@ var gui = require('nw.gui'),
 
 	this.findCover = function() {
 		var totalfiles = loadedFiles.length;
-		console.log("i am being called");
 		target.filename = path.basename(loadedFiles[target.id - 1]);
 		console.log(target.id)
 		target.callback = function(data) {
@@ -288,13 +287,18 @@ var gui = require('nw.gui'),
 					
 				target.id++;				
 				if(target.id <= totalfiles) {
-					console.log("I am callback and calling it again");
 					coverFinder.postMessage(target);
 				} else {
-					console.log("I am the terminator");
 					coverFinder.terminate();
 					coverFinder = null;
 				}
+			} else {
+				/**
+				 * if no cover id found terminate for now. Actually we have to search again
+				 * after some time.
+				 */
+				coverFinder.terminate();
+				coverFinder = null;
 			}
 		};
 		
@@ -306,7 +310,6 @@ var gui = require('nw.gui'),
 				} else {
 					target.callback(msg.data);
 				}
-				//coverFinder.terminate();
 			}
 		};
 		coverFinder.postMessage(target);

@@ -294,6 +294,17 @@ exports.init = function (core) {
 			console.log("bias");
 		}
 	}));
+
+	menus.pagalMenu.submenu.append(new pagalCore.gui.MenuItem({
+		label: "Search for cover-art",
+		enabled: true,
+		type: "checkbox",
+		checked: true,
+		click: function () {
+			
+		}
+	}));
+
 	menus.pagalMenu.submenu.append(new pagalCore.gui.MenuItem({
 		label: "Don't save to recent",
 		enabled: true,

@@ -68,7 +68,8 @@ var gui = require('nw.gui'),
 	var coverFolder = gui.App.dataPath + "\\covers",
 		workerInit = false,
 		target = {};
-		target.id = 1;
+		target.id = 1
+		targetDone = [];
 
 
 
@@ -276,17 +277,17 @@ var gui = require('nw.gui'),
 	this.findCover = function() {
 		var totalfiles = loadedFiles.length;
 		target.filename = path.basename(loadedFiles[target.id - 1]);
-		console.log(target.id)
 		target.callback = function(data) {
 			if(data) {
 				if(data.err){
 					console.log(data.err);
-				} else{
+				} else {
 					$('[data-id="'+data.id+'"]').find('img').attr("src", data.url);
+					targetDone.push(data.id);
 				}
-					
-				target.id++;				
-				if(target.id <= totalfiles) {
+				if(target.id + 1 <= totalfiles) {
+					++target.id;
+					target.filename = path.basename(loadedFiles[target.id - 1]);
 					coverFinder.postMessage(target);
 				} else {
 					coverFinder.terminate();

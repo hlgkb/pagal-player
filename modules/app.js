@@ -55,7 +55,8 @@ var gui = require('nw.gui'),
 		},
 		volume: 5,
 		audioDelay: 50,
-		subtitleDelay: 50
+		subtitleDelay: 50,
+		searchCoverArt: true
 	},
 	openedDir = null,
 	openedDirBase = "",
@@ -261,6 +262,15 @@ var gui = require('nw.gui'),
 
 		node += '</div></div>';		
 		return node;
+	};
+
+	this.setCoverArt = function() {
+		if(pagal.pagalConfig.searchCoverArt) {
+			pagal.pagalConfig.searchCoverArt = false;
+		} else {
+			pagal.pagalConfig.searchCoverArt = true;
+			pagal.findCover();
+		}
 	};
 
 	this.findCover = function() {

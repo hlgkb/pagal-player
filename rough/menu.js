@@ -301,7 +301,7 @@ exports.init = function (core) {
 		type: "checkbox",
 		checked: true,
 		click: function () {
-			
+			pagal.setCoverArt();
 		}
 	}));
 

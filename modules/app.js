@@ -42,7 +42,8 @@ var gui = require('nw.gui'),
 		deinterlace: ['disabled', 'blend', 'bob', 'discard', 'linear', 'mean', 'x', 'yadif', 'yadif2x'],
 		speed: ["Faster", "Faster (fine)", "Normal Speed", "Slower (fine)", "Slower"],
 		speedValue: [1, 0.10, 0, 0.10, 1],
-		speedKeys: ["speedFaster", "speedFineFast", "speedNormal", "speedFineSlow", "speedSlower"]
+		speedKeys: ["speedFaster", "speedFineFast", "speedNormal", "speedFineSlow", "speedSlower"],
+		subtitle_: ["Enable" , "Disable"]
 	},
 	pagalDefault = {
 		enableSubOnPlay: true,
@@ -86,10 +87,31 @@ var gui = require('nw.gui'),
 	elements.openPlaylist = $("#pagal-open-playlist-file");
 	elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
 	elements.playlistContainer = $("#ContentWrapper");
+	elements.loadsubtitle = $("#pagal-load-sub-file");
 
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";
 	playlistType = { xspf: 1, pagalist: 2 };
+
+	this.endisSub = function(i) {
+		i++;
+		console.log(i);
+		pagal.menues.subtitle.submenu.items.forEach(function (el, il) {
+			
+			if(il > 0) {
+				el.checked = false;
+				if (i === il) {
+					el.checked = true;
+				}
+			}
+		});
+
+		if(i == 2) {
+			player.subTrack(0);
+		} else if(i == 1) {
+			player.subTrack(player.subCount() - 1);
+		}
+	}
 
 	this.coverInit = function() {
 		pagal.ensureExists(pagal.coverFolder, 0744, function(err) {

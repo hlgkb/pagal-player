@@ -386,6 +386,18 @@ exports.init = function (core) {
 	  }
 	}));*/
 
+	['Disable', 'Track 1'].forEach(function(el, i) {
+		mnOpts = {
+			label: el,
+			type: 'checkbox',
+			click: function () {
+				pagal.setVideoTrack(i);
+			}
+		};
+		if (i == 1) mnOpts.checked = true;
+		menu = pagal.insertmenu("videotrack", mnOpts);
+	});
+
 	pagal.pagalConfig.subtitle_.forEach(function (el, i) {
 		mnOpts = {
 			label: el,

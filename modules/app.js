@@ -56,7 +56,8 @@ var gui = require('nw.gui'),
 		},
 		volume: 5,
 		audioDelay: 50,
-		subtitleDelay: 50
+		subtitleDelay: 50,
+		searchCoverArt: true
 	},
 	openedDir = null,
 	openedDirBase = "",
@@ -68,7 +69,8 @@ var gui = require('nw.gui'),
 	var coverFolder = gui.App.dataPath + "\\covers",
 		workerInit = false,
 		target = {};
-		target.id = 1;
+		target.id = 1
+		targetDone = [];
 
 
 
@@ -285,28 +287,41 @@ var gui = require('nw.gui'),
 		return node;
 	};
 
+	this.setCoverArt = function() {
+		if(pagal.pagalConfig.searchCoverArt) {
+			pagal.pagalConfig.searchCoverArt = false;
+		} else {
+			pagal.pagalConfig.searchCoverArt = true;
+			pagal.findCover();
+		}
+	};
+
 	this.findCover = function() {
 		var totalfiles = loadedFiles.length;
-		console.log("i am being called");
 		target.filename = path.basename(loadedFiles[target.id - 1]);
-		console.log(target.id)
 		target.callback = function(data) {
 			if(data) {
 				if(data.err){
 					console.log(data.err);
-				} else{
+				} else {
 					$('[data-id="'+data.id+'"]').find('img').attr("src", data.url);
+					targetDone.push(data.id);
 				}
-					
-				target.id++;				
-				if(target.id <= totalfiles) {
-					console.log("I am callback and calling it again");
+				if(target.id + 1 <= totalfiles) {
+					++target.id;
+					target.filename = path.basename(loadedFiles[target.id - 1]);
 					coverFinder.postMessage(target);
 				} else {
-					console.log("I am the terminator");
 					coverFinder.terminate();
 					coverFinder = null;
 				}
+			} else {
+				/**
+				 * if no cover id found terminate for now. Actually we have to search again
+				 * after some time.
+				 */
+				coverFinder.terminate();
+				coverFinder = null;
 			}
 		};
 		
@@ -318,10 +333,11 @@ var gui = require('nw.gui'),
 				} else {
 					target.callback(msg.data);
 				}
-				//coverFinder.terminate();
 			}
 		};
-		coverFinder.postMessage(target);
+		if(pagalConfig.searchCoverArt == true) {
+			coverFinder.postMessage(target);
+		}		
 	};
 
 	this.log = function (message) {

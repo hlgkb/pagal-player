@@ -285,11 +285,12 @@ exports.init = function (core) {
 	menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
 		type: "separator"
 	}));
-	menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+
+	pagal.menues.playbackafter = pagal.insertmenu("playMenu", {
 		label: "After Playback",
 		enabled: false,
 		submenu: new pagalCore.gui.Menu()
-	}));
+	});
 
 	/**
 	  * Pagal Menu Sub Menu Item

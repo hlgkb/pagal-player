@@ -1298,13 +1298,22 @@ var gui = require('nw.gui'),
 		loadedFiles = newLoaded;
 	};
 
-	this.init = function () {
+	this.mainInit = function() {
 
 		if (typeof localStorage.settings === "undefined" || localStorage.settings == "\"\"") {
 			localStorage.settings = JSON.stringify(pagalDefault);
 		}
-
 		pagal.pagalConfig = $.extend(pagalConfig, JSON.parse(localStorage.settings));
+
+		if(typeof localStorage.afterPlayback === 'undefined')
+			localStorage.afterPlayback = 0;		
+		pagal.afterPlayback = localStorage.afterPlayback;
+	};
+
+
+	this.init = function () {
+
+		pagal.mainInit();
 		gui.Screen.Init();
 		pagal.handleDrop(event);
 		pagal.con_();

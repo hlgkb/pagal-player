@@ -387,6 +387,18 @@ exports.init = function (core) {
 	  }
 	}));*/
 
+	['Do Nothing', 'Quit at end of Playlist'].forEach(function(el, i) {
+		mnOpts = {
+			label: el,
+			type: 'checkbox',
+			click: function () {
+				pagal.endofPlaylist(i);
+			}
+		};
+		if (pagal.afterPlayback == i) mnOpts.checked = true;
+		menu = pagal.insertmenu("playbackafter", mnOpts);
+	});
+
 	['Disable', 'Track 1'].forEach(function(el, i) {
 		mnOpts = {
 			label: el,

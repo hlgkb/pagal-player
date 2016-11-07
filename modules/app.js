@@ -70,7 +70,8 @@ var gui = require('nw.gui'),
 		workerInit = false,
 		target = {};
 		target.id = 1
-		targetDone = [];
+		targetDone = [],
+		afterPlayback = 0;
 
 
 
@@ -94,6 +95,19 @@ var gui = require('nw.gui'),
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";
 	playlistType = { xspf: 1, pagalist: 2 };
+
+	this.endofPlaylist = function(id) {
+		pagal.menues.playbackafter.submenu.items[0].checked = false;
+		pagal.menues.playbackafter.submenu.items[1].checked = false;
+		if(id === 0) {
+			pagal.afterPlayback = 0;
+			pagal.menues.playbackafter.submenu.items[0].checked = true;			
+		} else if(id === 1) {
+			pagal.afterPlayback = 1;
+			pagal.menues.playbackafter.submenu.items[1].checked = true;
+		}
+		localStorage.afterPlayback = pagal.afterPlayback;
+	}
 
 	this.endisSub = function(i) {
 		i++;
@@ -138,7 +152,7 @@ var gui = require('nw.gui'),
 
 	this.setVideoTrack = function(bool) {
 		pagal.menues.videotrack.submenu.items[0].checked = false;
-		pagal.menues.videotrack.submenu.items[1].checked = false
+		pagal.menues.videotrack.submenu.items[1].checked = false;
 		if(bool == 0) {
 			pagal.player.video(false);
 			pagal.menues.videotrack.submenu.items[0].checked = true;

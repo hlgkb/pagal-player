@@ -127,6 +127,10 @@ var playerApi = {
 		    pagal.elements.FooterControls.find('.info .track-info .action i.pause').hide();
         },
         handleEnded: function() {
+            if(pagal.afterPlayback === 1) {
+                pagal.win.hide();			    
+                return pagal.keymap().trigger(pagal.keysConfig["quit"]);
+            }
             playerApi.resetUi();
             if(player.currentItem() + 1 == player.itemCount()) {
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");

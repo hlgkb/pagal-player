@@ -508,6 +508,8 @@ exports.enableMenues = function () {
 
 	//pagal.menues.audiotrack.enabled = true;
 	pagal.menues.audioChanel.enabled = true;
+
+	pagal.menues.videotrack.enabled = true;
 }
 
 exports.insertMenuItem = function (menu, opts, position) {

@@ -136,6 +136,18 @@ var gui = require('nw.gui'),
 		});
 	};
 
+	this.setVideoTrack = function(bool) {
+		pagal.menues.videotrack.submenu.items[0].checked = false;
+		pagal.menues.videotrack.submenu.items[1].checked = false
+		if(bool == 0) {
+			pagal.player.video(false);
+			pagal.menues.videotrack.submenu.items[0].checked = true;
+		} else if(bool == 1) {
+			pagal.player.video(true);
+			pagal.menues.videotrack.submenu.items[1].checked = true;
+		}
+	}
+
 	this.setOnTop = function () {
 		if (pagal.alwaysOnTop === false) {
 			pagal.menues.onTop.checked = true;

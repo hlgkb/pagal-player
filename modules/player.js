@@ -83,12 +83,13 @@ var playerApi = {
                     $('.mouse-time').show();
                     $('.mouse-time span').text(time);
 
-                    var ad = (($('.mouse-time').width())/2) - 8;
+                    var ad = (($('.mouse-time').width())/2) - 5;
+                    console.log("ad = " + ad);
                     $('.mouse-time:before').css("left",ad - 1);
                     $('.mouse-time:after').css("left",ad);
 
-
-                    margin = e.pageX-48-parseInt(($('.mouse-time').width())/2);
+                    console.log("page x = " + e.pageX);
+                    margin = e.pageX-62-parseInt(($('.mouse-time').width())/2);
                     return $('.mouse-time').css({
                         'margin-left': margin + 'px'
                     });

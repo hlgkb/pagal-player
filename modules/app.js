@@ -59,6 +59,7 @@ var gui = require('nw.gui'),
 		subtitleDelay: 50,
 		searchCoverArt: false
 	},
+	currentSetting = {},
 	openedDir = null,
 	openedDirBase = "",
 	currentSub = 0,
@@ -1324,6 +1325,20 @@ var gui = require('nw.gui'),
 		pagal.afterPlayback = localStorage.afterPlayback;
 	};
 
+	this.getCurrentSetting = function () {
+		try {
+			if (typeof localStorage.settings !== "undefined" || localStorage.settings != "\"\"") {
+				pagal.currentSetting = JSON.parse(localStorage.settings);
+				return true;
+			} else {
+				pagal.currentSetting = {};
+				return false;
+			}
+		} catch (err) {
+			console.log("Error!!!");
+			console.dir(err);
+		}
+	}
 
 	this.init = function () {
 

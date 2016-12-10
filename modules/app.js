@@ -57,7 +57,7 @@ var gui = require('nw.gui'),
 		volume: 5,
 		audioDelay: 50,
 		subtitleDelay: 50,
-		searchCoverArt: true
+		searchCoverArt: false
 	},
 	openedDir = null,
 	openedDirBase = "",

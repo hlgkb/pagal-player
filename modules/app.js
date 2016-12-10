@@ -1388,7 +1388,6 @@ var gui = require('nw.gui'),
 		pagal.primaryMenuBar.append(menues.audioMenu);
 		//pagal.primaryMenuBar.append(menues.aaujarMenu);
 		pagal.primaryMenuBar.append(menues.pagalMenu);
-		//pagal.primaryMenuBar.append(menues.pagalMenu);
 		pagal.primaryMenuBar.append(menues.helpMenu);
 		win.menu = pagal.primaryMenuBar;
 

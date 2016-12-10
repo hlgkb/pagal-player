@@ -501,28 +501,30 @@ exports.init = function (core) {
 };
 
 
-exports.enableMenues = function () {
-	pagal.menues.aspectRatio.enabled = true;
-	pagal.menues.crop.enabled = true;
-	pagal.menues.zoom.enabled = true;
-	pagal.menues.deinterlace.enabled = true;
+exports.enableMenues = function (enable) {
+	var value = (typeof enable === 'undefined') ? true : false;
+	console.log(value);
+	pagal.menues.aspectRatio.enabled = value;
+	pagal.menues.crop.enabled = value;
+	pagal.menues.zoom.enabled = value;
+	pagal.menues.deinterlace.enabled = value;
 
 
-	pagal.menues.playpause.enabled = true;
-	pagal.menues.stop.enabled = true;
-	pagal.menues.next.enabled = true;
-	pagal.menues.prv.enabled = true;
-	pagal.menues.playMenu.submenu.items[6].enabled = true;
-	pagal.menues.playMenu.submenu.items[8].enabled = true;
-	pagal.menues.playMenu.submenu.items[9].enabled = true;
-	pagal.menues.playMenu.submenu.items[10].enabled = true;
-	pagal.menues.playMenu.submenu.items[14].enabled = true;
-	pagal.menues.subtitle.enabled = true;
+	pagal.menues.playpause.enabled = value;
+	pagal.menues.stop.enabled = value;
+	pagal.menues.next.enabled = value;
+	pagal.menues.prv.enabled = value;
+	pagal.menues.playMenu.submenu.items[6].enabled = value;
+	pagal.menues.playMenu.submenu.items[8].enabled = value;
+	pagal.menues.playMenu.submenu.items[9].enabled = value;
+	pagal.menues.playMenu.submenu.items[10].enabled = value;
+	pagal.menues.playMenu.submenu.items[14].enabled = value;
+	pagal.menues.subtitle.enabled = value;
 
-	//pagal.menues.audiotrack.enabled = true;
-	pagal.menues.audioChanel.enabled = true;
+	//pagal.menues.audiotrack.enabled = value;
+	pagal.menues.audioChanel.enabled = value;
 
-	pagal.menues.videotrack.enabled = true;
+	pagal.menues.videotrack.enabled = value;
 }
 
 exports.insertMenuItem = function (menu, opts, position) {

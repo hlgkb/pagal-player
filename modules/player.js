@@ -133,6 +133,8 @@ var playerApi = {
                 return pagal.keymap().trigger(pagal.keysConfig["quit"]);
             }
             playerApi.resetUi();
+            //Disable enabled menues after playlist ended.
+            pagal.menuStuff.enableMenues(0);
             if (player.currentItem() + 1 == player.itemCount()) {
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
             }

@@ -1313,6 +1313,28 @@ var gui = require('nw.gui'),
 		loadedFiles = newLoaded;
 	};
 
+	this.removeItem = function () {
+		
+		var items = '.movie-wrap'; 
+		var $playing = false;
+		if(config.itemMode === 0) items = ".track-container";
+		var $item = $(".contextMenu").closest(items);
+		var $current = player.currentItem();
+		if ($item.hasClass("playing") === true) {
+			$playing = true;
+		}
+		if ($playing === true) {
+			player.stop();
+		}
+		console.log(loadedFiles);
+		loadedFiles = pagal.deleteDataFromArray(loadedFiles, $item.attr("data-src"));
+		$item.remove();
+		player.removeItem($current);
+		$(items).each(function () {
+			$(this).attr('data-id', $(this).index() + 1);
+		});
+	}
+
 	this.mainInit = function() {
 
 		if (typeof localStorage.settings === "undefined" || localStorage.settings == "\"\"") {

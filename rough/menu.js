@@ -581,7 +581,7 @@ exports.createTrackMenu = function (elements__) {
 	contextMenu.append(new pagalCore.gui.MenuItem({
 		label: 'Remove',
 		click: function () {
-			console.log(elements__);
+			pagal.removeItem(elements__);
 		}
 	}));
 

@@ -201,7 +201,15 @@ var playerApi = {
                 player.next();
             }
         });
-
+        pagal.elements.FooterControls.find('.track-info .random').on('click', function (e) {
+            //pagal.suffleAndRepeat("suffle");
+            //return $(this).closest(".action").toggleClass("active");
+            return;
+        });
+        pagal.elements.FooterControls.find('.track-info .repeat').on('click', function (e) {
+            pagal.suffleAndRepeat("repeat");
+            return $(this).closest(".action").toggleClass("active");
+        });
         pagal.elements.FooterControls.find('.volume-bg').click(function (e) {
             var percentage, volume;
             percentage = (e.pageX - $(this).offset().left) / $(this).width();

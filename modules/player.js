@@ -1,6 +1,6 @@
 var playerApi = {
 
-
+    suffle_Repaeat: [],
 
     init: function () {
         var player = new wjs("#player").addPlayer({
@@ -237,7 +237,7 @@ var playerApi = {
                 'width': percentage * 100 + '%'
             });
         });
-        
+
         pagal.elements.FooterControls.find('.volume-icon').on('click', function (e) {
             if (player.mute() == true) {
                 player.mute(false);
@@ -270,6 +270,24 @@ var playerApi = {
             pagal.elements.FooterControls.find('.track-info .random').closest(".action").toggleClass("active");
         }
     },
+    isRepeat: function () {
+        return pagal.elements.FooterControls.find(".repeat").closest(".action").hasClass("active");
+    },
+    isShuffle: function () {
+        return pagal.elements.FooterControls.find(".random").closest(".action").hasClass("active");
+    },
+    getRandom: function () {
+        return parseInt(Math.random() * player.itemCount());
+    },
+    manageShuffle: function () {
+        if (playerApi.isShuffle === true) {
+            if (player.itemCount() > 1) {
+                var x = playerApi.getRandom();
+                return player.playItem(x);
+            } else if (player.itemCount() === 1) {
+                return player.time(0);
+            }
+        }
     }
 
 }

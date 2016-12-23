@@ -1372,7 +1372,7 @@ var gui = require('nw.gui'),
 		pagal.moduleInit();
 		//pagal.pluginInit();
 		playerApi.init();
-		pagal.coverInit();
+		//pagal.coverInit();
 
 		if (args.length > 0) {
 			switch (args.length) {

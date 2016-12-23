@@ -24,6 +24,7 @@ var playerApi = {
         player.onFrameSetup(playerApi.listeners.gotVideoSize);
         player.onMediaChanged(playerApi.listeners.handleMediaChange);
         playerApi.controls();
+        playerApi.updateUiviaStored();
         pagal.player = player;
     },
 
@@ -243,6 +244,15 @@ var playerApi = {
         pagal.win.setProgressBar(-1);
         pagal.elements.FooterControls.find(".currentHolder span.title").text("");
         pagal.win.title = pagal.appname;
+    },
+    updateUiviaStored: function () {
+        if (pagal.pagalConfig.repeat === 1) {
+            pagal.elements.FooterControls.find('.track-info .repeat').closest(".action").toggleClass("active");
+        }
+        if (pagal.pagalConfig.suffle === 1) {
+            pagal.elements.FooterControls.find('.track-info .random').closest(".action").toggleClass("active");
+        }
+    },
     }
 
 }

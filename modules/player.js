@@ -132,16 +132,26 @@ var playerApi = {
             pagal.elements.FooterControls.find('.info .track-info .action i.pause').hide();
         },
         handleEnded: function () {
-            if (pagal.afterPlayback === 1) {
+            if (player.currentItem() + 1 == player.itemCount()) {
+                if (playerApi.isRepeat() === true) {
+                    var play = 0;
+                    /*if (playerApi.isShuffle() === true) {
+                        play = playerApi.getRandom();
+                    }*/
+                    return player.playItem(play);
+                }
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            }
+            /*if (playerApi.isShuffle() === true) {
+                return player.playItem(playerApi.getRandom());
+            }*/
+            if (pagal.pagalConfig.afterPlayback === 1) {
                 pagal.win.hide();
                 return pagal.keymap().trigger(pagal.keysConfig["quit"]);
             }
             playerApi.resetUi();
             //Disable enabled menues after playlist ended.
             pagal.menuStuff.enableMenues(0);
-            if (player.currentItem() + 1 == player.itemCount()) {
-                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
-            }
         },
         handleStopped: function () {
             playerApi.resetUi();

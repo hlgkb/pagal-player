@@ -18,7 +18,7 @@ var playerApi = {
         });
         player.onVolume(playerApi.listeners.handleVolume);
         player.onEnded(playerApi.listeners.handleEnded);
-        player.onStopped(playerApi.listeners.handleEnded);
+        player.onStopped(playerApi.listeners.handleStopped);
         player.onState(playerApi.listeners.changedState);
         player.onError(playerApi.listeners.handleErrors);
         player.onFrameSetup(playerApi.listeners.gotVideoSize);
@@ -144,7 +144,11 @@ var playerApi = {
             }
         },
         handleStopped: function () {
-
+            playerApi.resetUi();
+            pagal.menuStuff.enableMenues(0);
+            if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
+            $('.movie-wrap').removeClass("playing");
+            pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
         },
         updateUi: function (ms) {
             pagal.elements.FooterControls.find(".info .controls .current-time").text(pagal.parseTime(ms));

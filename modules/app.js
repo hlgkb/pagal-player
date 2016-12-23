@@ -1383,7 +1383,7 @@ var gui = require('nw.gui'),
 							console.log("Reading Directory " + args[0]);
 							pagal.readDir(args[0]);
 						} else if (argCountType.isFile()) {
-							if (pagal.checkExtension(file, acceptableFile)) pagal.openSingleFile(args[0]);
+							if (pagal.checkExtension(file, acceptableFile)) {pagal.openSingleFile(args[0]);}
 						}
 					} catch (err) {
 						console.log(err);
@@ -1403,7 +1403,9 @@ var gui = require('nw.gui'),
 			console.log(msg);
 			if (msg.match(/\"/g).length > 2) {
 				pathToFile = msg.substr(msg.split('"', 3).join('"').length).split('"').join('');
-				if (pagal.checkExtension(pathToFile, acceptableFile)) pagal.openSingleFile(pathToFile);
+				if (pagal.checkExtension(pathToFile, acceptableFile)){
+					pagal.openSingleFile(pathToFile);
+				} 
 			}
 		});
 

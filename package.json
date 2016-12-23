@@ -55,5 +55,14 @@
     "gulp-util": "^3.0.7",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1"
-  }
+  },
+  "nwjsBuilder": {
+        "productName": "pagalPlayer",
+        "productVersion": "0.1.0 Beta",
+        "fileDescription": "pagalPlayer.exe",
+        "copyright": "Copyright (C) Pagal INC",
+        "fileVersion": "0.12.3",
+        "companyName": "Pagal INC",
+        "originalFilename": "pagal.exe"
+    }
 }

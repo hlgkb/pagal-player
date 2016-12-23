@@ -580,8 +580,8 @@ var gui = require('nw.gui'),
 	this.moduleInit = function () {
 
 		var passObject, key;
-		modules.nativemenu = require(process.cwd() + "/rough/menu.js");
-		//modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
+		//modules.nativemenu = require(process.cwd() + "/rough/menu.js");
+		modules["nativemenu"] = require(process.cwd() + "/modules/menu/index.js");
 		modules.keybinding = require(process.cwd() + "/modules/keybinding/index.js");
 		//modules["treeView"] = require(process.cwd() + "/modules/treeview/index.js");
 

@@ -1383,7 +1383,9 @@ var gui = require('nw.gui'),
 							console.log("Reading Directory " + args[0]);
 							pagal.readDir(args[0]);
 						} else if (argCountType.isFile()) {
-							if (pagal.checkExtension(file, acceptableFile)) {pagal.openSingleFile(args[0]);}
+							if (pagal.checkExtension(args[0], acceptableFile)) {
+								pagal.openSingleFile(args[0]);
+							}
 						}
 					} catch (err) {
 						console.log(err);

@@ -92,6 +92,7 @@ var gui = require('nw.gui'),
 	elements.openDirec = $("aside.sidebar .content ul.mediaFiles");
 	elements.playlistContainer = $("#ContentWrapper");
 	elements.loadsubtitle = $("#pagal-load-sub-file");
+	elements.undoSearch = $('.undo-button');
 
 	acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
 	acceptablePlaylist = "xspf, pagalist";
@@ -601,9 +602,23 @@ var gui = require('nw.gui'),
 
 	this.search = function () {
 		var search = elements.search,
-		track = elements.track;
+			track = elements.track;
 		search.on("keyup", function () {
-			var g = $(this).val().toLowerCase();
+			houseKeeping(this);
+		});
+		elements.undoSearch.click(function (e) {
+			search.val('');
+			houseKeeping(search);
+		});
+		var houseKeeping = function (that) {
+			var g = $(that).val().toLowerCase();
+			if (g != "") {
+				if (elements.undoSearch.css("display") == "none") {
+					elements.undoSearch.show();
+				}
+			} else {
+				elements.undoSearch.hide();
+			}
 			if (pagal.config.itemMode === 0) {
 				$(".track-container").each(function () {
 					var s = $(this).text().toLowerCase();
@@ -615,8 +630,7 @@ var gui = require('nw.gui'),
 					$(this).closest('.movie-wrap')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
 				});
 			}
-
-		});
+		}
 	};
 
 	this.setMode = function () {

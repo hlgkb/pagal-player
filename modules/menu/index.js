@@ -260,13 +260,13 @@ exports.init = function (core) {
 			pagal.keymap().trigger(pagal.keysConfig["shortBack"]);
 		}
 	}));
-	menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
+	/*menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
 		label: "Jump to specific Time",
 		enabled: false,
 		click: function () {
 			console.log("deko time ma jump garni");
 		}
-	}));
+	}));*/
 	menus.playMenu.submenu.append(new pagalCore.gui.MenuItem({
 		type: "separator"
 	}));
@@ -289,7 +289,7 @@ exports.init = function (core) {
 
 	pagal.menues.playbackafter = pagal.insertmenu("playMenu", {
 		label: "After Playback",
-		enabled: false,
+		enabled: true,
 		submenu: new pagalCore.gui.Menu()
 	});
 
@@ -556,8 +556,8 @@ exports.enableMenues = function (enable) {
 	pagal.menues.playMenu.submenu.items[6].enabled = value;
 	pagal.menues.playMenu.submenu.items[8].enabled = value;
 	pagal.menues.playMenu.submenu.items[9].enabled = value;
-	pagal.menues.playMenu.submenu.items[10].enabled = value;
-	pagal.menues.playMenu.submenu.items[14].enabled = value;
+	//pagal.menues.playMenu.submenu.items[10].enabled = value;
+	//pagal.menues.playMenu.submenu.items[14].enabled = value;
 	pagal.menues.subtitle.enabled = value;
 
 	//pagal.menues.audiotrack.enabled = value;

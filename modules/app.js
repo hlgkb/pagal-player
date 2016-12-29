@@ -425,6 +425,7 @@ var afterPlayback = 0;
             });
         } catch (err) {
             console.log("No config.json file found");
+            toastr.error("No config.json file found. Make sure it exits." , "Error");
             fileFound = false;
         }
 
@@ -433,6 +434,7 @@ var afterPlayback = 0;
                 configObject = JSON.parse(configJson);
             } catch (err) {
                 console.log("Hawa Invalid config.json file.");
+                toastr.error("No config.json file found. Make sure it exits." , "Error");
             }
 
             for (key in configObject) {
@@ -1052,18 +1054,18 @@ var afterPlayback = 0;
                 pagal.openedDir = $(this).val();
                 pagal.readDir(pagal.openedDir);
             } catch (err) {
-                console.log(err.message);
+                toastr.error("Sorry!! Directory couldn't be open.", "Error");
             }
         });
 
         elements.openPlaylist.change(function () {
-            console.log($(this).val());
             try {
                 palylistOpened = $(this).val();
                 pagal.openPlaylist(palylistOpened);
                 palylistOpened = null;
             } catch (e) {
                 console.log(e.message);
+                toastr.error("Sorry!! Something went wrong. Try again later.", "Error");
             }
         });
 
@@ -1073,6 +1075,7 @@ var afterPlayback = 0;
                 pagal.processSavingList(fie);
             } catch (e) {
                 console.log(e.message);
+                toastr.error("Sorry!! Something went wrong. Try again later.", "Error");
             }
         });
     };
@@ -1134,6 +1137,7 @@ var afterPlayback = 0;
         current = player.audioChanInt();
         if (current == -1) {
             console.error("Error!!! Audio Channel Error");
+            toastr.error("Sorry!! Something went wrong. Try again later.", "Error");
         }
         player.audioChanInt(i + 1);
         current = player.audioChanInt();
@@ -1217,6 +1221,7 @@ var afterPlayback = 0;
         fs.writeFile(fineName, pagal.xmlOutput, function (err) {
             if (err) {
                 console.log(err);
+                toastr.error("Sorry!! Something went wrong. Try again later.", "Error");
             }
         });
     };
@@ -1290,6 +1295,7 @@ var afterPlayback = 0;
         } catch (err) {
             console.log(err.message);
             fileFound = false;
+            toastr.warning(file + " couldn't be found. Make sure it exits." , "Error");
         }
 
         if (fileFound === true) {
@@ -1297,6 +1303,7 @@ var afterPlayback = 0;
                 configObject = JSON.parse(configJson);
             } catch (err) {
                 console.log("Invalid keybinding.json file.");
+                toastr.error("Something went terrible wrong." , "Error");
             }
             return configObject;
         }
@@ -1426,6 +1433,7 @@ var afterPlayback = 0;
         } catch (err) {
             console.log("Error!!!");
             console.dir(err);
+            toastr.error("Something went wrong." , "Error");
         }
     };
 

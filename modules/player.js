@@ -5,7 +5,7 @@ var playerApi = {
     init: function () {
         var player = new wjs("#player").addPlayer({
             autoplay: false,
-            wcjs: wcjs_
+            wcjs: wcjs
         });
         var currentItem = null;
         player.onFirstPlay(playerApi.listeners.onFirstPlay);

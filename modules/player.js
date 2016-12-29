@@ -53,13 +53,13 @@ var playerApi = {
             if (pagal.pagalConfig.maximized == false) {
                 pagal.manageWindow(player.width(), player.height() + 118);
             }
-
+            
             //pagal.audioTrackmenuStuff();
             pagal.menuStuff.enableMenues();
         },
 
         isPlaying: function () {
-
+            pagal.menuStuff.enableMenues();
             if (player.subCount() > 1 && pagal.pagalConfig.enableSubOnPlay == true) {
                 //if(player.subDesc(1).language != "Disable") {
                 //    player.subTrack(1);

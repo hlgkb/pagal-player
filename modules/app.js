@@ -11,6 +11,7 @@ var xml2js = require('xml2js');
 var xmlbuilder = require("xmlbuilder");
 var parser = require('ultimate-parser');
 var worker = require("workerjs");
+var toastr = require("toastr");
 var dispatcher = new hotkeys.Dispatcher();
 var appname = pkg.window.title;
 var win = gui.Window.get();
@@ -67,6 +68,7 @@ var mainSub = 0;
 var doneDrop = [];
 var $ = require('jquery');
 require('jquery-ui/sortable');
+require('./modules/jquery.easing.js');
 var coverFolder = gui.App.dataPath + "\\covers";
 var workerInit = false;
 var target = {};
@@ -97,6 +99,14 @@ var afterPlayback = 0;
     var acceptableFile = "mkv,avi,mp4,mpg,mpeg,webm,flv,ogg,ogv,mov,wmv,3gp,3g2,m4v";
     var acceptablePlaylist = "xspf, pagalist";
     var playlistType = { xspf: 1, pagalist: 2 };
+
+    toastr.options.closeButton = true;
+    toastr.options.showEasing = 'easeOutBounce';
+    toastr.options.hideEasing = 'easeInBack';
+    toastr.options.closeEasing = 'easeInBack';
+    toastr.options.closeMethod = 'fadeOut';
+    toastr.options.closeDuration = 300;
+    toastr.options.closeEasing = 'swing';
 
     this.endofPlaylist = function (id) {
         pagal.menues.playbackafter.submenu.items[0].checked = false;
@@ -1068,7 +1078,7 @@ var afterPlayback = 0;
     };
 
     this.loadSubtitle = function (subtitle) {
-        
+
     };
     this.setAspectRatio = function (i) {
         pagal.menues.aspectRatio.submenu.items.forEach(function (el, il) {
@@ -1173,10 +1183,10 @@ var afterPlayback = 0;
         newarray = [];
         if (key !== false) {
             for (var x in array) {
-                if (x == key) { 
+                if (x == key) {
                     continue;
                 } else {
-                  newarray.push(array[x]);
+                    newarray.push(array[x]);
                 }
             }
         }

@@ -1407,7 +1407,7 @@ var afterPlayback = 0;
     this.getCurrentSetting = function () {
         try {
             if (typeof localStorage.settings !== "undefined" || localStorage.settings != "\"\"") {
-                pagal.currentSetting = JSON.parse(localStorage.settings);Y
+                pagal.currentSetting = JSON.parse(localStorage.settings);
                 return true;
             } else {
                 pagal.currentSetting = {};

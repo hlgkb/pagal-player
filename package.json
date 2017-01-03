@@ -43,7 +43,7 @@
   },
   "chromium-args": "--d3d9 --disable-d3d11 --gpu-no-context-lost --ignore-gpu-blacklist",
   "author": "pagal <bibash1270@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",

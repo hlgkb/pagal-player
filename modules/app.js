@@ -1080,8 +1080,23 @@ var afterPlayback = 0;
         });
     };
 
-    this.loadSubtitle = function (subtitle) {
-
+    this.loadSubtitle = function (subtitleFile) {
+        var subs = {
+            url: subtitleFile
+        };
+        var subSetting = player.vlc.playlist.items[player.currentItem()].setting;
+        subSetting = JSON.parse(subSetting);
+        if (subSetting.subtitles) {
+            $.extend(subSetting.subtitles, subs);
+        } else {
+            subSetting.subtitles = subs;
+        }
+        setTimeout(function () {
+            player.vlc.playlist.items[player.currentItem()].setting = JSON.stringify(subSetting);
+        }, 100);
+        setTimeout(function () {
+            player.subTrack(player.subCount() - 1);
+        }, 200);
     };
     this.setAspectRatio = function (i) {
         pagal.menues.aspectRatio.submenu.items.forEach(function (el, il) {

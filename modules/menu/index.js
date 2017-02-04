@@ -390,7 +390,16 @@ exports.init = function (core) {
 		type: "separator"
 	}));
 	menus.helpMenu.submenu.append(new pagalCore.gui.MenuItem({
-		label: "Send us feedback"
+		label: "Send us feedback",
+		click: function() {
+			var src = "http://localhost:1207/api";
+			pagal.checkInternet(function(online) {
+				if(online === true) {
+					src = "https://pure-falls-22930.herokuapp.com/api";
+				}
+			});
+			pagal.dialougeBox("Send us feedback", '<iframe src="'+ src +'" style="width:100%; height:100%; border: none;overflow:hidden"></iframe>');
+		}
 	}));
 	/*
 	menus.helpMenu.submenu.append(new core.gui.MenuItem({

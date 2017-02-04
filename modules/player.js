@@ -126,7 +126,7 @@ var playerApi = {
             pagal.win.title = path.basename(currentItem.title) + " - " + pagal.appname;
         },
         handleMediaChange: function () {
-            iaa = player.currentItem() + 1;
+            var iaa = player.currentItem() + 1;
             if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
             $('.movie-wrap').removeClass("playing");
             $('[data-id="' + iaa + '"]').addClass("playing");
@@ -144,9 +144,11 @@ var playerApi = {
                     /*if (playerApi.isShuffle() === true) {
                         play = playerApi.getRandom();
                     }*/
-                    return player.playItem(play);
+                    return playerApi.play(play);
                 }
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            } else {
+                return playerApi.play(player.currentItem());
             }
             /*if (playerApi.isShuffle() === true) {
                 return player.playItem(playerApi.getRandom());

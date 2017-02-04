@@ -324,28 +324,27 @@ var firstTime = true;
         //pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
     };
 
+    this.createUniqueGuid = function (prep) {
+        var tm;
+        tm = (new Date).getTime();
+        return prep + "-" + tm;
+    };
+
     this.makeNode = function (data, id) {
+        guid = pagal.createUniqueGuid('playlist-item');
         if (config.itemMode === 0) {
-            return '<div class="track-container grid__item" data-id="' + id + '" data-src="' + data + '">' + '<div class="cover" title="' + path.basename(data) + '"></div>' + '<div class="info">' + '<div class="title">' + path.basename(data) + '</div>' + '</div>' + '<div class="clear"></div>' + '</div>';
+            return '<div class="track-container grid__item" id="' + guid + '" data-id="' + id + '" data-src="' + data + '">' + '<div class="cover" title="' + path.basename(data) + '"></div>' + '<div class="info">' + '<div class="title">' + path.basename(data) + '</div>' + '</div>' + '<div class="clear"></div>' + '</div>';
         }
         var mediaName = path.basename(data);
         var nameNikalni = nameParser(mediaName);
         var arkoParser = parser(mediaName);
-        var node = '<div class="movie-wrap" data-id="' + id + '" data-src="' + data + '">';
+        var node = '<div class="movie-wrap" id="' + guid + '" data-id="' + id + '" data-src="' + data + '">';
         node += '<a class="movie-link" style="width:180px; height:265px;" title="' + mediaName + '">';
         node += '<figure><img class="img-responsive default-image" src="lib/img/cover.jpg" height="255" width="175"></figure>';
         node += '</a><div class="movie-bottom">';
         node += '<a href="#" class="movie-title">';
-        if (nameNikalni.name == arkoParser.showName()) {
-            var name_ = nameNikalni.name.split(" ");
-            name_.forEach(function (data, el) {
-                node += data.charAt(0).toUpperCase() + data.slice(1);
-                if (el != name.length - 1) {
-                    node += " ";
-                }
-            });
-        } else {
-            if (nameNikalni.name.indexOf(" ") > -1) {
+        try {
+            if (nameNikalni.name == arkoParser.showName()) {
                 var name_ = nameNikalni.name.split(" ");
                 name_.forEach(function (data, el) {
                     node += data.charAt(0).toUpperCase() + data.slice(1);
@@ -354,8 +353,25 @@ var firstTime = true;
                     }
                 });
             } else {
-                node += nameNikalni.name.charAt(0).toUpperCase() + nameNikalni.name.slice(1);
+                if (nameNikalni.name === undefined) {
+                    node += arkoParser.showName();
+                } else {
+                    if (nameNikalni.name.indexOf(" ") > -1) {
+                        var name_ = nameNikalni.name.split(" ");
+                        name_.forEach(function (data, el) {
+                            node += data.charAt(0).toUpperCase() + data.slice(1);
+                            if (el != name.length - 1) {
+                                node += " ";
+                            }
+                        });
+                    } else {
+                        node += nameNikalni.name.charAt(0).toUpperCase() + nameNikalni.name.slice(1);
+                    }
+                }
+
             }
+        } catch (e) {
+
         }
         node += "</a>";
 

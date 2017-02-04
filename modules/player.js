@@ -166,7 +166,9 @@ var playerApi = {
             pagal.menuStuff.enableMenues(0);
             if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
             $('.movie-wrap').removeClass("playing");
-            pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            if (playerApi.onStopshowWapper === true) {
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            }
         },
         updateUi: function (ms) {
             pagal.elements.FooterControls.find(".info .controls .current-time").text(pagal.parseTime(ms));

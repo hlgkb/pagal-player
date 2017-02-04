@@ -234,6 +234,7 @@ var firstTime = true;
 
     this.handleDrop = function (e) {
         var filesDrop = [];
+        var fileS = [];
         var i = 0;
         window.ondragover = function (e) { e.preventDefault(); return false; };
         window.ondrop = function (e) { e.preventDefault(); return false; };
@@ -250,12 +251,21 @@ var firstTime = true;
                         readDir(filesDrop[i]);
                     }
                 } else if (fs.lstatSync(filesDrop[i]).isFile()) {
-                    pagal.openSingleFile(filesDrop[i]);
+                    //pagal.openSingleFile(filesDrop[i]);
+                    if (pagal.checkExtension(filesDrop[i], acceptableFile)) {
+                        fileS.push(filesDrop[i]);
+                    }
                 } else {
                     console.log(files[i].path);
                 }
             }
             filesDrop = [];
+            if (fileS.length > 0) {
+                pagal.loadFiles(fileS);
+                fileS.forEach(function (data, i) {
+                    loadedFiles.push(data);
+                });
+            }
         });
     };
 

@@ -302,3 +302,25 @@ figure img {
 	text-overflow: ellipsis;
 	background: #fff;
 }
+
+.undo-button {
+    position: relative;
+  left: -5px;
+  top: 5px;
+  float: right;
+  border: 1px solid #CCCCCC;
+  border-radius: 52%;
+  padding-left: 1.2px;
+  padding-right: 2px;
+  height: 15px;
+  width: 15px;
+  font-size: 13px;
+  color: #555;
+  display: none;
+  margin-left: -20px;
+  cursor: pointer;
+}
+
+.undo-button > span > i {
+    color: #9A74B4;
+}

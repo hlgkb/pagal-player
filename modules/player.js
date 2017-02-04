@@ -1,11 +1,12 @@
 var playerApi = {
 
-
+    suffle_Repaeat: [],
+    onStopshowWapper: true,
 
     init: function () {
         var player = new wjs("#player").addPlayer({
             autoplay: false,
-            wcjs: wcjs_
+            wcjs: wcjs
         });
         var currentItem = null;
         player.onFirstPlay(playerApi.listeners.onFirstPlay);
@@ -18,12 +19,13 @@ var playerApi = {
         });
         player.onVolume(playerApi.listeners.handleVolume);
         player.onEnded(playerApi.listeners.handleEnded);
-        player.onStopped(playerApi.listeners.handleEnded);
+        player.onStopped(playerApi.listeners.handleStopped);
         player.onState(playerApi.listeners.changedState);
         player.onError(playerApi.listeners.handleErrors);
         player.onFrameSetup(playerApi.listeners.gotVideoSize);
         player.onMediaChanged(playerApi.listeners.handleMediaChange);
         playerApi.controls();
+        playerApi.updateUiviaStored();
         pagal.player = player;
     },
 
@@ -33,11 +35,14 @@ var playerApi = {
             if (elements.player.attr("class") == "webchimeras playerSmall") {
                 pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
             }
-            if (pagal.workerInit == false) {
-                console.log('loading worker');
-                pagal.findCover();
-                pagal.workerInit = true;
+            if (pagal.pagalConfig.searchCoverArt === true) {
+                if (pagal.workerInit == false) {
+                    console.log('loading worker');
+                    pagal.findCover();
+                    pagal.workerInit = true;
+                }
             }
+
         },
         handleVolume: function (volume) {
             pagal.elements.FooterControls.find('.volume-bg .volume-current').animate({
@@ -46,7 +51,7 @@ var playerApi = {
             player.notify("Volume: " + player.volume() + "%");
         },
         gotVideoSize: function () {
-            if (pagal.pagalConfig.maximized == false) {
+            if (pagal.pagalConfig.maximized === false) {
                 pagal.manageWindow(player.width(), player.height() + 118);
             }
 
@@ -55,7 +60,14 @@ var playerApi = {
         },
 
         isPlaying: function () {
+            //player.find(".wcp-status").css('display', 'none');
+            var id = player.currentItem() + 1;
+            var $xa = $('[data-id="' + id + '"]');
+            if ($xa.hasClass('playing') === false) {
+                $xa.addClass('playing');
+            }
 
+            pagal.menuStuff.enableMenues();
             if (player.subCount() > 1 && pagal.pagalConfig.enableSubOnPlay == true) {
                 //if(player.subDesc(1).language != "Disable") {
                 //    player.subTrack(1);
@@ -84,11 +96,9 @@ var playerApi = {
                     $('.mouse-time span').text(time);
 
                     var ad = (($('.mouse-time').width()) / 2) - 5;
-                    console.log("ad = " + ad);
                     $('.mouse-time:before').css("left", ad - 1);
                     $('.mouse-time:after').css("left", ad);
 
-                    console.log("page x = " + e.pageX);
                     margin = e.pageX - 62 - parseInt(($('.mouse-time').width()) / 2);
                     return $('.mouse-time').css({
                         'margin-left': margin + 'px'
@@ -116,7 +126,7 @@ var playerApi = {
             pagal.win.title = path.basename(currentItem.title) + " - " + pagal.appname;
         },
         handleMediaChange: function () {
-            iaa = player.currentItem() + 1;
+            var iaa = player.currentItem() + 1;
             if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
             $('.movie-wrap').removeClass("playing");
             $('[data-id="' + iaa + '"]').addClass("playing");
@@ -128,19 +138,37 @@ var playerApi = {
             pagal.elements.FooterControls.find('.info .track-info .action i.pause').hide();
         },
         handleEnded: function () {
-            if (pagal.afterPlayback === 1) {
+            if (player.currentItem() + 1 == player.itemCount()) {
+                if (playerApi.isRepeat() === true) {
+                    var play = 0;
+                    /*if (playerApi.isShuffle() === true) {
+                        play = playerApi.getRandom();
+                    }*/
+                    return playerApi.play(play);
+                }
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            } else {
+                return playerApi.play(player.currentItem());
+            }
+            /*if (playerApi.isShuffle() === true) {
+                return player.playItem(playerApi.getRandom());
+            }*/
+            if (pagal.pagalConfig.afterPlayback === 1) {
                 pagal.win.hide();
                 return pagal.keymap().trigger(pagal.keysConfig["quit"]);
             }
             playerApi.resetUi();
             //Disable enabled menues after playlist ended.
             pagal.menuStuff.enableMenues(0);
-            if (player.currentItem() + 1 == player.itemCount()) {
-                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
-            }
         },
         handleStopped: function () {
-
+            playerApi.resetUi();
+            pagal.menuStuff.enableMenues(0);
+            if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
+            $('.movie-wrap').removeClass("playing");
+            if (playerApi.onStopshowWapper === true) {
+                pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
+            }
         },
         updateUi: function (ms) {
             pagal.elements.FooterControls.find(".info .controls .current-time").text(pagal.parseTime(ms));
@@ -151,7 +179,9 @@ var playerApi = {
             pagal.setProgessBar(percentage);
         },
         isOpening: function () {
-
+            console.log("opening");
+            player.find(".wcp-status").text("Opening...");
+            player.find(".wcp-status").css('display', 'block !important');
         },
         changedPosition: function () {
 
@@ -164,6 +194,16 @@ var playerApi = {
         }
     },
     controls: function () {
+        pagal.elements.player.dblclick(function () {
+            if ([3, 4].indexOf(player.stateInt()) > -1) {
+                if (pagal.pagalConfig.maximized === false) {
+                    pagal.pagalConfig.maximized = true;
+                   return pagal.win.maximize();
+                }
+                pagal.pagalConfig.maximized = false;
+                return pagal.win.restore();
+            }
+        });
         pagal.elements.FooterControls.find(".track-info .playlist").click(function () {
             pagal.showWrapper();
         });
@@ -185,11 +225,17 @@ var playerApi = {
         });
         pagal.elements.FooterControls.find(".track-info .action .backward").click(function () {
             if (player.itemCount() == 1) {
-                player.notify("Pervious");
+                player.notify("Previous");
                 player.time(0);
             } else if (player.itemCount() > 1) {
-                player.notify("Pervious");
-                player.prev();
+                var x = player.currentItem();
+                var nowPlay = x - 1;
+                if (playerApi.isRepeat() === true) {
+                    if (x === 0) {
+                        nowPlay = player.itemCount() - 1;
+                    }
+                }
+                return playerApi.play(nowPlay, true, false);
             }
         });
         pagal.elements.FooterControls.find(".track-info .action .forward").click(function () {
@@ -197,11 +243,25 @@ var playerApi = {
                 player.notify("Next");
                 player.time(0);
             } else if (player.itemCount() > 1) {
-                player.notify("Next");
-                player.next();
+                var x = player.currentItem();
+                var nowPlay = x + 1;
+                if (playerApi.isRepeat() === true) {
+                    if (x + 1 === player.itemCount()) {
+                        nowPlay = 0;
+                    }
+                }
+                return playerApi.play(nowPlay, true, true);
             }
         });
-
+        pagal.elements.FooterControls.find('.track-info .random').on('click', function (e) {
+            //pagal.suffleAndRepeat("suffle");
+            //return $(this).closest(".action").toggleClass("active");
+            return;
+        });
+        pagal.elements.FooterControls.find('.track-info .repeat').on('click', function (e) {
+            pagal.suffleAndRepeat("repeat");
+            return $(this).closest(".action").toggleClass("active");
+        });
         pagal.elements.FooterControls.find('.volume-bg').click(function (e) {
             var percentage, volume;
             percentage = (e.pageX - $(this).offset().left) / $(this).width();
@@ -211,7 +271,7 @@ var playerApi = {
                 'width': percentage * 100 + '%'
             });
         });
-        
+
         pagal.elements.FooterControls.find('.volume-icon').on('click', function (e) {
             if (player.mute() == true) {
                 player.mute(false);
@@ -235,6 +295,75 @@ var playerApi = {
         pagal.win.setProgressBar(-1);
         pagal.elements.FooterControls.find(".currentHolder span.title").text("");
         pagal.win.title = pagal.appname;
+    },
+    updateUiviaStored: function () {
+        if (pagal.pagalConfig.repeat === 1) {
+            pagal.elements.FooterControls.find('.track-info .repeat').closest(".action").toggleClass("active");
+        }
+        if (pagal.pagalConfig.suffle === 1) {
+            pagal.elements.FooterControls.find('.track-info .random').closest(".action").toggleClass("active");
+        }
+    },
+    isRepeat: function () {
+        return pagal.elements.FooterControls.find(".repeat").closest(".action").hasClass("active");
+    },
+    isShuffle: function () {
+        return pagal.elements.FooterControls.find(".random").closest(".action").hasClass("active");
+    },
+    getRandom: function () {
+        return parseInt(Math.random() * player.itemCount());
+    },
+    manageShuffle: function () {
+        if (playerApi.isShuffle === true) {
+            if (player.itemCount() > 1) {
+                var x = playerApi.getRandom();
+                return player.playItem(x);
+            } else if (player.itemCount() === 1) {
+                return player.time(0);
+            }
+        }
+    },
+    managePrevNext: function (id, cb) {
+        pagal.getVideoPath(id, function (err, path) {
+            if (err) {
+                return cb(err);
+            }
+            pagal.checkIfFileExit(path, function (err) {
+                if (err) {
+                    return cb(err, path);
+                }
+                return cb(null, path);
+            });
+        });
+    },
+    play: function (id, notify, pervNext) {
+        return playerApi.managePrevNext(id, function (err, paths) {
+            if (err) {
+                if (err.message == "id doesnot exit.") {
+                    if (playerApi.isRepeat() === true) {
+                        id = -1;
+                        return playerApi.play(id + 1, notify, pervNext);
+                    }
+                    return player.stop();
+                } else {
+                    toastr.error("Pagal could not open the file '" + path.basename(paths) + "'", "File reading failed");
+                    return playerApi.play(id + 1, notify, pervNext);
+                }
+            }
+            playerApi.onStopshowWapper = false;
+            player.stop();
+            if (typeof notify !== 'undefined') {
+                if (typeof pervNext !== 'undefined') {
+                    if (pervNext === false) {
+                        player.notify("Previous");
+                    } else {
+                        player.notify("Next");
+                    }
+                }
+            }
+            playerApi.onStopshowWapper = true;
+            return player.playItem(id);
+        });
     }
 
 }

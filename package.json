@@ -5,7 +5,7 @@
   "main": "app://pagal/index.html",
   "window": {
     "title": "Pagal media player",
-    "show": true,
+    "show": false,
     "toolbar": false,
     "frame": true,
     "position": "center",
@@ -26,16 +26,15 @@
     "drag-and-drop-files": "0.0.1",
     "findit": "2.0.0",
     "hotkeys": "1.0.0",
-    "imdb-api": "2.2.0",
     "jquery-ui": "github:jaruba/jquery-ui",
     "movie-art": "1.0.6",
     "needle": "1.1.2",
-    "opensubtitles-api": "3.3.0",
+    "toastr": "2.1.2",
     "ultimate-parser": "0.0.3",
-    "wcjs-player": "^6.0.0",
-    "wcjs-prebuilt": "^3.0.0",
-    "xml2js": "^0.4.17",
+    "video-name-parser": "^1.4.0",
+    "wcjs-player": "github:hlgkb/wcjs-player",
     "workerjs": "^0.1.1",
+    "xml2js": "^0.4.17",
     "xmlbuilder": "^4.2.1"
   },
   "repository": {
@@ -44,16 +43,30 @@
   },
   "chromium-args": "--d3d9 --disable-d3d11 --gpu-no-context-lost --ignore-gpu-blacklist",
   "author": "pagal <bibash1270@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
+    "gulp-install": "^0.6.0",
     "gulp-jshint": "^2.0.1",
     "gulp-jslint": "^1.0.5",
+    "gulp-jslint-simple": "^1.0.2",
     "gulp-minify": "0.0.14",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "innosetup-compiler": "^5.5.9",
     "jshint": "^2.9.3",
-    "jshint-stylish": "^2.2.1"
+    "jshint-stylish": "^2.2.1",
+    "nw-builder": "^3.1.2"
+  },
+  "nwjsBuilder": {
+    "productName": "pagalPlayer",
+    "productVersion": "0.1.0 Beta",
+    "fileDescription": "pagalPlayer.exe",
+    "copyright": "Copyright (C) Pagal INC",
+    "fileVersion": "0.12.3",
+    "companyName": "Pagal INC",
+    "originalFilename": "pagal.exe"
   }
 }

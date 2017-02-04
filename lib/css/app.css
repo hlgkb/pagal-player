@@ -89,7 +89,7 @@
 }
 
 #PlayerContainer .info .info-text .track-info .action.active i {
-    opacity: .7
+    opacity: .84
 }
 
 #PlayerContainer .info .info-text .track-info .artist {
@@ -367,9 +367,6 @@ width: 100%;
 }
 #PlayerContainer .info  .volume-bg-container .volume-bg .volume-current:hover,#PlayerContainer .info .info-text .track-info .action i:hover {
 opacity: 0.9;
-}
-#PlayerContainer .info .info-text .track-info .action.active i{
-opacity: 1;
 }
 body {
     user-select: none;

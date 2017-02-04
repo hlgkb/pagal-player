@@ -192,7 +192,29 @@ gulp.task('nw', ['hotkeys'], function () {
         files: './build/dist/**',
         winIco: './build/app.ico',
         flavor: 'normal',
-        platforms: ['win32', 'linux32'],
+        platforms: ['win32'],
+        zip: false,
+        appName: "pagal"
+    });
+
+    // Log stuff you want
+    nw.on('log', function (msg) {
+        gutil.log('nw-builder', msg);
+    });
+
+    // Build returns a promise, return it so the task isn't called in parallel
+    return nw.build().catch(function (err) {
+        gutil.log('nw-builder', err);
+    });
+});
+
+gulp.task('nw-linux32', ['hotkeys'], function () {
+    var nw = new NwBuilder({
+        version: '0.12.3',
+        files: './build/dist/**',
+        winIco: './build/app.ico',
+        flavor: 'normal',
+        platforms: ['linux32'],
         zip: false,
         appName: "pagal"
     });
@@ -255,3 +277,4 @@ gulp.task('modules', ['main-module', 'keybinding', 'menu']);
 gulp.task('clean', ['clean:dist', 'clean:pagal']);
 gulp.task('default', ['modules', 'fonts', 'images', 'icon', 'worker', 'css-shrink', 'package.json']);
 gulp.task('build', ['nw']);
+gulp.task('build-linux' ['nw-linux32']);

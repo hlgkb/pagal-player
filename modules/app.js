@@ -75,6 +75,8 @@ var target = {};
 target.id = 1;
 var targetDone = [];
 var afterPlayback = 0;
+var guid = null;
+var firstTime = true;
 
 
 

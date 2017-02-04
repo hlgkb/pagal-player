@@ -1,7 +1,7 @@
 "use strict";
 var path = require("path");
 var gulp = require("gulp");
-var cssshrink = require("gulp-cssshrink");
+var cssshrink = require("gulp-clean-css");
 var concat = require("gulp-concat");
 var minify = require("gulp-minify");
 var uglify = require('gulp-uglify');

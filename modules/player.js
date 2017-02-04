@@ -192,6 +192,16 @@ var playerApi = {
         }
     },
     controls: function () {
+        pagal.elements.player.dblclick(function () {
+            if ([3, 4].indexOf(player.stateInt()) > -1) {
+                if (pagal.pagalConfig.maximized === false) {
+                    pagal.pagalConfig.maximized = true;
+                   return pagal.win.maximize();
+                }
+                pagal.pagalConfig.maximized = false;
+                return pagal.win.restore();
+            }
+        });
         pagal.elements.FooterControls.find(".track-info .playlist").click(function () {
             pagal.showWrapper();
         });

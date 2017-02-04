@@ -225,11 +225,17 @@ var playerApi = {
         });
         pagal.elements.FooterControls.find(".track-info .action .backward").click(function () {
             if (player.itemCount() == 1) {
-                player.notify("Pervious");
+                player.notify("Previous");
                 player.time(0);
             } else if (player.itemCount() > 1) {
-                player.notify("Pervious");
-                player.prev();
+                var x = player.currentItem();
+                var nowPlay = x - 1;
+                if (playerApi.isRepeat() === true) {
+                    if (x === 0) {
+                        nowPlay = player.itemCount() - 1;
+                    }
+                }
+                return playerApi.play(nowPlay, true, false);
             }
         });
         pagal.elements.FooterControls.find(".track-info .action .forward").click(function () {
@@ -237,8 +243,14 @@ var playerApi = {
                 player.notify("Next");
                 player.time(0);
             } else if (player.itemCount() > 1) {
-                player.notify("Next");
-                player.next();
+                var x = player.currentItem();
+                var nowPlay = x + 1;
+                if (playerApi.isRepeat() === true) {
+                    if (x + 1 === player.itemCount()) {
+                        nowPlay = 0;
+                    }
+                }
+                return playerApi.play(nowPlay, true, true);
             }
         });
         pagal.elements.FooterControls.find('.track-info .random').on('click', function (e) {

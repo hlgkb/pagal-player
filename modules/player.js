@@ -308,6 +308,48 @@ var playerApi = {
                 return player.time(0);
             }
         }
+    },
+    managePrevNext: function (id, cb) {
+        pagal.getVideoPath(id, function (err, path) {
+            if (err) {
+                return cb(err);
+            }
+            pagal.checkIfFileExit(path, function (err) {
+                if (err) {
+                    return cb(err, path);
+                }
+                return cb(null, path);
+            });
+        });
+    },
+    play: function (id, notify, pervNext) {
+        return playerApi.managePrevNext(id, function (err, paths) {
+            if (err) {
+                if (err.message == "id doesnot exit.") {
+                    if (playerApi.isRepeat() === true) {
+                        id = -1;
+                        return playerApi.play(id + 1, notify, pervNext);
+                    }
+                    return player.stop();
+                } else {
+                    toastr.error("Pagal could not open the file '" + path.basename(paths) + "'", "File reading failed");
+                    return playerApi.play(id + 1, notify, pervNext);
+                }
+            }
+            playerApi.onStopshowWapper = false;
+            player.stop();
+            if (typeof notify !== 'undefined') {
+                if (typeof pervNext !== 'undefined') {
+                    if (pervNext === false) {
+                        player.notify("Previous");
+                    } else {
+                        player.notify("Next");
+                    }
+                }
+            }
+            playerApi.onStopshowWapper = true;
+            return player.playItem(id);
+        });
     }
 
 }

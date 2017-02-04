@@ -177,7 +177,9 @@ var playerApi = {
             pagal.setProgessBar(percentage);
         },
         isOpening: function () {
-
+            console.log("opening");
+            player.find(".wcp-status").text("Opening...");
+            player.find(".wcp-status").css('display', 'block !important');
         },
         changedPosition: function () {
 

@@ -51,15 +51,22 @@ var playerApi = {
             player.notify("Volume: " + player.volume() + "%");
         },
         gotVideoSize: function () {
-            if (pagal.pagalConfig.maximized == false) {
+            if (pagal.pagalConfig.maximized === false) {
                 pagal.manageWindow(player.width(), player.height() + 118);
             }
-            
+
             //pagal.audioTrackmenuStuff();
             pagal.menuStuff.enableMenues();
         },
 
         isPlaying: function () {
+            //player.find(".wcp-status").css('display', 'none');
+            var id = player.currentItem() + 1;
+            var $xa = $('[data-id="' + id + '"]');
+            if ($xa.hasClass('playing') === false) {
+                $xa.addClass('playing');
+            }
+
             pagal.menuStuff.enableMenues();
             if (player.subCount() > 1 && pagal.pagalConfig.enableSubOnPlay == true) {
                 //if(player.subDesc(1).language != "Disable") {

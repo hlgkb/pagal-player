@@ -481,7 +481,7 @@ var firstTime = true;
             });
         } catch (err) {
             console.log("No config.json file found");
-            toastr.error("No config.json file found. Make sure it exits." , "Error");
+            toastr.error("No config.json file found. Make sure it exits.", "Error");
             fileFound = false;
         }
 
@@ -490,7 +490,7 @@ var firstTime = true;
                 configObject = JSON.parse(configJson);
             } catch (err) {
                 console.log("Hawa Invalid config.json file.");
-                toastr.error("No config.json file found. Make sure it exits." , "Error");
+                toastr.error("No config.json file found. Make sure it exits.", "Error");
             }
 
             for (key in configObject) {
@@ -725,17 +725,7 @@ var firstTime = true;
             mode = 0
         };
         if (mode == 1) {
-            win.on("resize", function () {
-                if (win.height <= 480 && mode == 1) {
-                    win.height = 480;
-                    win.setResizable(false);
-                }
-                if (win.width <= 555 && mode == 1) {
-                    win.width = 555;
-                    win.setResizable(false);
-
-                }
-            });
+            return win.setResizable(false);
         }
         else {
             win.setResizable(true);
@@ -827,7 +817,7 @@ var firstTime = true;
         }
         pagal.showWrapper();
         elements.player.css("display", "block");
-        player.playItem(id - 1);
+        playerApi.play(id - 1);
     };
 
     this.node_Init = function () {
@@ -854,7 +844,10 @@ var firstTime = true;
         }
 
         pagal.sortAble();
-        menues.contextmenu = pagal.menuStuff.createTrackMenu($asf);
+        if (firstTime === true) {
+            pagal.menuStuff.createTrackMenu($asf);
+            firstTime = false;
+        }
 
     };
 
@@ -1057,6 +1050,7 @@ var firstTime = true;
     this.addToPlayList = function (file) {
         var node = pagal.makeNode(file, loadedFiles.length + 1);
         $("#ContentWrapper").css("display", "flex").append(node);
+        pagal.menuStuff.createTrackMenu($("#" + guid));
         pagal.node_Init();
     };
 
@@ -1318,10 +1312,10 @@ var firstTime = true;
     };
 
     this.processPlaylist = function (type, datas) {
-        _Tracks_ = [];
+        var _Tracks_ = [];
         if (playlistType[type] == 1) {
             console.log("Its a vlc type playlist");
-            tracks = datas.playlist.trackList[0].track;
+            var tracks = datas.playlist.trackList[0].track;
             if (tracks.length > 0) {
                 tracks.forEach(function (el, i) {
                     _Tracks_.push(el.location[0]);
@@ -1332,29 +1326,39 @@ var firstTime = true;
             tracks = datas.pagalist.trackList[0].media;
             if (tracks.length > 0) {
                 tracks.forEach(function (el, i) {
-                    _Tracks_.push("file:///" + el.path[0]);
+                    _Tracks_.push(el.path[0]);
                 });
-                console.log(_Tracks_);
             }
         }
         length = pagal.loadedFiles.length + 1;
         _Tracks_.sort().forEach(function (el, i) {
-            node = makeNode(decodeURI(el), length);
+            var node = makeNode(el, length);
             elements.dropFiles.css("display", "none");
             $("#ContentWrapper").css("display", "flex").append(node);
-            pagal.player.addPlaylist(el);
+            pagal.player.addPlaylist("file:///" + el);
             node = null;
             length++;
-            loadedFiles.push(decodeURI(el));
+            loadedFiles.push(el);
         });
         pagal.node_Init();
         if (elements.player.attr("class") == "webchimeras playerSmall") {
             pagal.elements.FooterControls.find(".track-info .playlist").trigger("click");
         }
-        pagal.player.play();
+        //pagal.player.play();
+        playerApi.play(0);
         _Tracks_ = null,
             length = null,
             track = null;
+    };
+
+    this.checkInternet = function (cb) {
+        require('dns').lookup('google.com', function (err) {
+            if (err && err.code == "ENOTFOUND") {
+                cb(false);
+            } else {
+                cb(true);
+            }
+        });
     };
 
     this.readHotkeysDes = function (file) {
@@ -1366,7 +1370,7 @@ var firstTime = true;
         } catch (err) {
             console.log(err.message);
             fileFound = false;
-            toastr.warning(file + " couldn't be found. Make sure it exits." , "Error");
+            toastr.warning(file + " couldn't be found. Make sure it exits.", "Error");
         }
 
         if (fileFound === true) {
@@ -1374,7 +1378,7 @@ var firstTime = true;
                 configObject = JSON.parse(configJson);
             } catch (err) {
                 console.log("Invalid keybinding.json file.");
-                toastr.error("Something went terrible wrong." , "Error");
+                toastr.error("Something went terrible wrong.", "Error");
             }
             return configObject;
         }
@@ -1412,7 +1416,7 @@ var firstTime = true;
         $('.dialouge').center();
         $('.close').click(function () {
             $('.dialouge').remove();
-        })
+        });
     };
 
     this.sortAble = function () {
@@ -1468,7 +1472,7 @@ var firstTime = true;
         var $playing = false;
         if (config.itemMode === 0) items = ".track-container";
         var $item = $(".contextMenu").closest(items);
-        var $current = player.currentItem();
+        var $current = $item.attr('data-id') - 1;
         if ($item.hasClass("playing") === true) {
             $playing = true;
         }
@@ -1482,6 +1486,7 @@ var firstTime = true;
         $(items).each(function () {
             $(this).attr('data-id', $(this).index() + 1);
         });
+        $item.removeClass('contextMenu');
     };
 
     this.mainInit = function () {
@@ -1504,19 +1509,30 @@ var firstTime = true;
         } catch (err) {
             console.log("Error!!!");
             console.dir(err);
-            toastr.error("Something went wrong." , "Error");
+            toastr.error("Something went wrong.", "Error");
         }
     };
 
     this.suffleAndRepeat = function (which) {
         pagal.getCurrentSetting();
-        if (iswhichEnabled === true) {
+        if (pagal.iswhichEnabled(which) === true) {
             pagal.pagalConfig[which] = 0;
         } else {
             pagal.pagalConfig[which] = 1;
         }
         pagal.currentSetting[which] = pagal.pagalConfig[which];
         localStorage.settings = JSON.stringify(pagal.currentSetting);
+    };
+
+    this.iswhichEnabled = function (which) {
+        if (which === 'suffle') {
+            return playerApi.isShuffle();
+        } else if (which === 'repeat') {
+            return playerApi.isRepeat();
+        } else {
+            return false;
+        }
+
     };
 
     this.loadStored = function () {
@@ -1608,6 +1624,17 @@ var firstTime = true;
     win.on("loaded", function () {
         win.show();
 
+    });
+    win.on("resize", function () {
+        if (win.height <= 480 && mode == 1) {
+            win.height = 480;
+            win.setResizable(false);
+        }
+        if (win.width <= 555 && mode == 1) {
+            win.width = 555;
+            win.setResizable(false);
+
+        }
     });
 
 

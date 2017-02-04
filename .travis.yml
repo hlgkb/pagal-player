@@ -1,5 +1,15 @@
 language: node_js
 node_js:
-  - "0.4"
-  - "0.8"
-  - "0.10"
+    - "6"
+
+install: true
+
+before_script:
+  - "npm install -g gulp"
+  - "npm install gulp gulp-cssshrink gulp-concat gulp-minify gulp-uglify gulp-install gulp-clean nw-builder gulp-jslint-simple"
+
+script:
+  - "gulp clean"
+  - "gulp default"
+  - "gulp build"
+  - "gulp setup"

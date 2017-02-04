@@ -26,7 +26,7 @@ var product = {
     ExeBasename: "pagal",
     AppUserId: "pagal.player",
     RegValueName: "pagal",
-    NameVersion: "Pagalni",
+    NameVersion: "PagalPlayer Beta",
     Beta: "Beta"
 }
 

@@ -6,7 +6,7 @@ install: true
 
 before_script:
   - "npm install -g gulp"
-  - "npm install gulp gulp-cssshrink gulp-concat gulp-minify gulp-uglify gulp-install gulp-clean nw-builder gulp-jslint-simple innosetup-compiler"
+  - "npm install gulp gulp-cssshrink gulp-concat gulp-minify gulp-uglify gulp-install gulp-clean nw-builder gulp-jslint-simple innosetup-compiler gulp-util"
 
 script:
   - "gulp clean"

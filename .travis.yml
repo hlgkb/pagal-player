@@ -5,13 +5,10 @@ node_js:
 install: true
 
 before_script:
-  - "apt-get update"
-  - "apt-get install --install-recommends winehq-devel"
   - "npm install -g gulp"
   - "npm install gulp gulp-concat gulp-minify gulp-uglify gulp-install gulp-clean nw-builder gulp-jslint-simple innosetup-compiler gulp-util gulp-clean-css"
 
 script:
   - "gulp clean"
   - "gulp default"
-  - "gulp build"
-  - "gulp setup"
+  - "gulp build-linux"

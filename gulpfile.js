@@ -277,4 +277,4 @@ gulp.task('modules', ['main-module', 'keybinding', 'menu']);
 gulp.task('clean', ['clean:dist', 'clean:pagal']);
 gulp.task('default', ['modules', 'fonts', 'images', 'icon', 'worker', 'css-shrink', 'package.json']);
 gulp.task('build', ['nw']);
-gulp.task('build-linux' ['nw-linux32']);
+gulp.task('build-linux', ['nw-linux32']);

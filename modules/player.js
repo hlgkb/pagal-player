@@ -1,6 +1,7 @@
 var playerApi = {
 
     suffle_Repaeat: [],
+    onStopshowWapper: true,
 
     init: function () {
         var player = new wjs("#player").addPlayer({

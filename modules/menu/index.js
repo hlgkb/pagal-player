@@ -551,7 +551,6 @@ exports.init = function (core) {
 
 exports.enableMenues = function (enable) {
 	var value = (typeof enable === 'undefined') ? true : false;
-	console.log(value);
 	pagal.menues.aspectRatio.enabled = value;
 	pagal.menues.crop.enabled = value;
 	pagal.menues.zoom.enabled = value;
@@ -607,9 +606,8 @@ exports.createTrackMenu = function (elements__) {
 			} else {
 				id = pagal.$(".movie-wrap.contextMenu").attr("data-id");
 			}
-			console.log("id = " + id);
-			if (id)
-				pagal.asd__P(id);
+			pagal.$(".movie-wrap").removeClass('contextMenu');
+			if (id) { pagal.asd__P(id);}
 		}
 	}));
 	contextMenu.append(new pagalCore.gui.MenuItem({ type: 'separator' }));
@@ -622,6 +620,7 @@ exports.createTrackMenu = function (elements__) {
 	contextMenu.append(new pagalCore.gui.MenuItem({
 		label: 'Open Folder',
 		click: function () {
+			pagal.$(".movie-wrap").removeClass('contextMenu');
 			pagal.elements.openDir.click();
 		}
 	}));
@@ -630,6 +629,7 @@ exports.createTrackMenu = function (elements__) {
 		label: 'Remove',
 		click: function () {
 			pagal.removeItem();
+			pagal.$(".movie-wrap").removeClass('contextMenu');
 		}
 	}));
 

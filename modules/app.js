@@ -110,6 +110,34 @@ var firstTime = true;
     toastr.options.closeDuration = 300;
     toastr.options.closeEasing = 'swing';
 
+    this.checkIfFileExit = function (file, cb) {
+        fs.lstat(file, function (err, stat) {
+            if (err) {
+                return cb(err);
+            } else {
+                return cb(null);
+            }
+        })
+    };
+
+    this.getVideoPath = function (id, cb) {
+        if (id > player.itemCount() - 1) {
+            if (typeof cb === 'undefined') {
+                return null;
+            } else {
+                return cb(new Error("id doesnot exit."));
+            }
+        }
+        id = id + 1;
+        var $req = $('[data-id="' + id + '"]');
+        var videoPath = $req.attr('data-src');
+        if (typeof cb === 'undefined') {
+            return videoPath;
+        } else {
+            return cb(null, videoPath);
+        }
+    }
+
     this.endofPlaylist = function (id) {
         pagal.menues.playbackafter.submenu.items[0].checked = false;
         pagal.menues.playbackafter.submenu.items[1].checked = false;

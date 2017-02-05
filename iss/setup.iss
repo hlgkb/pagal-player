@@ -27,7 +27,7 @@ ShowLanguageDialog=auto
 
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl,{#RepoDir}\build\iss\i18n\messages.en.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl,{#RepoDir}\iss\i18n\messages.en.isl"
 
 [InstallDelete]
 Type: filesandordirs; Name: {app}\lib

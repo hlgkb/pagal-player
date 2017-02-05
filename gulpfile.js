@@ -233,6 +233,21 @@ gulp.task("console", function () {
     console.log(sourcePath);
 });
 
+gulp.task('changeIcon', function() {
+    require("winresourcer")({
+			operation: "Update", // one of Add, Update, Extract or Delete
+			exeFile: "./build/pagal/win32/pagal.exe",
+			resourceType: "Icongroup",
+			resourceName: "IDR_MAINFRAME",
+			lang: 1033, // Required, except when updating or deleting 
+			resourceFile: "./lib/icon/app.ico" // Required, except when deleting
+		}, function(error) {
+            if (error) {
+                return gutil.log('winresourcer', error);
+            }
+			return gutil.log('winresourcer', 'Successfully changed icon.');
+		});
+})
 
 
 function packageInnoSetup(iss, options, cb) {

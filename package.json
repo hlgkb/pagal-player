@@ -41,6 +41,12 @@
     "type": "git",
     "url": "git://github.com/hlgkb/pagal-player.git"
   },
+  "packages": {
+    "osx64": "https://github.com/hlgkb/pagal-player/releases/download/v0.1.0/PagalPlayer.dmg",
+    "win32": "https://github.com/hlgkb/pagal-player/releases/download/v0.1.0/PagalPlayerSetup.exe",
+    "linux32": "https://github.com/hlgkb/pagal-player/releases/download/v0.1.0/PagalPlayer_linux32.deb",
+    "linux64": "https://github.com/hlgkb/pagal-player/releases/download/v0.1.0/PagalPlayer_linux64.deb"
+  },
   "chromium-args": "--d3d9 --disable-d3d11 --gpu-no-context-lost --ignore-gpu-blacklist",
   "author": "pagal <bibash1270@gmail.com>",
   "license": "MIT",

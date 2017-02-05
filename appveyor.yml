@@ -27,6 +27,7 @@ build_script:
   - gulp clean
   - gulp default
   - gulp build
+  - gulp changeIcon
   - gulp setup
 
 test: off

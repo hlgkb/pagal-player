@@ -34,3 +34,6 @@ test: off
 branches:
     only:
         - master
+artifacts:
+  - path: build\setup\PagalPlayerSetup.exe
+    name: PagalPlayer

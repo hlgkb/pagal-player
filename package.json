@@ -25,7 +25,7 @@
   "dependencies": {
     "drag-and-drop-files": "0.0.1",
     "findit": "2.0.0",
-    "hotkeys": "1.0.0",
+    "hotkeys": "github:hlgkb/hotkeys",
     "jquery-ui": "github:jaruba/jquery-ui",
     "movie-art": "1.0.6",
     "needle": "1.1.2",

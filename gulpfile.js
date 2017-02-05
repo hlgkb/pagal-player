@@ -147,10 +147,10 @@ gulp.task('worker', function () {
 gulp.task('package.json', ['index-config'], function () {
     return (function () {
         var packageJson = require('./package.json');
-        packageJson.window.show = false;
+        packageJson.window.show = true;
         packageJson.main = "app://pagal/index.html";
         packageJson.window.icon = "lib/img/icon.png";
-        delete packageJson["wcjs-prebuilt"];
+        //packageJson["wcjs-prebuilt"];
         delete packageJson.nwjsBuilder;
         delete packageJson.devDependencies;
         //delete packageJson.dependencies;
@@ -178,7 +178,7 @@ gulp.task('index-config', function () {
         .pipe(gulp.dest('build/dist'));
 });
 
-gulp.task('node_modules', ['wcjs-prebuilt'], function () {
+gulp.task('node_modules',  function () {
     return gulp.src(['./build/dist/package.json'])
         .pipe(gulp.dest('build/dist'))
         .pipe(install({ production: true }));
@@ -186,7 +186,7 @@ gulp.task('node_modules', ['wcjs-prebuilt'], function () {
 
 var gutil = require('gulp-util');
 
-gulp.task('nw', ['hotkeys'], function () {
+gulp.task('nw', ['node_modules'], function () {
     var nw = new NwBuilder({
         version: '0.12.3',
         files: './build/dist/**',
@@ -207,7 +207,7 @@ gulp.task('nw', ['hotkeys'], function () {
     });
 });
 
-gulp.task('nw-linux32', ['hotkeys'], function () {
+gulp.task('nw-linux32', ['node_modules'], function () {
     var nw = new NwBuilder({
         version: '0.12.3',
         files: './build/dist/**',

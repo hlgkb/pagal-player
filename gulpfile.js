@@ -190,7 +190,6 @@ gulp.task('nw', ['hotkeys'], function () {
     var nw = new NwBuilder({
         version: '0.12.3',
         files: './build/dist/**',
-        winIco: './build/app.ico',
         flavor: 'normal',
         platforms: ['win32'],
         zip: false,

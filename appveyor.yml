@@ -17,6 +17,7 @@ install:
   - npm install npm -g
   - npm install -g gulp
   - npm install gulp gulp-concat gulp-minify gulp-uglify gulp-install gulp-clean nw-builder gulp-jslint-simple innosetup-compiler gulp-util gulp-clean-css
+  - npm install wcjs-prebuilt
   - npm install
   - npm prune
 

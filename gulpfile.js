@@ -18,7 +18,7 @@ var assert = require("assert");
 
 var sourcePath = path.resolve(__dirname, "build", "pagal", "win32");
 var repoDir = __dirname;
-var issPath = path.join(__dirname, 'build', 'iss', 'setup.iss');
+var issPath = path.join(__dirname, 'iss', 'setup.iss');
 var innoSetupPath = path.join(path.dirname(path.dirname(require.resolve('innosetup-compiler'))), 'bin', 'ISCC.exe');
 var product = {
     nameShort: "pagal",

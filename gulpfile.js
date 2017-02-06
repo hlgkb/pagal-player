@@ -253,9 +253,8 @@ gulp.task('ridjs', function() {
     var mainDir = __dirname;
     var runningDir = path.join(__dirname, 'build', 'pagal', 'win32');
     var nodePath = path.join(runningDir, 'node_modules', 'wcjs-prebuilt', 'bin', 'WebChimera.js.node');
-    process.chdir(runningDir);
     gutil.log(nodePath);
-    require('ridjs')(nodePath, 'nw.exe', 'pagal.exe',
+    require('ridjs')(runningDir, nodePath, 'nw.exe', 'pagal.exe',
          function(error) {
              gutil.log(process.chdir(mainDir));
             if (error) {

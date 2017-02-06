@@ -3,14 +3,17 @@ var http = require("http");
 var imdb = require("imdb-api");
 var movieArt = require("movie-art");
 var nameParser = require("video-name-parser");
+var path = require("path");
 var cover = {},
     target = {};
 
 var storage = {};
+var fileCover = null;
 cover.search = 0;
 
 cover.readStoredCover = function(file) {
     var configJson, configObject, key, fileFound = true;
+    fileCover = file;
 		try {
 			configJson = fs.readFileSync(file, {
 				encoding: "utf-8"
@@ -41,7 +44,11 @@ cover.download = function(url, dest, cb) {
         });
     }).on('error', function (err) { // Handle errors
         fs.unlink(dest); // Delete the file async. (But we don't check the result)
-        if (cb) cb(err.message);
+        if (cb) {
+            if (err) {
+                return cb(err.message);
+            }
+        }
     });
 };
 
@@ -55,7 +62,7 @@ cover.findCover = function(newtarget) {
     target.type = desc.type;
     target.year = desc.year;
     if(storage[target.name]) {
-        target.callback({url:"C:\\Users\\hlgkb\\AppData\\Local\\pagal-player\\covers\\"+storage[target.name],id:target.id});
+        target.callback({url:storage[target.name],id:target.id});
     } else {
         cover.find();
     }
@@ -75,11 +82,23 @@ cover.find = function() {
     movieArt(name, year, width, type, function (err, url) {
         if(err) {
             //cover.tryLater(1500);
-            target.callback({err: err});
+            target.callback({err: err, target: target});
             return;            
         }
-        target.callback({url:url,id:id});
-        target = {};
+        return cover.download(url, "C:\\Users\\hlgkb\\AppData\\Local\\pagal-player\\covers\\" + target.name + path.extname(url), function(error) {
+            if (!error) {
+                storage[target.name] = "C:\\Users\\hlgkb\\AppData\\Local\\pagal-player\\covers\\" + target.name + path.extname(url);
+                var open = fs.createWriteStream(fileCover);
+                open.write(JSON.stringify(storage), function(wrote) {
+                    if (wrote) {
+
+                    }
+                    target.callback({url:url,id:id, error: error, storage: storage, wrote: wrote });
+                    target = {};
+                });
+            }            
+        });       
+        
     });  
 
 };
@@ -103,7 +122,7 @@ self.onmessage = function(msg) {
     target.callback = function(url) {
         postMessage(url);
     }
-    cover.readStoredCover("C:\\Users\\hlgkb\\AppData\\Local\\pagal-player\\cover.json");
+    cover.readStoredCover("C:\\Users\\hlgkb\\AppData\\Local\\pagal-player\\covers.json");
     cover.findCover(target);
 }
 

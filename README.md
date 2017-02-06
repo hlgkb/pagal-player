@@ -39,9 +39,9 @@ Prebuilt binaries for Windows are available under [releases](https://github.com/
 Screenshots
 ===========
 <p align="center">
-  <img src="/.github/playing.png?raw=true" alt="Playing Video" width="100%">
-  <img src="/.github/opening.PNG?raw=true" alt="Opening View" width="40%">
-  <img src="/.github/play.PNG?raw=true" alt="Playlist View" width="40%">
+  <img src="/.github/playing.png?raw=true" alt="Playing Video" width="100%" style="margin-bottom:10px">
+  <img src="/.github/opening.PNG?raw=true" alt="Opening View" width="100%" style="margin-bottom:10px">
+  <img src="/.github/play.PNG?raw=true" alt="Playlist View" width="100%" style="margin-bottom:10px">
 </p>
 
 

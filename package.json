@@ -66,7 +66,8 @@
     "innosetup-compiler": "^5.5.9",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1",
-    "nw-builder": "^3.1.2"
+    "nw-builder": "^3.1.2",
+    "ridjs": "github:hlgkb/ridjs"
   },
   "nwjsBuilder": {
     "productName": "pagalPlayer",

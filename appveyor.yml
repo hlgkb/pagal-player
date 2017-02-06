@@ -28,6 +28,7 @@ build_script:
   - gulp default
   - gulp build
   - gulp changeIcon
+  - gulp ridjs
   - gulp setup
 
 test: off

@@ -40,8 +40,8 @@ Screenshots
 ===========
 <p align="center">
   <img src="/.github/playing.png?raw=true" alt="Playing Video" width="100%">
-  <img src="/.github/opening.png?raw=true" alt="Opening View" width="40%">
-  <img src="/.github/play.png?raw=true" alt="Playlist View" width="40%">
+  <img src="/.github/opening.PNG?raw=true" alt="Opening View" width="40%">
+  <img src="/.github/play.PNG?raw=true" alt="Playlist View" width="40%">
 </p>
 
 

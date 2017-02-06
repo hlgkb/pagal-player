@@ -1,34 +1,55 @@
-# Pagal - An experimental player
-Pagal is a minimalistic experimental video player. It's written in Node, and wrapped in
-Nw.js as a runtime container for easy cross-platform integration.
+<h1 align="center">
+  <br>
+  <a href="https://github.com/hlgkb/pagal-player"><img src="./lib/icon/icon.png" alt="PagalPlayer" width="180" style= "margin-bottom: 1rem"></a>
+  <br>
+  PagalPlayer
+  <br>
+  <br>
+</h1>
+<p align="center">
+    <a href="https://travis-ci.org/hlgkb/pagal-player">
+        <img src="https://travis-ci.org/hlgkb/pagal-player.svg?branch=master"
+             alt="Travis Build" style= "margin-bottom: 0.5rem" height="25px">
+    </a>
+    <a href="https://ci.appveyor.com/project/hlgkb/pagal-player">
+        <img src="https://ci.appveyor.com/api/projects/status/github/hlgkb/pagal-player?branch=master&svg=true"
+             alt="AppVeyor Build" style= "margin-bottom: 0.5rem" height="25px">
+    </a>
+    <a href="https://github.com/hlgkb/pagal-player/releases/latest">
+        <img src="https://img.shields.io/badge/Download-0.1--Beta-red.svg"
+            alt="Download latest release" style= "margin-bottom: 0.5rem" height="25px">
+    </a>
+</p>
 
-It utilizes a Customized Player ([WebChimera.js](https://github.com/RSATom/WebChimera.js)) for rendering video via VLC library so basically it can play all video files that VLC can.
 
-Current Features
-==============
+
+# Pagal - An experimental player 
+Pagal is a minimalistic experimental video player. This is based on [WebChimera.js](https://github.com/RSATom/WebChimera.js) which binds [VLC library](https://videolan.org) to node.js.
+
+## Installation
+Prebuilt binaries for Windows are available under [releases](https://github.com/hlgkb/pagal-player/releases/latest).
+
+## Current Features
 - Supports Internal Video Subtitles and Audio Tracks
-
 - Supports Almost all kind of video files
-
 - Always on Top Feature
-
 - Supports both VLC's and own Playlist
-
 - An Incredible Hotkeys
 
 Screenshots
 ===========
-
+<p align="center">
+  <img src="/.github/playing.png?raw=true" alt="Playing Video" width="100%">
+  <img src="/.github/opening.png?raw=true" alt="Opening View" width="40%">
+  <img src="/.github/play.png?raw=true" alt="Playlist View" width="40%">
+</p>
 
 
 Development
 ===========
 I am still learning about how to form a modern node.js application. As a result, the project structure might change from time to time.
-
 While new features are added, some existing features might break too.
-
 If anything doesn't work properly, feel free to open issues and provide enough information so that things can be quickly fixed.
-
 PRs and issues are always appreciated.
 
 

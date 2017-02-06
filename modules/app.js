@@ -340,7 +340,7 @@ var firstTime = true;
         var arkoParser = parser(mediaName);
         var node = '<div class="movie-wrap" id="' + guid + '" data-id="' + id + '" data-src="' + data + '">';
         node += '<a class="movie-link" style="width:180px; height:265px;" title="' + mediaName + '">';
-        node += '<figure><img class="img-responsive default-image" src="lib/img/cover.jpg" height="255" width="175"></figure>';
+        node += '<figure><img class="img-responsive default-image" src="lib/img/cover.png" height="255" width="175"></figure>';
         node += '</a><div class="movie-bottom">';
         node += '<a href="#" class="movie-title">';
         try {

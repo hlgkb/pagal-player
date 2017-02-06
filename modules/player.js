@@ -138,6 +138,8 @@ var playerApi = {
             pagal.elements.FooterControls.find('.info .track-info .action i.pause').hide();
         },
         handleEnded: function () {
+            if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");
+            $('.movie-wrap').removeClass("playing");
             if (player.currentItem() + 1 == player.itemCount()) {
                 if (playerApi.isRepeat() === true) {
                     var play = 0;
@@ -161,7 +163,7 @@ var playerApi = {
             //Disable enabled menues after playlist ended.
             pagal.menuStuff.enableMenues(0);
         },
-        handleStopped: function () {
+        handleStopped: function () {            
             playerApi.resetUi();
             pagal.menuStuff.enableMenues(0);
             if (pagal.config.itemMode === 0) $('.track-container').removeClass("playing");

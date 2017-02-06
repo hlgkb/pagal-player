@@ -58,7 +58,7 @@ var pagalDefault = {
     volume: 5,
     audioDelay: 50,
     subtitleDelay: 50,
-    searchCoverArt: false
+    searchCoverArt: true
 };
 var currentSetting = {};
 var openedDir = null;
@@ -407,9 +407,10 @@ var firstTime = true;
         var totalfiles = loadedFiles.length;
         target.filename = path.basename(loadedFiles[target.id - 1]);
         target.callback = function (data) {
+            console.log(data);
             if (data) {
                 if (data.err) {
-                    console.log(data.err);
+                    console.log(data);
                 } else {
                     $('[data-id="' + data.id + '"]').find('img').attr("src", data.url);
                     targetDone.push(data.id);
@@ -419,6 +420,8 @@ var firstTime = true;
                     target.filename = path.basename(loadedFiles[target.id - 1]);
                     coverFinder.postMessage(target);
                 } else {
+                    console.log(target.id + 1 <= totalfiles);
+                    console.log('terminate worker');
                     coverFinder.terminate();
                     coverFinder = null;
                 }
@@ -427,6 +430,7 @@ var firstTime = true;
                  * if no cover id found terminate for now. Actually we have to search again
                  * after some time.
                  */
+                 console.log('Useless fello');
                 coverFinder.terminate();
                 coverFinder = null;
             }

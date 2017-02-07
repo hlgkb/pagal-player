@@ -1,0 +1,8 @@
+title: PagalPlayer
+description: A dynamic player made using WebChimera.js.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions

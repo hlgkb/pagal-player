@@ -28,7 +28,9 @@ cover.readStoredCover = function(file) {
 			}
 
             for (key in configObject) {
-				storage[key] = configObject[key];
+                if ({}.hasOwnProperty.call(configObject, key)) {
+                    storage[key] = configObject[key];
+                }
 			}
 		}
 }
@@ -41,7 +43,9 @@ cover.download = function(url, dest, cb) {
         });
     }).on('error', function (err) { // Handle errors
         fs.unlink(dest); // Delete the file async. (But we don't check the result)
-        if (cb) cb(err.message);
+        if (cb) {
+            return cb(err.message);
+        }
     });
 };
 
@@ -68,7 +72,7 @@ cover.find = function() {
     var year = (target.year) || null;
     var name = target.name;
     var id = target.id;
-    if(target.type == "series") {
+    if(target.type === "series") {
         type = "tv";
     }
 

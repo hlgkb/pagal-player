@@ -77,7 +77,7 @@ gulp.task('main-module', function () {
             },
             noSource: ['.js']
         }))*/
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest('build/dist/modules'));
 });
 

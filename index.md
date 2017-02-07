@@ -1,11 +1,3 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/hlgkb/pagal-player"><img src="./lib/icon/icon.png" alt="PagalPlayer" width="180" style= "margin-bottom: 1rem"></a>
-  <br>
-  PagalPlayer
-  <br>
-  <br>
-</h1>
 <p align="center">
     <a href="https://travis-ci.org/hlgkb/pagal-player">
         <img src="https://travis-ci.org/hlgkb/pagal-player.svg?branch=master"
@@ -39,9 +31,9 @@ Prebuilt binaries for Windows are available under [releases](https://github.com/
 Screenshots
 ===========
 <p align="center">
-  <img src="/.github/playing.png?raw=true" alt="Playing Video" width="100%" style="margin-bottom:10px">
-  <img src="/.github/opening.PNG?raw=true" alt="Opening View" width="100%" style="margin-bottom:10px">
-  <img src="/.github/play.PNG?raw=true" alt="Playlist View" width="100%" style="margin-bottom:10px">
+  <img src="https://github.com/hlgkb/pagal-player/raw/master/.github/playing.png?raw=true" alt="Playing Video" width="100%" style="margin-bottom:10px">
+  <img src="https://github.com/hlgkb/pagal-player/raw/master/.github/opening.PNG?raw=true" alt="Opening View" width="100%" style="margin-bottom:10px">
+  <img src="https://github.com/hlgkb/pagal-player/raw/master/.github/play.PNG?raw=true" alt="Playlist View" width="100%" style="margin-bottom:10px">
 </p>
 
 

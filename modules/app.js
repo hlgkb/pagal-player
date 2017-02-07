@@ -183,7 +183,7 @@ var firstTime = true;
     this.ensureExists = function (path, mask, cb) {
         if (typeof mask === 'function') { // allow the `mask` parameter to be optional
             cb = mask;
-            mask = 0777;
+            mask = 777;
         }
         fs.mkdir(path, mask, function (err) {
             if (err) {
